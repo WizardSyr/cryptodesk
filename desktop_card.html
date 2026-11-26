@@ -6,13 +6,16 @@
     <title>Trojan / Binance PnL Card</title>
     <style>
         :root {
-            --bg-card: #0a0d14;
+            --bg-base: #0a0d14;
+            --bg-toolbar: #11151e;
+            --bg-btn: #1c2230;
+            --border-btn: rgba(255, 255, 255, 0.2);
             --brand-green: #0ecb81;
             --brand-green-glow: rgba(14, 203, 129, 0.55);
             --brand-cyan: #38bdf8;
             --brand-yellow: #f0b90b;
-            --text-gray: #848e9c;
-            --text-dim: #606875;
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
         }
 
         * {
@@ -26,25 +29,30 @@
         html, body {
             width: 100vw;
             height: 100vh;
-            background: transparent;
+            background-color: var(--bg-base) !important;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #ffffff;
+            color: var(--text-white);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            padding: 6px 8px;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Top Draggable Toolbar */
+        /* Top Draggable Dark Toolbar (High Contrast) */
         .toolbar {
             width: 100%;
+            height: 44px;
+            background-color: var(--bg-toolbar);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2px 6px 6px;
+            padding: 0 10px;
             cursor: move;
             -webkit-app-region: drag;
             flex-shrink: 0;
+            z-index: 50;
         }
 
         .tool-group {
@@ -52,41 +60,50 @@
             align-items: center;
             gap: 6px;
             -webkit-app-region: no-drag;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
 
         .btn-tool {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #cbd5e1;
-            padding: 4px 9px;
+            background-color: var(--bg-btn);
+            border: 1px solid var(--border-btn);
+            color: var(--text-white) !important;
+            padding: 5px 10px;
             border-radius: 8px;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 5px;
             transition: all 0.15s ease;
+            white-space: nowrap;
         }
 
         .btn-tool:hover {
-            background: rgba(255, 255, 255, 0.18);
-            color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.25);
+            background-color: #273042;
+            border-color: var(--brand-cyan);
+            color: #ffffff !important;
+        }
+
+        .btn-brand-mode {
+            border-color: var(--brand-yellow);
+        }
+
+        .btn-sync-mode {
+            border-color: var(--brand-cyan);
         }
 
         .btn-action-pin.active-pin {
-            color: var(--brand-yellow);
+            color: var(--brand-yellow) !important;
             border-color: var(--brand-yellow);
-            background: rgba(240, 185, 11, 0.15);
+            background: rgba(240, 185, 11, 0.2);
         }
 
         .btn-save-png {
             background: linear-gradient(135deg, #10b981, #059669);
-            color: #ffffff;
-            border: none;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+            color: #ffffff !important;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
         }
         .btn-save-png:hover {
             background: linear-gradient(135deg, #059669, #047857);
@@ -95,47 +112,66 @@
         .window-ctrls {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             -webkit-app-region: no-drag;
             flex-shrink: 0;
         }
 
         .btn-win {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.06);
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            background: #181d28;
+            border: 1px solid rgba(255, 255, 255, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 12px;
-            color: var(--text-gray);
+            color: var(--text-white);
             cursor: pointer;
-            border: none;
             transition: all 0.15s ease;
         }
 
         .btn-win:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: #273042;
             color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .btn-win-close:hover {
-            background: rgba(246, 70, 93, 0.35);
+            background: rgba(246, 70, 93, 0.4);
             color: #f6465d;
+            border-color: #f6465d;
         }
 
-        /* The Fluid Responsive Cool PnL Card */
+        /* Size Quick Switcher */
+        .size-pill {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 6px;
+            border-radius: 6px;
+            background: #181d28;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-gray);
+            cursor: pointer;
+        }
+        .size-pill:hover, .size-pill.active {
+            color: #ffffff;
+            background: #273042;
+            border-color: var(--brand-cyan);
+        }
+
+        /* The Fluid Full-Window Cool PnL Card */
         .card-container {
             flex: 1;
             width: 100%;
-            height: calc(100% - 38px);
-            border-radius: 20px;
-            background: #0a0d14;
+            height: calc(100vh - 44px);
+            background-color: var(--bg-base);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08);
             display: flex;
+            margin: 0;
+            border-radius: 0;
         }
 
         /* Left Side: Illustration / Custom Image */
@@ -163,11 +199,11 @@
         .art-overlay-hint {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 800;
             color: #ffffff;
             opacity: 0;
@@ -200,7 +236,7 @@
             right: 0;
             width: 52%;
             height: 100%;
-            padding: clamp(14px, 3vh, 28px) clamp(16px, 3.5vw, 32px) clamp(12px, 2.5vh, 20px) 10px;
+            padding: clamp(14px, 3vh, 32px) clamp(16px, 3.5vw, 36px) clamp(12px, 2.5vh, 24px) 10px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -219,8 +255,8 @@
         }
 
         .brand-logo-svg {
-            width: clamp(22px, 3.5vw, 30px);
-            height: clamp(22px, 3.5vw, 30px);
+            width: clamp(24px, 3.5vw, 32px);
+            height: clamp(24px, 3.5vw, 32px);
             filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.5));
         }
 
@@ -231,7 +267,7 @@
         }
 
         .brand-top-text {
-            font-size: clamp(12px, 2vw, 16px);
+            font-size: clamp(13px, 2vw, 17px);
             font-weight: 900;
             letter-spacing: 0.8px;
             color: #ffffff;
@@ -239,7 +275,7 @@
         }
 
         .brand-sub-text {
-            font-size: clamp(8px, 1.2vw, 11px);
+            font-size: clamp(9px, 1.2vw, 12px);
             font-weight: 800;
             letter-spacing: 0.5px;
             color: var(--brand-cyan);
@@ -255,7 +291,7 @@
         }
 
         .pair-label {
-            font-size: clamp(20px, 4vw, 32px);
+            font-size: clamp(22px, 4vw, 34px);
             font-weight: 900;
             color: #ffffff;
             letter-spacing: -0.5px;
@@ -264,7 +300,7 @@
         }
 
         .pnl-percent {
-            font-size: clamp(34px, 7.5vw, 64px);
+            font-size: clamp(36px, 7.5vw, 68px);
             font-weight: 900;
             color: var(--brand-green);
             line-height: 1;
@@ -280,7 +316,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: clamp(11px, 1.8vw, 15px);
+            font-size: clamp(12px, 1.8vw, 16px);
             font-weight: 700;
             color: #ffffff;
             margin-top: 6px;
@@ -296,7 +332,7 @@
         /* Two Columns (Invested / Current Gain) */
         .stats-grid {
             display: flex;
-            gap: clamp(16px, 4vw, 36px);
+            gap: clamp(16px, 4vw, 38px);
             margin-top: 8px;
         }
 
@@ -307,7 +343,7 @@
         }
 
         .stat-col-title {
-            font-size: clamp(10px, 1.6vw, 14px);
+            font-size: clamp(11px, 1.6vw, 15px);
             font-weight: 700;
             color: var(--text-gray);
             margin-bottom: 3px;
@@ -318,7 +354,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            font-size: clamp(13px, 2.3vw, 20px);
+            font-size: clamp(14px, 2.3vw, 21px);
             font-weight: 900;
             font-family: "SF Pro Display", monospace;
             color: #ffffff;
@@ -326,13 +362,13 @@
         }
 
         .coin-icon {
-            width: clamp(12px, 2vw, 18px);
-            height: clamp(10px, 1.6vw, 15px);
+            width: clamp(13px, 2vw, 19px);
+            height: clamp(11px, 1.6vw, 16px);
             display: inline-block;
         }
 
         .stat-usd-val {
-            font-size: clamp(9px, 1.5vw, 13px);
+            font-size: clamp(10px, 1.5vw, 14px);
             font-weight: 700;
             color: var(--text-gray);
             margin-top: 2px;
@@ -356,14 +392,14 @@
         }
 
         .ref-hint {
-            font-size: clamp(9px, 1.4vw, 12px);
+            font-size: clamp(10px, 1.4vw, 13px);
             font-weight: 600;
             color: var(--text-gray);
             outline: none;
         }
 
         .ref-code {
-            font-size: clamp(11px, 1.8vw, 15px);
+            font-size: clamp(12px, 1.8vw, 16px);
             font-weight: 900;
             color: #ffffff;
             letter-spacing: 0.3px;
@@ -371,8 +407,8 @@
         }
 
         .qr-box {
-            width: clamp(34px, 5.5vw, 48px);
-            height: clamp(34px, 5.5vw, 48px);
+            width: clamp(36px, 5.5vw, 50px);
+            height: clamp(36px, 5.5vw, 50px);
             background: #ffffff;
             border-radius: 6px;
             padding: 3px;
@@ -387,13 +423,33 @@
             height: 100%;
         }
 
+        /* Interactive Corner Resize Handle */
+        .corner-resize-handle {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 22px;
+            height: 22px;
+            cursor: nwse-resize;
+            z-index: 60;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 3px;
+            opacity: 0.6;
+            transition: opacity 0.15s ease;
+            -webkit-app-region: no-drag;
+        }
+        .corner-resize-handle:hover {
+            opacity: 1;
+        }
+
         /* Settings Modal Overlay */
         .modal-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(10, 13, 20, 0.96);
-            border-radius: 20px;
-            padding: 20px 24px;
+            background: rgba(10, 13, 20, 0.97);
+            padding: 24px 28px;
             display: none;
             flex-direction: column;
             justify-content: space-between;
@@ -412,7 +468,7 @@
         }
 
         .modal-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 900;
             color: var(--brand-yellow);
         }
@@ -421,7 +477,7 @@
             background: rgba(14, 203, 129, 0.08);
             border: 1px solid rgba(14, 203, 129, 0.25);
             border-radius: 10px;
-            padding: 10px 12px;
+            padding: 10px 14px;
             font-size: 11px;
             color: #a7f3d0;
             line-height: 1.4;
@@ -431,21 +487,21 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
-            margin: 4px 0;
+            margin: 6px 0;
         }
 
         .field-label {
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-gray);
         }
 
         .field-input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: #181d28;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
-            padding: 8px 12px;
+            padding: 9px 12px;
             color: #ffffff;
             font-size: 12px;
             font-family: monospace;
@@ -455,13 +511,13 @@
 
         .modal-buttons {
             display: flex;
-            gap: 8px;
-            margin-top: 6px;
+            gap: 10px;
+            margin-top: 8px;
         }
 
         .m-btn {
             flex: 1;
-            padding: 9px 0;
+            padding: 10px 0;
             border-radius: 10px;
             font-size: 12px;
             font-weight: 800;
@@ -471,32 +527,20 @@
         }
 
         .m-btn-save { background: var(--brand-yellow); color: #121214; }
-        .m-btn-cancel { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
-        .m-btn-clear { background: rgba(246, 70, 93, 0.15); color: #f6465d; border: 1px solid rgba(246, 70, 93, 0.3); }
+        .m-btn-cancel { background: #273042; color: #ffffff; }
+        .m-btn-clear { background: rgba(246, 70, 93, 0.2); color: #f6465d; border: 1px solid rgba(246, 70, 93, 0.4); }
 
         .save-indicator {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--brand-green);
-            font-weight: 700;
+            font-weight: 800;
             text-align: center;
             display: none;
-        }
-
-        /* Resize Grip */
-        .resize-grip {
-            position: absolute;
-            bottom: 4px;
-            right: 4px;
-            width: 14px;
-            height: 14px;
-            opacity: 0.3;
-            pointer-events: none;
-            z-index: 20;
         }
     </style>
 </head>
 <body>
-    <!-- Top Bar Controls -->
+    <!-- Top Bar Controls (100% Solid Dark & High Contrast) -->
     <div class="toolbar pywebview-drag-region">
         <div class="tool-group">
             <button type="button" class="btn-tool" id="btn-upload-trigger">
@@ -504,11 +548,11 @@
             </button>
             <input type="file" id="file-input" accept="image/*" style="display:none">
 
-            <button type="button" class="btn-tool" id="btn-toggle-brand">
-                <span id="label-brand-toggle">⚡ Brand: Trojan</span>
+            <button type="button" class="btn-tool btn-brand-mode" id="btn-toggle-brand">
+                <span id="label-brand-toggle">⚡ Brand: Binance</span>
             </button>
 
-            <button type="button" class="btn-tool" id="btn-sync-binance" title="Pull live trade from Binance">
+            <button type="button" class="btn-tool btn-sync-mode" id="btn-sync-binance" title="Pull live trade from Binance">
                 <span>🔄 Live Binance Sync</span>
             </button>
 
@@ -519,16 +563,22 @@
             <button type="button" class="btn-tool btn-save-png" id="btn-export-png">
                 <span>📸 Save as PNG</span>
             </button>
+
+            <!-- Quick Sizing -->
+            <button type="button" class="size-pill" onclick="resizeToPreset(740, 530)">1x</button>
+            <button type="button" class="size-pill" onclick="resizeToPreset(960, 660)">1.3x</button>
+            <button type="button" class="size-pill" onclick="resizeToPreset(1180, 800)">1.6x</button>
         </div>
 
         <div class="window-ctrls">
             <button type="button" class="btn-win btn-action-pin active-pin" id="btn-pin" title="Always on Top">📌</button>
             <button type="button" class="btn-win" id="btn-min" title="Minimize">─</button>
+            <button type="button" class="btn-win" id="btn-max" title="Maximize / Restore">🗖</button>
             <button type="button" class="btn-win btn-win-close" id="btn-close" title="Close">✕</button>
         </div>
     </div>
 
-    <!-- The Resizable Cool PnL Card -->
+    <!-- The Resizable Full-Window Cool PnL Card -->
     <div class="card-container" id="pnl-card-element">
         <!-- Left Illustration Box -->
         <div class="art-box" id="art-box-trigger" title="Click or Drag & Drop any image here!">
@@ -544,16 +594,12 @@
             <!-- Brand -->
             <div class="brand-header" id="brand-header-click" title="Click to switch brand">
                 <div class="brand-title-group">
-                    <span class="brand-top-text" id="brand-title-top">TROJAN</span>
-                    <span class="brand-sub-text" id="brand-title-sub">ON SOLANA</span>
+                    <span class="brand-top-text" id="brand-title-top">BINANCE</span>
+                    <span class="brand-sub-text" id="brand-title-sub" style="color: #f0b90b;">PRO FUTURES</span>
                 </div>
                 <div id="brand-logo-container">
-                    <!-- Trojan Pegasus Icon -->
-                    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 19h16"/>
-                        <path d="M6 19v-4l2-4-1-4 3-3 4 2 2 5-1 4v4"/>
-                        <circle cx="11" cy="9" r="1" fill="#38bdf8"/>
-                        <path d="M14 6l3 1-1 4"/>
+                    <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="#f0b90b">
+                        <path d="M12 2L8.5 5.5l3.5 3.5 3.5-3.5L12 2zm-6.5 6.5L2 12l3.5 3.5 3.5-3.5-3.5-3.5zm13 0l-3.5 3.5 3.5 3.5 3.5-3.5-3.5-3.5zM12 15.5l-3.5 3.5L12 22.5l3.5-3.5-3.5-3.5zm0-4.5L9.5 8.5 12 6l2.5 2.5L12 11zm0 2l2.5 2.5L12 18l-2.5-2.5L12 13z"/>
                     </svg>
                 </div>
             </div>
@@ -621,25 +667,27 @@
             </div>
         </div>
 
-        <!-- Subtle Resize Grip in bottom right -->
-        <svg class="resize-grip" viewBox="0 0 10 10" fill="#ffffff">
-            <circle cx="8" cy="8" r="1"/>
-            <circle cx="5" cy="8" r="1"/>
-            <circle cx="8" cy="5" r="1"/>
-            <circle cx="2" cy="8" r="1"/>
-            <circle cx="5" cy="5" r="1"/>
-            <circle cx="8" cy="2" r="1"/>
-        </svg>
+        <!-- Interactive Corner Drag-To-Resize Handle -->
+        <div class="corner-resize-handle" id="corner-resize-btn" title="Drag to resize window">
+            <svg viewBox="0 0 10 10" fill="#ffffff" style="width: 14px; height: 14px;">
+                <circle cx="8" cy="8" r="1.2"/>
+                <circle cx="5" cy="8" r="1.2"/>
+                <circle cx="8" cy="5" r="1.2"/>
+                <circle cx="2" cy="8" r="1.2"/>
+                <circle cx="5" cy="5" r="1.2"/>
+                <circle cx="8" cy="2" r="1.2"/>
+            </svg>
+        </div>
 
         <!-- Settings Modal (Overlay) -->
         <div class="modal-overlay" id="modal-settings">
             <div class="modal-header">
                 <span class="modal-title">BINANCE READ-ONLY API SETUP</span>
-                <span style="cursor: pointer; color: var(--text-gray); font-size: 18px;" id="btn-close-modal">✕</span>
+                <span style="cursor: pointer; color: var(--text-gray); font-size: 20px;" id="btn-close-modal">✕</span>
             </div>
 
             <div class="safety-box">
-                🛡️ <b>100% Safe Read-Only Guarantee:</b> In Binance API Management, check <b>ONLY "Enable Reading"</b>. Never enable trading or withdrawals. Keys are stored permanently on your PC and signed locally with zero external servers.
+                🛡️ <b>100% Safe Read-Only Guarantee:</b> In Binance API Management, check <b>ONLY "Enable Reading"</b>. Never enable trading or withdrawals. Keys are stored permanently on your PC in <code>binance_config.json</code> and signed locally.
             </div>
 
             <div class="field-group">
@@ -671,7 +719,7 @@
         var apiKey = '';
         var secretKey = '';
         var isPinned = true;
-        var currentBrand = 'trojan'; // 'trojan' or 'binance'
+        var currentBrand = 'binance'; // Default to Binance as in user screenshot
         var artImg = document.getElementById('card-art-img');
         var fileInput = document.getElementById('file-input');
         var livePositions = [];
@@ -685,7 +733,6 @@
 
         // Load Keys Permanently from Python Disk Storage or localStorage
         function loadSavedKeys() {
-            // First check pywebview disk storage bridge
             if (window.pywebview && window.pywebview.api && window.pywebview.api.load_keys) {
                 window.pywebview.api.load_keys().then(function(cfg) {
                     if (cfg && cfg.api_key) {
@@ -699,7 +746,6 @@
                     }
                 }).catch(function() {});
             } else {
-                // Fallback to localStorage
                 apiKey = localStorage.getItem('binance_user_apikey') || '';
                 secretKey = localStorage.getItem('binance_user_secret') || '';
                 var savedImg = localStorage.getItem('pnl_custom_image');
@@ -720,10 +766,57 @@
             if (window.pywebview && window.pywebview.api) window.pywebview.api.minimize();
         });
 
+        document.getElementById('btn-max').addEventListener('click', function() {
+            if (window.pywebview && window.pywebview.api) window.pywebview.api.toggle_maximize();
+        });
+
         document.getElementById('btn-pin').addEventListener('click', function() {
             isPinned = !isPinned;
             this.classList.toggle('active-pin', isPinned);
             if (window.pywebview && window.pywebview.api) window.pywebview.api.toggle_pin(isPinned);
+        });
+
+        // Quick Preset Resize
+        function resizeToPreset(w, h) {
+            if (window.pywebview && window.pywebview.api && window.pywebview.api.set_size) {
+                window.pywebview.api.set_size(w, h);
+            }
+        }
+
+        // Interactive Corner Drag-To-Resize
+        var isDraggingCorner = false;
+        var startMouseX = 0;
+        var startMouseY = 0;
+        var startWinW = 740;
+        var startWinH = 530;
+
+        var cornerHandle = document.getElementById('corner-resize-btn');
+        cornerHandle.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            isDraggingCorner = true;
+            startMouseX = e.screenX;
+            startMouseY = e.screenY;
+            if (window.pywebview && window.pywebview.api && window.pywebview.api.get_size) {
+                window.pywebview.api.get_size().then(function(sz) {
+                    startWinW = sz.width;
+                    startWinH = sz.height;
+                }).catch(function() {});
+            }
+        });
+
+        window.addEventListener('mousemove', function(e) {
+            if (!isDraggingCorner) return;
+            var dx = e.screenX - startMouseX;
+            var dy = e.screenY - startMouseY;
+            var newW = Math.max(startWinW + dx, 460);
+            var newH = Math.max(startWinH + dy, 320);
+            if (window.pywebview && window.pywebview.api && window.pywebview.api.set_size) {
+                window.pywebview.api.set_size(newW, newH);
+            }
+        });
+
+        window.addEventListener('mouseup', function() {
+            isDraggingCorner = false;
         });
 
         // Settings Modal
@@ -746,11 +839,9 @@
             apiKey = inputKey.value.trim();
             secretKey = inputSecret.value.trim();
 
-            // Save to localStorage
             localStorage.setItem('binance_user_apikey', apiKey);
             localStorage.setItem('binance_user_secret', secretKey);
 
-            // Save permanently to disk via Python
             if (window.pywebview && window.pywebview.api && window.pywebview.api.save_keys) {
                 window.pywebview.api.save_keys(apiKey, secretKey, artImg.src);
             }
