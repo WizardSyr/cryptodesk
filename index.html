@@ -468,6 +468,12 @@
         .add-submit-btn:active {
             background: #d4a30a;
         }
+        .add-status-msg {
+            font-size: 11px;
+            color: #f0b90b;
+            margin-top: 6px;
+            display: none;
+        }
 
         /* Quick Suggestions Chips */
         .chips-row {
@@ -565,9 +571,10 @@
         <div class="card-footer">
             <div style="width: 100%;">
                 <div class="add-row">
-                    <input type="text" id="add-input" class="add-input" placeholder="Add Coin (e.g. PEPE, SUI, ADA, ETH)" onkeypress="if(event.keyCode==13) addFromInput()">
-                    <button class="add-submit-btn" onclick="addFromInput()">+ Add</button>
+                    <input type="text" id="add-input" class="add-input" placeholder="Add Coin (e.g. PEPE, SUI, RENDER, NEAR, WIF, TAO)" onkeypress="if(event.keyCode==13) addFromInput()">
+                    <button class="add-submit-btn" id="add-btn" onclick="addFromInput()">+ Add</button>
                 </div>
+                <div id="add-status" class="add-status-msg">Verifying coin on Binance...</div>
                 <div class="chips-row">
                     <span style="font-size: 11px; color: #58667e; align-self: center; font-weight: 600;">POPULAR:</span>
                     <span class="chip-btn" onclick="addCoin('BTC')">+ BTC</span>
@@ -579,7 +586,12 @@
                     <span class="chip-btn" onclick="addCoin('WLD')">+ WLD</span>
                     <span class="chip-btn" onclick="addCoin('TRUMP')">+ TRUMP</span>
                     <span class="chip-btn" onclick="addCoin('ETH')">+ ETH</span>
-                    <span class="chip-btn" onclick="addCoin('BNB')">+ BNB</span>
+                    <span class="chip-btn" onclick="addCoin('NEAR')">+ NEAR</span>
+                    <span class="chip-btn" onclick="addCoin('RENDER')">+ RENDER</span>
+                    <span class="chip-btn" onclick="addCoin('SHIB')">+ SHIB</span>
+                    <span class="chip-btn" onclick="addCoin('AVAX')">+ AVAX</span>
+                    <span class="chip-btn" onclick="addCoin('WIF')">+ WIF</span>
+                    <span class="chip-btn" onclick="addCoin('TAO')">+ TAO</span>
                 </div>
             </div>
         </div>
@@ -613,8 +625,20 @@
             "AVAX": "Avalanche",
             "LINK": "Chainlink",
             "NEAR": "NEAR Protocol",
+            "RENDER": "Render",
+            "RNDR": "Render",
             "SHIB": "Shiba Inu",
-            "DOT": "Polkadot"
+            "DOT": "Polkadot",
+            "WIF": "dogwifhat",
+            "TAO": "Bittensor",
+            "FET": "Artificial Superintelligence",
+            "INJ": "Injective",
+            "TIA": "Celestia",
+            "JUP": "Jupiter",
+            "BONK": "Bonk",
+            "FLOKI": "Floki",
+            "MATIC": "Polygon",
+            "POL": "Polygon"
         };
 
         var coins = [];
@@ -629,7 +653,7 @@
 
         function loadSavedCoins() {
             try {
-                var saved = localStorage.getItem("exact_crypto_coins_v3");
+                var saved = localStorage.getItem("exact_crypto_coins_v4");
                 if (saved) {
                     coins = JSON.parse(saved);
                 }
@@ -641,7 +665,7 @@
 
         function saveCoins() {
             try {
-                localStorage.setItem("exact_crypto_coins_v3", JSON.stringify(coins));
+                localStorage.setItem("exact_crypto_coins_v4", JSON.stringify(coins));
             } catch(e) {}
         }
 
@@ -654,8 +678,8 @@
             setInterval(fetchFearAndGreed, 60000);
 
             renderTableRows();
-            fetchPrices();
-            setInterval(fetchPrices, 4000);
+            fetchAllPrices();
+            setInterval(fetchAllPrices, 3500);
 
             fetchAllSparklines();
             setInterval(fetchAllSparklines, 60000);
@@ -684,7 +708,7 @@
             updateSessions(now.getUTCHours(), now.getUTCMinutes());
         }
 
-        // Global Market Trading Sessions calculation
+        // Global Market Trading Sessions
         function updateSessions(utcHour, utcMin) {
             var timeDec = utcHour + (utcMin / 60);
 
@@ -767,7 +791,7 @@
                 coins = INITIAL_COINS.slice();
                 saveCoins();
                 renderTableRows();
-                fetchPrices();
+                fetchAllPrices();
                 fetchAllSparklines();
             }
         }
@@ -786,7 +810,7 @@
                 html += '<div class="coin-row" id="row-' + sym + '" data-index="' + i + '">' +
                     '<div class="drag-handle" onmousedown="startDrag(event, ' + i + ')" ontouchstart="startTouchDrag(event, ' + i + ')">≡</div>' +
                     '<div class="coin-info-wrap">' +
-                        '<img class="coin-logo" src="' + iconUrl + '" onerror="this.onerror=null; this.src=\'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/' + base.toLowerCase() + '.png\';">' +
+                        '<img class="coin-logo" src="' + iconUrl + '" onerror="handleLogoError(this, \'' + base + '\')">' +
                         '<div class="coin-names">' +
                             '<span class="coin-full-name">' + name + '</span>' +
                             '<span class="coin-ticker">' + base + '</span>' +
@@ -817,34 +841,46 @@
             }
         }
 
-        function fetchPrices() {
+        // Multi-level logo fallback
+        function handleLogoError(img, base) {
+            img.onerror = function() {
+                // Final fallback: circular SVG with coin letter
+                var svg = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42"><circle cx="21" cy="21" r="20" fill="%231a2332" stroke="%23f0b90b" stroke-width="2"/><text x="50%" y="54%" font-family="sans-serif" font-size="14" font-weight="bold" fill="%23f0b90b" text-anchor="middle" dominant-baseline="middle">' + base.substring(0, 3) + '</text></svg>';
+                img.src = svg;
+                img.onerror = null;
+            };
+            img.src = "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/" + base.toLowerCase() + ".png";
+        }
+
+        // Fetch each coin price independently so one bad coin NEVER breaks the rest!
+        function fetchAllPrices() {
             if (coins.length === 0) return;
 
-            var symList = [];
             for (var i = 0; i < coins.length; i++) {
-                symList.push(coins[i].symbol);
+                fetchSingleCoinPrice(coins[i].symbol);
             }
+        }
 
-            var encoded = encodeURIComponent(JSON.stringify(symList));
-            var url = "https://api.binance.com/api/v3/ticker/24hr?symbols=" + encoded;
-
+        function fetchSingleCoinPrice(sym) {
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", url, true);
+            xhr.open("GET", "https://api.binance.com/api/v3/ticker/24hr?symbol=" + sym, true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    var list = JSON.parse(xhr.responseText);
-                    for (var k = 0; k < list.length; k++) {
-                        var item = list[k];
-                        var p = parseFloat(item.lastPrice);
-                        var chg = parseFloat(item.priceChangePercent);
-                        coinData[item.symbol] = { price: p, change: chg, open: parseFloat(item.openPrice), high: parseFloat(item.highPrice), low: parseFloat(item.lowPrice) };
-                        updateRowDOM(item.symbol, p, chg);
+                    var item = JSON.parse(xhr.responseText);
+                    var p = parseFloat(item.lastPrice);
+                    var chg = parseFloat(item.priceChangePercent);
+                    coinData[sym] = {
+                        price: p,
+                        change: chg,
+                        open: parseFloat(item.openPrice),
+                        high: parseFloat(item.highPrice),
+                        low: parseFloat(item.lowPrice)
+                    };
+                    updateRowDOM(sym, p, chg);
 
-                        // If no sparkline loaded yet, generate initial curve from 24h stats
-                        if (!sparklines[item.symbol]) {
-                            sparklines[item.symbol] = [coinData[item.symbol].open, coinData[item.symbol].low, coinData[item.symbol].high, p];
-                            drawGoldenSparkline(item.symbol, sparklines[item.symbol]);
-                        }
+                    if (!sparklines[sym]) {
+                        sparklines[sym] = [coinData[sym].open, coinData[sym].low, coinData[sym].high, p];
+                        drawGoldenSparkline(sym, sparklines[sym]);
                     }
                 }
             };
@@ -892,23 +928,25 @@
 
         function fetchAllSparklines() {
             for (var i = 0; i < coins.length; i++) {
-                (function(sym) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("GET", "https://api.binance.com/api/v3/klines?symbol=" + sym + "&interval=1h&limit=24", true);
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            var raw = JSON.parse(xhr.responseText);
-                            var pts = [];
-                            for (var j = 0; j < raw.length; j++) {
-                                pts.push(parseFloat(raw[j][4])); // close prices
-                            }
-                            sparklines[sym] = pts;
-                            drawGoldenSparkline(sym, pts);
-                        }
-                    };
-                    xhr.send();
-                })(coins[i].symbol);
+                fetchSingleSparkline(coins[i].symbol);
             }
+        }
+
+        function fetchSingleSparkline(sym) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://api.binance.com/api/v3/klines?symbol=" + sym + "&interval=1h&limit=24", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var raw = JSON.parse(xhr.responseText);
+                    var pts = [];
+                    for (var j = 0; j < raw.length; j++) {
+                        pts.push(parseFloat(raw[j][4])); // close prices
+                    }
+                    sparklines[sym] = pts;
+                    drawGoldenSparkline(sym, pts);
+                }
+            };
+            xhr.send();
         }
 
         // Draw exact golden yellow sparkline from the screenshot
@@ -951,47 +989,67 @@
             ctx.stroke();
         }
 
-        // Add Coin logic
+        // Clean & robust Add Coin logic (supports any altcoin on Binance)
         function addFromInput() {
             var inp = document.getElementById("add-input");
-            var val = inp.value.trim().toUpperCase();
-            if (!val) return;
+            var val = inp.value;
+            if (!val || !val.trim()) return;
             addCoin(val);
             inp.value = "";
         }
 
         function addCoin(raw) {
-            var base = raw.toUpperCase().trim();
-            var sym = base;
-            if (sym.indexOf("USDT") === -1) sym += "USDT";
-            base = sym.replace("USDT", "");
+            var clean = raw.toUpperCase().replace(/[^A-Z0-9]/g, ""); // removes slashes, dashes, spaces
+            if (!clean) return;
 
+            var base = clean;
+            var sym = clean;
+
+            // Handle whether user typed USDT or not
+            if (clean.length > 4 && clean.substring(clean.length - 4) === "USDT") {
+                base = clean.substring(0, clean.length - 4);
+                sym = clean;
+            } else {
+                base = clean;
+                sym = clean + "USDT";
+            }
+
+            // Check if already in list
             for (var i = 0; i < coins.length; i++) {
-                if (coins[i].symbol === sym) {
+                if (coins[i].symbol === sym || coins[i].base === base) {
                     alert(base + " is already in your list!");
                     return;
                 }
             }
 
-            var name = KNOWN_NAMES[base] || base;
-            coins.push({ symbol: sym, base: base, name: name });
-            saveCoins();
-            renderTableRows();
-            fetchPrices();
+            var statusEl = document.getElementById("add-status");
+            if (statusEl) {
+                statusEl.style.display = "block";
+                statusEl.innerText = "Verifying " + base + " on Binance...";
+            }
 
-            // Fetch sparkline for new coin
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://api.binance.com/api/v3/klines?symbol=" + sym + "&interval=1h&limit=24", true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var raw = JSON.parse(xhr.responseText);
-                    var pts = [];
-                    for (var j = 0; j < raw.length; j++) pts.push(parseFloat(raw[j][4]));
-                    sparklines[sym] = pts;
-                    drawGoldenSparkline(sym, pts);
+            // Verify live on Binance before adding
+            var verifyXhr = new XMLHttpRequest();
+            verifyXhr.open("GET", "https://api.binance.com/api/v3/ticker/price?symbol=" + sym, true);
+            verifyXhr.onreadystatechange = function() {
+                if (verifyXhr.readyState === 4) {
+                    if (verifyXhr.status === 200) {
+                        // Success! Pair exists on Binance
+                        if (statusEl) statusEl.style.display = "none";
+                        var name = KNOWN_NAMES[base] || base;
+                        coins.push({ symbol: sym, base: base, name: name });
+                        saveCoins();
+                        renderTableRows();
+                        fetchSingleCoinPrice(sym);
+                        fetchSingleSparkline(sym);
+                    } else {
+                        // Symbol not found on Binance spot
+                        if (statusEl) statusEl.style.display = "none";
+                        alert('Coin "' + base + '" is not available as a USDT pair on Binance spot.\n(Make sure to use the official ticker, e.g. RENDER, NEAR, SUI, PEPE)');
+                    }
                 }
             };
-            xhr.send();
+            verifyXhr.send();
         }
 
         // Remove Coin logic
@@ -1034,7 +1092,6 @@
                 row.style.transform = "translateY(" + diff + "px)";
             }
 
-            // Check if swapped
             var rowHeight = 54;
             var targetIdx = dragIdx + Math.round(diff / rowHeight);
             if (targetIdx >= 0 && targetIdx < coins.length && targetIdx !== dragIdx) {
@@ -1064,7 +1121,6 @@
             document.removeEventListener("touchend", onTouchEnd);
         }
 
-        // Mouse drag for PC preview
         function startDrag(e, idx) {
             if (!isEditMode) return;
             dragIdx = idx;
