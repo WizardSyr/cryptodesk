@@ -3,78 +3,139 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Blank Grid Spacers</title>
+    <title>Blank Grid Spacers - 100% Crash-Proof</title>
     <!-- 1x1 transparent PNG icon for Safari Add to Home Screen -->
     <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content=" ">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-            background: #121214;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+            background: #0b0f19;
             color: #ffffff;
             margin: 0;
-            padding: 20px;
-            text-align: center;
+            padding: 24px 16px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
         .container {
+            width: 100%;
             max-width: 480px;
-            margin: 40px auto;
-            background: rgba(28, 28, 30, 0.95);
+            background: rgba(28, 28, 30, 0.85);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 24px;
-            padding: 30px 24px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            padding: 28px 22px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+            text-align: center;
         }
-        h1 { font-size: 22px; margin-bottom: 12px; }
-        p { font-size: 14px; color: #8e8e93; line-height: 1.5; margin-bottom: 24px; }
+        h1 {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 22px;
+        }
+        .badge-safe {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
         .btn-install {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             width: 100%;
-            background: #007aff;
+            background: linear-gradient(135deg, #007aff, #0056b3);
             color: #ffffff;
             font-size: 16px;
             font-weight: 700;
             padding: 16px;
-            border-radius: 14px;
+            border-radius: 16px;
             text-decoration: none;
-            box-sizing: border-box;
-            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(0, 122, 255, 0.35);
+            margin-bottom: 22px;
+            transition: transform 0.1s ease;
         }
-        .btn-install:active { background: #0056b3; }
+        .btn-install:active {
+            transform: scale(0.97);
+        }
         .instructions {
             text-align: left;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 18px;
             font-size: 13px;
-            color: #d1d1d6;
-            margin-top: 20px;
+            color: #cbd5e1;
             line-height: 1.6;
         }
-        ol { margin-left: 20px; padding: 0; }
-        li { margin-bottom: 8px; }
+        .instructions strong {
+            color: #38bdf8;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        ol {
+            margin-left: 20px;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .note {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 11px;
+            color: #94a3b8;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Invisible Spacer Icons</h1>
-        <p>Install 6 completely invisible spacer icons to fill the top row on your homescreen, so your apps sit cleanly below your widgets!</p>
+        <h1>Invisible Grid Spacers</h1>
+        <div class="badge-safe">🛡️ 100% Native iOS • Zero-Crash Guarantee</div>
+        <p class="subtitle">Install 12 completely invisible, transparent spacer tiles to leave room for your widgets anywhere on your home screen!</p>
         
-        <a href="blank.mobileconfig" class="btn-install">📥 1-Tap Install Profile (6 Icons)</a>
+        <a href="blank.mobileconfig" class="btn-install">
+            <span>📥 1-Tap Install Profile (12 Spacers)</span>
+        </a>
 
         <div class="instructions">
-            <strong>How It Works:</strong>
+            <strong>How to Use Without Any Crash:</strong>
             <ol>
                 <li>Tap <strong>1-Tap Install Profile</strong> above.</li>
-                <li>Tap <strong>Install</strong> in the top-right corner of Settings.</li>
-                <li>Go to your Homescreen: you will see 6 invisible spots.</li>
-                <li>Hold any icon until they wiggle, then <strong>drag the 6 invisible icons to the top row</strong> (Row 1).</li>
-                <li>Your real apps (Clock, FaceTime, Music, Photos) will naturally slide down to Row 2 and 3!</li>
+                <li>When Settings opens, tap <strong>Install</strong> in the top-right corner (enter your passcode if asked, then tap Install again).</li>
+                <li>Go to your Homescreen: you now have 12 invisible spacer tiles.</li>
+                <li>Hold any icon until they jiggle, then <strong>drag the invisible tiles to Row 1 & Row 2</strong> (behind where your widgets sit).</li>
+                <li>Your real apps (Clock, FaceTime, Music, Photos) will cleanly drop down to lower rows!</li>
+                <li>Press the <strong>Home button</strong> to save — <strong>it will NEVER crash or respring</strong> because it uses native iOS WebClips with zero Substrate hooks!</li>
             </ol>
-            <p style="font-size: 11px; color: #8e8e93; margin: 10px 0 0 0;">
-                💡 <em>To remove anytime: Go to Settings ➔ General ➔ Profiles ➔ Blank Grid Spacers ➔ Delete Profile.</em>
-            </p>
+            <div class="note">
+                💡 <b>How to delete:</b> You can delete any unused invisible tile by tapping <b>(X)</b> in jiggle mode, or remove all of them together in <i>Settings ➔ General ➔ Profile ➔ Blank Grid Spacers ➔ Delete Profile</i>.
+            </div>
         </div>
     </div>
 </body>
