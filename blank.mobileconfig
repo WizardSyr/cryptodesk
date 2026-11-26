@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Label</key>
+            <string> </string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 1</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 1</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.1</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>8D8D7966-7872-492F-AC0D-3F4E418067F1</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Label</key>
+            <string> </string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 2</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 2</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.2</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>12A4FC3A-D9A6-4080-BE2E-959489C1B1B3</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Label</key>
+            <string> </string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 3</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 3</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.3</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>C4BFD09C-E3E8-45C2-AFDA-1415162965FD</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Label</key>
+            <string> </string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 4</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 4</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.4</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>063BDA4D-150C-4ED1-B349-ACD95D733330</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Label</key>
+            <string> </string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 5</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 5</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.5</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>E54D0DC4-F3FD-4DBE-BCDD-257853229934</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Label</key>
+            <string> </string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 6</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 6</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.6</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>E9A6A160-CB92-4AE6-B3B5-B3F160C4DE4F</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+    </array>
+    <key>PayloadDescription</key>
+    <string>Adds invisible blank spacer icons to place behind widgets so apps start on lower rows.</string>
+    <key>PayloadDisplayName</key>
+    <string>Blank Grid Spacers (iPadOS Layout)</string>
+    <key>PayloadIdentifier</key>
+    <string>com.antigravity.blankgrid</string>
+    <key>PayloadOrganization</key>
+    <string>Antigravity</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>4E107812-D9D2-4EA2-98BE-6A3DCCF2FFF7</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+</dict>
+</plist>
