@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Binance">
+    <title>Binance Pro - iPad</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background-color: #121418;
+            color: #eaecef;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        /* Top Navigation */
+        .navbar {
+            background-color: #181a20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-bottom: 1px solid #2b313a;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: #f0b90b;
+            border-radius: 4px;
+            display: inline-block;
+            position: relative;
+        }
+        .logo-text {
+            color: #f0b90b;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .search-input {
+            background: #2b313a;
+            border: 1px solid #474d57;
+            border-radius: 16px;
+            padding: 6px 14px;
+            color: #fff;
+            font-size: 14px;
+            width: 140px;
+            outline: none;
+            text-transform: uppercase;
+        }
+        .search-input:focus {
+            border-color: #f0b90b;
+            width: 180px;
+        }
+        /* Watchlist ticker scroll */
+        .ticker-bar {
+            background: #181a20;
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 8px 12px;
+            border-bottom: 1px solid #2b313a;
+            gap: 12px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .ticker-pill {
+            background: #20252e;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .ticker-pill.active {
+            border-color: #f0b90b;
+            background: #262c38;
+        }
+        .ticker-pill .sym {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .ticker-pill .pr {
+            font-size: 13px;
+        }
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            gap: 12px;
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .main-container {
+                flex-direction: row;
+            }
+            .chart-section {
+                flex: 1;
+            }
+            .sidebar-section {
+                width: 320px;
+            }
+        }
+        /* Header Stats */
+        .pair-header {
+            background: #181a20;
+            padding: 14px 18px;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #2b313a;
+        }
+        .current-price-wrap {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+        .pair-title {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .current-price {
+            font-size: 26px;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+        .price-up { color: #0ecb81; }
+        .price-down { color: #f6465d; }
+        .stat-grid {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+        }
+        .stat-col {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .stat-label {
+            color: #848e9c;
+        }
+        .stat-val {
+            font-weight: 600;
+        }
+        /* Timeframe Tabs */
+        .tf-bar {
+            display: flex;
+            background: #181a20;
+            padding: 6px 12px;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid #2b313a;
+            border-bottom: none;
+            gap: 8px;
+        }
+        .tf-btn {
+            background: transparent;
+            border: none;
+            color: #848e9c;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .tf-btn.active {
+            color: #f0b90b;
+            background: #2b313a;
+        }
+        /* Canvas Chart */
+        .chart-card {
+            background: #181a20;
+            border: 1px solid #2b313a;
+            border-radius: 0 0 10px 10px;
+            position: relative;
+            padding: 10px 0;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 380px;
+        }
+        /* Orderbook / Trades Sidebar */
+        .orderbook-card {
+            background: #181a20;
+            border: 1px solid #2b313a;
+            border-radius: 10px;
+            padding: 14px;
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #eaecef;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .orderbook-table {
+            width: 100%;
+            font-size: 12px;
+            border-collapse: collapse;
+        }
+        .orderbook-table th {
+            color: #848e9c;
+            text-align: right;
+            padding-bottom: 6px;
+            font-weight: normal;
+        }
+        .orderbook-table th:first-child { text-align: left; }
+        .orderbook-table td {
+            text-align: right;
+            padding: 3px 0;
+            font-family: monospace;
+        }
+        .orderbook-table td:first-child { text-align: left; }
+        .loading-cover {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(24, 26, 32, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f0b90b;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo-wrap">
+            <span class="logo-icon"></span>
+            <span class="logo-text">BINANCE</span>
+        </div>
+        <div class="search-box">
+            <input type="text" id="search-input" class="search-input" placeholder="Search (BTC)" onkeypress="if(event.keyCode==13) selectCustomPair()">
+        </div>
+    </div>
+
+    <!-- Ticker Bar -->
+    <div class="ticker-bar" id="ticker-bar">
+        <!-- Filled by JS -->
+    </div>
+
+    <!-- Main Body -->
+    <div class="main-container">
+        <!-- Chart Section -->
+        <div class="chart-section">
+            <div class="pair-header">
+                <div class="current-price-wrap">
+                    <span class="pair-title" id="pair-title">BTC/USDT</span>
+                    <span class="current-price" id="current-price">--</span>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-col">
+                        <span class="stat-label">24h Change</span>
+                        <span class="stat-val" id="stat-change">--</span>
+                    </div>
+                    <div class="stat-col">
+                        <span class="stat-label">24h High</span>
+                        <span class="stat-val" id="stat-high">--</span>
+                    </div>
+                    <div class="stat-col">
+                        <span class="stat-label">24h Low</span>
+                        <span class="stat-val" id="stat-low">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeframe selector -->
+            <div class="tf-bar">
+                <button class="tf-btn" onclick="setTimeframe('1m', this)">1m</button>
+                <button class="tf-btn" onclick="setTimeframe('5m', this)">5m</button>
+                <button class="tf-btn" onclick="setTimeframe('15m', this)">15m</button>
+                <button class="tf-btn active" onclick="setTimeframe('1h', this)">1h</button>
+                <button class="tf-btn" onclick="setTimeframe('4h', this)">4h</button>
+                <button class="tf-btn" onclick="setTimeframe('1d', this)">1D</button>
+            </div>
+
+            <!-- Canvas Chart -->
+            <div class="chart-card">
+                <canvas id="chart-canvas"></canvas>
+                <div id="chart-loading" class="loading-cover">Loading Chart...</div>
+            </div>
+        </div>
+
+        <!-- Sidebar (Orderbook) -->
+        <div class="sidebar-section">
+            <div class="orderbook-card">
+                <div class="card-title">
+                    <span>Order Book</span>
+                    <span style="font-size: 12px; color: #848e9c;">Live</span>
+                </div>
+                <table class="orderbook-table">
+                    <thead>
+                        <tr>
+                            <th>Price</th>
+                            <th>Amount</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="asks-body"></tbody>
+                    <tr style="height: 10px;"></tr>
+                    <tbody id="bids-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var currentSymbol = "BTCUSDT";
+        var currentInterval = "1h";
+        var watchlist = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT", "DOGEUSDT", "PEPEUSDT"];
+        var candleData = [];
+
+        var canvas = document.getElementById("chart-canvas");
+        var ctx = canvas.getContext("2d");
+
+        function init() {
+            renderWatchlist();
+            fetchTickerBar();
+            loadPairData(currentSymbol);
+            window.onresize = drawChart;
+            setInterval(fetchTickerBar, 10000);
+            setInterval(refreshActivePair, 5000);
+        }
+
+        function renderWatchlist() {
+            var bar = document.getElementById("ticker-bar");
+            var html = "";
+            for (var i = 0; i < watchlist.length; i++) {
+                var sym = watchlist[i];
+                var display = sym.replace("USDT", "");
+                var activeClass = sym === currentSymbol ? " active" : "";
+                html += '<div class="ticker-pill' + activeClass + '" id="pill-' + sym + '" onclick="selectPair(\'' + sym + '\')">' +
+                    '<span class="sym">' + display + '</span>' +
+                    '<span class="pr" id="pill-pr-' + sym + '">--</span>' +
+                    '</div>';
+            }
+            bar.innerHTML = html;
+        }
+
+        function fetchTickerBar() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://api.binance.com/api/v3/ticker/24hr", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var list = JSON.parse(xhr.responseText);
+                    var map = {};
+                    for (var i = 0; i < list.length; i++) {
+                        map[list[i].symbol] = list[i];
+                    }
+                    for (var j = 0; j < watchlist.length; j++) {
+                        var s = watchlist[j];
+                        var item = map[s];
+                        if (item) {
+                            var el = document.getElementById("pill-pr-" + s);
+                            if (el) {
+                                var pr = parseFloat(item.lastPrice);
+                                var chg = parseFloat(item.priceChangePercent);
+                                el.innerHTML = (pr > 1 ? pr.toFixed(2) : pr.toFixed(6));
+                                el.className = "pr " + (chg >= 0 ? "price-up" : "price-down");
+                            }
+                        }
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function selectPair(symbol) {
+            currentSymbol = symbol;
+            renderWatchlist();
+            loadPairData(currentSymbol);
+        }
+
+        function selectCustomPair() {
+            var inp = document.getElementById("search-input");
+            var val = inp.value.trim().toUpperCase();
+            if (!val) return;
+            if (val.indexOf("USDT") === -1) val += "USDT";
+            if (watchlist.indexOf(val) === -1) {
+                watchlist.unshift(val);
+            }
+            selectPair(val);
+            inp.value = "";
+        }
+
+        function setTimeframe(tf, btn) {
+            currentInterval = tf;
+            var btns = document.querySelectorAll(".tf-btn");
+            for (var i = 0; i < btns.length; i++) btns[i].className = "tf-btn";
+            btn.className = "tf-btn active";
+            loadPairData(currentSymbol);
+        }
+
+        function loadPairData(symbol) {
+            document.getElementById("pair-title").innerText = symbol.replace("USDT", "") + " / USDT";
+            document.getElementById("chart-loading").style.visibility = "visible";
+
+            fetch24h(symbol);
+            fetchKlines(symbol, currentInterval);
+            fetchOrderBook(symbol);
+        }
+
+        function refreshActivePair() {
+            fetch24h(currentSymbol);
+            fetchOrderBook(currentSymbol);
+        }
+
+        function fetch24h(symbol) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://api.binance.com/api/v3/ticker/24hr?symbol=" + symbol, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    var price = parseFloat(data.lastPrice);
+                    var chg = parseFloat(data.priceChangePercent);
+                    var prEl = document.getElementById("current-price");
+                    prEl.innerText = price > 1 ? price.toFixed(2) : price.toFixed(6);
+                    prEl.className = "current-price " + (chg >= 0 ? "price-up" : "price-down");
+
+                    var chgEl = document.getElementById("stat-change");
+                    chgEl.innerText = (chg >= 0 ? "+" : "") + chg.toFixed(2) + "%";
+                    chgEl.className = "stat-val " + (chg >= 0 ? "price-up" : "price-down");
+
+                    document.getElementById("stat-high").innerText = parseFloat(data.highPrice).toFixed(2);
+                    document.getElementById("stat-low").innerText = parseFloat(data.lowPrice).toFixed(2);
+                }
+            };
+            xhr.send();
+        }
+
+        function fetchKlines(symbol, interval) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://api.binance.com/api/v3/klines?symbol=" + symbol + "&interval=" + interval + "&limit=45", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var raw = JSON.parse(xhr.responseText);
+                    candleData = [];
+                    for (var i = 0; i < raw.length; i++) {
+                        candleData.push({
+                            time: raw[i][0],
+                            open: parseFloat(raw[i][1]),
+                            high: parseFloat(raw[i][2]),
+                            low: parseFloat(raw[i][3]),
+                            close: parseFloat(raw[i][4]),
+                            vol: parseFloat(raw[i][5])
+                        });
+                    }
+                    document.getElementById("chart-loading").style.visibility = "hidden";
+                    drawChart();
+                }
+            };
+            xhr.send();
+        }
+
+        function fetchOrderBook(symbol) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://api.binance.com/api/v3/depth?symbol=" + symbol + "&limit=6", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    renderOrderbook(data.bids, data.asks);
+                }
+            };
+            xhr.send();
+        }
+
+        function renderOrderbook(bids, asks) {
+            var asksBody = document.getElementById("asks-body");
+            var bidsBody = document.getElementById("bids-body");
+
+            var asksHtml = "";
+            for (var i = asks.length - 1; i >= 0; i--) {
+                var p = parseFloat(asks[i][0]);
+                var a = parseFloat(asks[i][1]);
+                var tot = (p * a).toFixed(2);
+                asksHtml += '<tr><td class="price-down">' + (p > 1 ? p.toFixed(2) : p.toFixed(6)) + '</td><td>' + a.toFixed(3) + '</td><td>' + tot + '</td></tr>';
+            }
+            asksBody.innerHTML = asksHtml;
+
+            var bidsHtml = "";
+            for (var j = 0; j < bids.length; j++) {
+                var bp = parseFloat(bids[j][0]);
+                var ba = parseFloat(bids[j][1]);
+                var btot = (bp * ba).toFixed(2);
+                bidsHtml += '<tr><td class="price-up">' + (bp > 1 ? bp.toFixed(2) : bp.toFixed(6)) + '</td><td>' + ba.toFixed(3) + '</td><td>' + btot + '</td></tr>';
+            }
+            bidsBody.innerHTML = bidsHtml;
+        }
+
+        function drawChart() {
+            if (!candleData || candleData.length === 0) return;
+
+            var dpr = window.devicePixelRatio || 1;
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            var w = rect.width;
+            var h = rect.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Min & Max prices
+            var minP = Infinity;
+            var maxP = -Infinity;
+            var maxVol = 0;
+
+            for (var i = 0; i < candleData.length; i++) {
+                if (candleData[i].low < minP) minP = candleData[i].low;
+                if (candleData[i].high > maxP) maxP = candleData[i].high;
+                if (candleData[i].vol > maxVol) maxVol = candleData[i].vol;
+            }
+
+            var range = maxP - minP;
+            if (range === 0) range = 1;
+
+            var paddingRight = 65;
+            var chartWidth = w - paddingRight;
+            var chartHeight = h - 30;
+
+            var candleSlot = chartWidth / candleData.length;
+            var candleWidth = Math.max(3, candleSlot * 0.7);
+
+            // Draw grid lines
+            ctx.strokeStyle = "#2b313a";
+            ctx.lineWidth = 1;
+            ctx.fillStyle = "#848e9c";
+            ctx.font = "11px sans-serif";
+            ctx.textAlign = "left";
+
+            var gridSteps = 4;
+            for (var g = 0; g <= gridSteps; g++) {
+                var y = chartHeight - (g / gridSteps) * (chartHeight - 20) - 10;
+                var prVal = minP + (g / gridSteps) * range;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(chartWidth, y);
+                ctx.stroke();
+
+                ctx.fillText(prVal > 1 ? prVal.toFixed(2) : prVal.toFixed(6), chartWidth + 6, y + 4);
+            }
+
+            // Draw candles
+            for (var c = 0; c < candleData.length; c++) {
+                var cnd = candleData[c];
+                var x = c * candleSlot + candleSlot / 2;
+
+                var isUp = cnd.close >= cnd.open;
+                var color = isUp ? "#0ecb81" : "#f6465d";
+
+                var openY = chartHeight - ((cnd.open - minP) / range) * (chartHeight - 20) - 10;
+                var closeY = chartHeight - ((cnd.close - minP) / range) * (chartHeight - 20) - 10;
+                var highY = chartHeight - ((cnd.high - minP) / range) * (chartHeight - 20) - 10;
+                var lowY = chartHeight - ((cnd.low - minP) / range) * (chartHeight - 20) - 10;
+
+                // Wick
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 1.2;
+                ctx.beginPath();
+                ctx.moveTo(x, highY);
+                ctx.lineTo(x, lowY);
+                ctx.stroke();
+
+                // Candle Body
+                ctx.fillStyle = color;
+                var bodyTop = Math.min(openY, closeY);
+                var bodyHeight = Math.max(Math.abs(openY - closeY), 2);
+                ctx.fillRect(x - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+
+                // Volume Bar
+                var volHeight = (cnd.vol / maxVol) * 45;
+                ctx.fillStyle = isUp ? "rgba(14, 203, 129, 0.25)" : "rgba(246, 70, 93, 0.25)";
+                ctx.fillRect(x - candleWidth / 2, chartHeight - volHeight, candleWidth, volHeight);
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
