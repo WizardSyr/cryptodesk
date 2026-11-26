@@ -11,8 +11,10 @@
             <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
             <key>IsRemovable</key>
             <true/>
+            <key>Precomposed</key>
+            <true/>
             <key>Label</key>
-            <string> </string>
+            <string>&#x200B;</string>
             <key>PayloadDescription</key>
             <string>Invisible Space 1</string>
             <key>PayloadDisplayName</key>
@@ -22,7 +24,7 @@
             <key>PayloadType</key>
             <string>com.apple.webClip.managed</string>
             <key>PayloadUUID</key>
-            <string>8D8D7966-7872-492F-AC0D-3F4E418067F1</string>
+            <string>0D0525D2-64E6-449F-B21A-77D3745AC88D</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
             <key>URL</key>
@@ -35,8 +37,10 @@
             <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
             <key>IsRemovable</key>
             <true/>
+            <key>Precomposed</key>
+            <true/>
             <key>Label</key>
-            <string> </string>
+            <string>&#x200B;</string>
             <key>PayloadDescription</key>
             <string>Invisible Space 2</string>
             <key>PayloadDisplayName</key>
@@ -46,7 +50,7 @@
             <key>PayloadType</key>
             <string>com.apple.webClip.managed</string>
             <key>PayloadUUID</key>
-            <string>12A4FC3A-D9A6-4080-BE2E-959489C1B1B3</string>
+            <string>B372DD83-21D2-46D7-B6BA-4DA8AA1D57B1</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
             <key>URL</key>
@@ -59,8 +63,10 @@
             <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
             <key>IsRemovable</key>
             <true/>
+            <key>Precomposed</key>
+            <true/>
             <key>Label</key>
-            <string> </string>
+            <string>&#x200B;</string>
             <key>PayloadDescription</key>
             <string>Invisible Space 3</string>
             <key>PayloadDisplayName</key>
@@ -70,7 +76,7 @@
             <key>PayloadType</key>
             <string>com.apple.webClip.managed</string>
             <key>PayloadUUID</key>
-            <string>C4BFD09C-E3E8-45C2-AFDA-1415162965FD</string>
+            <string>366B14E2-DDD5-4BDA-ABCA-4EC033E18624</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
             <key>URL</key>
@@ -83,8 +89,10 @@
             <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
             <key>IsRemovable</key>
             <true/>
+            <key>Precomposed</key>
+            <true/>
             <key>Label</key>
-            <string> </string>
+            <string>&#x200B;</string>
             <key>PayloadDescription</key>
             <string>Invisible Space 4</string>
             <key>PayloadDisplayName</key>
@@ -94,7 +102,7 @@
             <key>PayloadType</key>
             <string>com.apple.webClip.managed</string>
             <key>PayloadUUID</key>
-            <string>063BDA4D-150C-4ED1-B349-ACD95D733330</string>
+            <string>4086CC42-C90B-44C4-AF39-F15FE128B3DA</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
             <key>URL</key>
@@ -107,8 +115,10 @@
             <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
             <key>IsRemovable</key>
             <true/>
+            <key>Precomposed</key>
+            <true/>
             <key>Label</key>
-            <string> </string>
+            <string>&#x200B;</string>
             <key>PayloadDescription</key>
             <string>Invisible Space 5</string>
             <key>PayloadDisplayName</key>
@@ -118,7 +128,7 @@
             <key>PayloadType</key>
             <string>com.apple.webClip.managed</string>
             <key>PayloadUUID</key>
-            <string>E54D0DC4-F3FD-4DBE-BCDD-257853229934</string>
+            <string>EADFAA3E-8FC8-462E-BAF8-586DBBEA4340</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
             <key>URL</key>
@@ -131,8 +141,10 @@
             <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
             <key>IsRemovable</key>
             <true/>
+            <key>Precomposed</key>
+            <true/>
             <key>Label</key>
-            <string> </string>
+            <string>&#x200B;</string>
             <key>PayloadDescription</key>
             <string>Invisible Space 6</string>
             <key>PayloadDisplayName</key>
@@ -142,7 +154,163 @@
             <key>PayloadType</key>
             <string>com.apple.webClip.managed</string>
             <key>PayloadUUID</key>
-            <string>E9A6A160-CB92-4AE6-B3B5-B3F160C4DE4F</string>
+            <string>EFE21B4F-2518-4CDB-92B0-9AE52C1F7B77</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Precomposed</key>
+            <true/>
+            <key>Label</key>
+            <string>&#x200B;</string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 7</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 7</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.7</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>73F05592-2652-41B2-A7EE-F64BFB5F5078</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Precomposed</key>
+            <true/>
+            <key>Label</key>
+            <string>&#x200B;</string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 8</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 8</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.8</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>CB6BA278-D6C4-4EDF-A1EF-1D3E0E4B3CE5</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Precomposed</key>
+            <true/>
+            <key>Label</key>
+            <string>&#x200B;</string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 9</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 9</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.9</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>7C39A4A5-F3D8-453F-AEC2-D5FA1674E85F</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Precomposed</key>
+            <true/>
+            <key>Label</key>
+            <string>&#x200B;</string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 10</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 10</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.10</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>8230C290-AF57-41A9-A317-2773430866D6</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Precomposed</key>
+            <true/>
+            <key>Label</key>
+            <string>&#x200B;</string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 11</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 11</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.11</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>D2D79AD6-BB7D-435F-9817-C5C106FCB2A7</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>about:blank</string>
+        </dict>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=</data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Precomposed</key>
+            <true/>
+            <key>Label</key>
+            <string>&#x200B;</string>
+            <key>PayloadDescription</key>
+            <string>Invisible Space 12</string>
+            <key>PayloadDisplayName</key>
+            <string>Invisible 12</string>
+            <key>PayloadIdentifier</key>
+            <string>com.antigravity.blankclip.12</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>B4B02D0B-DFDE-4EFA-9D7D-F24532ABDEA5</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
             <key>URL</key>
@@ -150,9 +318,9 @@
         </dict>
     </array>
     <key>PayloadDescription</key>
-    <string>Adds invisible blank spacer icons to place behind widgets so apps start on lower rows.</string>
+    <string>Adds 12 invisible blank spacer icons to place behind widgets so apps start on lower rows without crashing.</string>
     <key>PayloadDisplayName</key>
-    <string>Blank Grid Spacers (iPadOS Layout)</string>
+    <string>Blank Grid Spacers (12 Invisible Tiles)</string>
     <key>PayloadIdentifier</key>
     <string>com.antigravity.blankgrid</string>
     <key>PayloadOrganization</key>
@@ -162,7 +330,7 @@
     <key>PayloadType</key>
     <string>Configuration</string>
     <key>PayloadUUID</key>
-    <string>4E107812-D9D2-4EA2-98BE-6A3DCCF2FFF7</string>
+    <string>08831DC7-2065-4DC4-9BAB-8AEB09304AFF</string>
     <key>PayloadVersion</key>
     <integer>1</integer>
 </dict>
