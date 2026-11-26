@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binance Pro Desk - Live Positions & PnL (100% Read-Only)</title>
+    <link rel="icon" href="https://bin.bnbstatic.com/static/images/common/favicon.ico">
+    <style>
+        :root {
+            --bg-base: #0b0e14;
+            --bg-panel: #181a20;
+            --bg-subtle: #1e2329;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(240, 185, 11, 0.35);
+            --text-main: #eaecef;
+            --text-sub: #848e9c;
+            --text-muted: #5e6673;
+            --brand-yellow: #f0b90b;
+            --brand-yellow-subtle: rgba(240, 185, 11, 0.12);
+            --profit-green: #0ecb81;
+            --profit-green-glow: rgba(14, 203, 129, 0.25);
+            --loss-red: #f6465d;
+            --loss-red-glow: rgba(246, 70, 93, 0.25);
+            --card-radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        /* Top Header */
+        header {
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--brand-yellow);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+            color: #121214;
+            box-shadow: 0 4px 14px rgba(240, 185, 11, 0.3);
+        }
+
+        .brand-text h1 {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-text span {
+            font-size: 11px;
+            color: var(--text-sub);
+        }
+
+        .badge-safe {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(14, 203, 129, 0.15);
+            color: var(--profit-green);
+            border: 1px solid rgba(14, 203, 129, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-sub);
+            letter-spacing: 0.3px;
+        }
+
+        .stat-val {
+            font-size: 20px;
+            font-weight: 800;
+            font-family: "SF Pro Display", -apple-system, monospace;
+            line-height: 1.2;
+        }
+
+        .stat-pnl-pos { color: var(--profit-green); text-shadow: 0 0 12px var(--profit-green-glow); }
+        .stat-pnl-neg { color: var(--loss-red); text-shadow: 0 0 12px var(--loss-red-glow); }
+        .stat-pnl-zero { color: var(--text-sub); }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ctrl {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ctrl:hover {
+            border-color: var(--brand-yellow);
+            color: var(--brand-yellow);
+            background: rgba(240, 185, 11, 0.08);
+        }
+
+        .btn-primary {
+            background: var(--brand-yellow);
+            color: #121214;
+            border: none;
+            box-shadow: 0 4px 14px rgba(240, 185, 11, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #dfaa07;
+            color: #000;
+        }
+
+        /* 24h Ticker Strip */
+        .ticker-strip {
+            background: rgba(18, 20, 24, 0.8);
+            border-bottom: 1px solid var(--border-color);
+            padding: 6px 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .ticker-strip::-webkit-scrollbar { display: none; }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 3px 8px;
+            border-radius: 6px;
+            transition: background 0.15s ease;
+        }
+
+        .ticker-item:hover {
+            background: var(--bg-subtle);
+        }
+
+        .ticker-sym {
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .ticker-price {
+            font-family: monospace;
+            font-weight: 700;
+        }
+
+        .ticker-chg {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 1px 4px;
+            border-radius: 4px;
+        }
+
+        .chg-up { color: var(--profit-green); background: rgba(14, 203, 129, 0.12); }
+        .chg-down { color: var(--loss-red); background: rgba(246, 70, 93, 0.12); }
+
+        /* Main Workspace Grid */
+        .main-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 480px;
+            gap: 16px;
+            padding: 16px 24px;
+            max-width: 1920px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 1280px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left Column: Tables & Open Orders */
+        .desk-left {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .panel-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-sub);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tab-btn:hover {
+            color: #ffffff;
+            background: var(--bg-subtle);
+        }
+
+        .tab-btn.active {
+            color: var(--brand-yellow);
+            background: var(--brand-yellow-subtle);
+            border: 1px solid rgba(240, 185, 11, 0.3);
+        }
+
+        .tab-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 11px;
+            padding: 1px 6px;
+            border-radius: 10px;
+        }
+
+        .tab-btn.active .tab-badge {
+            background: var(--brand-yellow);
+            color: #121214;
+            font-weight: 900;
+        }
+
+        /* Data Tables */
+        .table-wrap {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        thead th {
+            color: var(--text-sub);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: background 0.15s ease;
+            cursor: pointer;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        tbody tr.active-row {
+            background: rgba(240, 185, 11, 0.07);
+            border-left: 3px solid var(--brand-yellow);
+        }
+
+        tbody td {
+            padding: 12px 12px;
+            vertical-align: middle;
+        }
+
+        .sym-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sym-name {
+            font-weight: 800;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .badge-pos {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .badge-long { background: rgba(14, 203, 129, 0.18); color: var(--profit-green); }
+        .badge-short { background: rgba(246, 70, 93, 0.18); color: var(--loss-red); }
+
+        .badge-lev {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: var(--bg-subtle);
+            color: var(--text-sub);
+            border: 1px solid var(--border-color);
+        }
+
+        .num-font {
+            font-family: "SF Pro Display", -apple-system, monospace;
+            font-weight: 700;
+        }
+
+        .pnl-cell-val {
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .pnl-cell-sub {
+            font-size: 11px;
+            opacity: 0.85;
+            display: block;
+        }
+
+        .liq-warn {
+            color: var(--brand-yellow);
+            font-weight: 700;
+        }
+
+        /* Right Column: Chart & Position Insights */
+        .desk-right {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chart-box {
+            flex: 1;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-frame-wrap {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            min-height: 420px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #131722;
+        }
+
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+            min-height: 420px;
+        }
+
+        /* Empty & Loading States */
+        .empty-state {
+            padding: 48px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-sub);
+            gap: 12px;
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            opacity: 0.8;
+        }
+
+        .empty-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .empty-desc {
+            font-size: 13px;
+            max-width: 360px;
+            line-height: 1.5;
+        }
+
+        /* Settings Modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-backdrop.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 520px;
+            padding: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-top h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--brand-yellow);
+        }
+
+        .btn-close {
+            background: transparent;
+            border: none;
+            color: var(--text-sub);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .btn-close:hover { color: #ffffff; }
+
+        .security-alert {
+            background: rgba(14, 203, 129, 0.1);
+            border: 1px solid rgba(14, 203, 129, 0.25);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 12px;
+            color: #a7f3d0;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-sub);
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #ffffff;
+            font-family: monospace;
+            font-size: 13px;
+            outline: none;
+            transition: border 0.15s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--brand-yellow);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        /* Floating Mini Widget Mode */
+        body.mini-mode {
+            background: #0b0e14 !important;
+            padding: 8px;
+        }
+        body.mini-mode header {
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        body.mini-mode .ticker-strip,
+        body.mini-mode .desk-right {
+            display: none !important;
+        }
+        body.mini-mode .main-container {
+            grid-template-columns: 1fr;
+            padding: 0;
+        }
+        body.mini-mode .stat-item:not(.stat-pnl) {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header -->
+    <header>
+        <div class="brand-section">
+            <div class="brand-logo">B</div>
+            <div class="brand-text">
+                <h1>BINANCE PRO DESK <span class="badge-safe">🔒 100% READ-ONLY</span></h1>
+                <span>Live Open Trades, Real-Time PnL & Charts</span>
+            </div>
+        </div>
+
+        <div class="header-stats">
+            <div class="stat-item stat-pnl">
+                <span class="stat-label">TOTAL UNREALIZED PnL</span>
+                <span class="stat-val stat-pnl-zero" id="header-total-pnl">$0.00</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">FUTURES WALLET</span>
+                <span class="stat-val num-font" id="header-wallet-bal">$0.00</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">STATUS</span>
+                <span class="stat-val" style="font-size: 14px; color: var(--profit-green);" id="connection-status">● Live (2s)</span>
+            </div>
+        </div>
+
+        <div class="header-controls">
+            <button class="btn-ctrl" id="btn-toggle-mini" title="Toggle compact PiP view for multitasking">
+                <span>🗖 Mini Desk</span>
+            </button>
+            <button class="btn-ctrl" id="btn-toggle-sound" title="Toggle audio alert on profit">
+                <span id="sound-icon">🔔</span> Alerts
+            </button>
+            <button class="btn-ctrl btn-primary" id="btn-open-settings">
+                <span>⚙ Settings</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 24h Ticker Strip -->
+    <div class="ticker-strip" id="ticker-strip">
+        <div class="ticker-item" onclick="switchChart('BTCUSDT')"><span class="ticker-sym">BTC/USDT</span> <span class="ticker-price" id="t-BTCUSDT">--</span> <span class="ticker-chg" id="c-BTCUSDT">--</span></div>
+        <div class="ticker-item" onclick="switchChart('ETHUSDT')"><span class="ticker-sym">ETH/USDT</span> <span class="ticker-price" id="t-ETHUSDT">--</span> <span class="ticker-chg" id="c-ETHUSDT">--</span></div>
+        <div class="ticker-item" onclick="switchChart('SOLUSDT')"><span class="ticker-sym">SOL/USDT</span> <span class="ticker-price" id="t-SOLUSDT">--</span> <span class="ticker-chg" id="c-SOLUSDT">--</span></div>
+        <div class="ticker-item" onclick="switchChart('BNBUSDT')"><span class="ticker-sym">BNB/USDT</span> <span class="ticker-price" id="t-BNBUSDT">--</span> <span class="ticker-chg" id="c-BNBUSDT">--</span></div>
+        <div class="ticker-item" onclick="switchChart('XRPUSDT')"><span class="ticker-sym">XRP/USDT</span> <span class="ticker-price" id="t-XRPUSDT">--</span> <span class="ticker-chg" id="c-XRPUSDT">--</span></div>
+        <div class="ticker-item" onclick="switchChart('DOGEUSDT')"><span class="ticker-sym">DOGE/USDT</span> <span class="ticker-price" id="t-DOGEUSDT">--</span> <span class="ticker-chg" id="c-DOGEUSDT">--</span></div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="main-container">
+        <!-- Left: Positions & Orders -->
+        <div class="desk-left">
+            <div class="card-panel">
+                <div class="panel-header">
+                    <div class="panel-tabs">
+                        <button class="tab-btn active" id="tab-btn-futures" onclick="setTab('futures')">
+                            FUTURES POSITIONS <span class="tab-badge" id="badge-futures-count">0</span>
+                        </button>
+                        <button class="tab-btn" id="tab-btn-spot" onclick="setTab('spot')">
+                            SPOT OPEN ORDERS <span class="tab-badge" id="badge-spot-count">0</span>
+                        </button>
+                    </div>
+                    <span style="font-size: 11px; color: var(--text-sub);" id="last-sync-time">Last update: --</span>
+                </div>
+
+                <!-- Futures Positions Table -->
+                <div class="table-wrap" id="table-wrap-futures">
+                    <table id="table-futures">
+                        <thead>
+                            <tr>
+                                <th>SYMBOL / SIDE</th>
+                                <th>SIZE</th>
+                                <th>ENTRY PRICE</th>
+                                <th>MARK PRICE</th>
+                                <th>LIQ. PRICE</th>
+                                <th>UNREALIZED PnL (ROE %)</th>
+                                <th>CHART</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-futures">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="empty-futures">
+                        <div class="empty-icon">🔒</div>
+                        <div class="empty-title">No Active Futures Positions</div>
+                        <div class="empty-desc">Connect your Binance Read-Only API key in Settings, or open a position on Binance to view live tracking here.</div>
+                    </div>
+                </div>
+
+                <!-- Spot Open Orders Table -->
+                <div class="table-wrap" id="table-wrap-spot" style="display: none;">
+                    <table id="table-spot">
+                        <thead>
+                            <tr>
+                                <th>PAIR</th>
+                                <th>TYPE</th>
+                                <th>SIDE</th>
+                                <th>ORDER PRICE</th>
+                                <th>AMOUNT</th>
+                                <th>TOTAL (USDT)</th>
+                                <th>TIME</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-spot">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="empty-spot">
+                        <div class="empty-icon">📋</div>
+                        <div class="empty-title">No Open Spot Orders</div>
+                        <div class="empty-desc">You currently have no open limit or stop orders on Binance Spot.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Live Chart -->
+        <div class="desk-right">
+            <div class="card-panel chart-box">
+                <div class="panel-header">
+                    <span style="font-size: 14px; font-weight: 800; color: #ffffff;" id="chart-title">BTCUSDT (15m) Live Chart</span>
+                    <span style="font-size: 11px; color: var(--text-sub);">TradingView Cloud</span>
+                </div>
+                <div class="chart-frame-wrap" id="chart-container">
+                    <iframe id="tv-frame" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=BINANCE%3ABTCUSDT&interval=15&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=181a20&theme=dark&style=1&timezone=Etc%2FUTC&studies=[]"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-backdrop" id="modal-settings">
+        <div class="modal-card">
+            <div class="modal-top">
+                <h2>Binance API Configuration</h2>
+                <button class="btn-close" id="btn-close-modal">✕</button>
+            </div>
+
+            <div class="security-alert">
+                🛡️ <b>100% Safe Read-Only:</b> In Binance API Management, ensure <b>"Enable Reading"</b> is the ONLY permission selected. Keep Spot Trading, Futures Trading, and Withdrawals UNCHECKED. All HMAC SHA-256 signing happens locally in your PC browser with zero middleman servers.
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">BINANCE API KEY</label>
+                <input type="password" class="form-input" id="input-api-key" placeholder="Paste your Binance API Key">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">BINANCE SECRET KEY</label>
+                <input type="password" class="form-input" id="input-secret-key" placeholder="Paste your Binance Secret Key">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">REFRESH INTERVAL</label>
+                <select class="form-input" id="select-refresh-rate">
+                    <option value="1000">1 Second (Ultra Fast)</option>
+                    <option value="2000" selected>2 Seconds (Recommended)</option>
+                    <option value="5000">5 Seconds</option>
+                    <option value="10000">10 Seconds</option>
+                </select>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-ctrl" id="btn-clear-keys" style="color: var(--loss-red);">Clear Keys</button>
+                <button class="btn-ctrl" id="btn-cancel-modal">Cancel</button>
+                <button class="btn-ctrl btn-primary" id="btn-save-keys">Save & Connect</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Embedded or local CryptoJS -->
+    <script src="crypto-js.min.js"></script>
+    <script>
+        // Fallback to CDN if local crypto-js is absent
+        if (typeof CryptoJS === 'undefined') {
+            var s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js';
+            document.head.appendChild(s);
+        }
+
+        // App State
+        let apiKey = localStorage.getItem('binance_user_apikey') || '';
+        let secretKey = localStorage.getItem('binance_user_secret') || '';
+        let refreshRate = parseInt(localStorage.getItem('binance_refresh_rate') || '2000');
+        let soundEnabled = localStorage.getItem('binance_sound_enabled') === 'true';
+        let activeTab = 'futures';
+        let activeChartSymbol = 'BTCUSDT';
+        let timeOffset = 0;
+        let pollTimer = null;
+        let lastPnlValue = 0;
+
+        // Elements
+        const elTotalPnl = document.getElementById('header-total-pnl');
+        const elWalletBal = document.getElementById('header-wallet-bal');
+        const elFuturesTbody = document.getElementById('tbody-futures');
+        const elSpotTbody = document.getElementById('tbody-spot');
+        const elEmptyFutures = document.getElementById('empty-futures');
+        const elEmptySpot = document.getElementById('empty-spot');
+        const elBadgeFutures = document.getElementById('badge-futures-count');
+        const elBadgeSpot = document.getElementById('badge-spot-count');
+        const elLastSync = document.getElementById('last-sync-time');
+        const modal = document.getElementById('modal-settings');
+        const inputKey = document.getElementById('input-api-key');
+        const inputSecret = document.getElementById('input-secret-key');
+        const selectRefresh = document.getElementById('select-refresh-rate');
+        const tvFrame = document.getElementById('tv-frame');
+        const chartTitle = document.getElementById('chart-title');
+
+        // Audio chime generator (Web Audio API - no external file needed!)
+        function playChime(freq = 587.33) {
+            if (!soundEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                gain.gain.setValueAtTime(0.05, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.4);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.4);
+            } catch(e) {}
+        }
+
+        // Time synchronization with Binance
+        function syncServerTime() {
+            fetch('https://api.binance.com/api/v3/time')
+                .then(r => r.json())
+                .then(d => { timeOffset = d.serverTime - Date.now(); })
+                .catch(() => {});
+        }
+        syncServerTime();
+        setInterval(syncServerTime, 60000);
+
+        // HMAC Signature generator
+        function sign(query) {
+            if (typeof CryptoJS !== 'undefined') {
+                return CryptoJS.HmacSHA256(query, secretKey).toString(CryptoJS.enc.Hex);
+            }
+            return '';
+        }
+
+        function formatUSD(num) {
+            const n = parseFloat(num);
+            if (isNaN(n)) return '$0.00';
+            return (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function switchChart(symbol) {
+            activeChartSymbol = symbol;
+            chartTitle.textContent = symbol + ' (15m) Live Chart';
+            tvFrame.src = `https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=BINANCE%3A${symbol}&interval=15&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=181a20&theme=dark&style=1&timezone=Etc%2FUTC&studies=[]`;
+            
+            // Highlight active row in table if present
+            document.querySelectorAll('#tbody-futures tr').forEach(row => {
+                if (row.dataset.symbol === symbol) row.classList.add('active-row');
+                else row.classList.remove('active-row');
+            });
+        }
+
+        function setTab(tab) {
+            activeTab = tab;
+            document.getElementById('tab-btn-futures').classList.toggle('active', tab === 'futures');
+            document.getElementById('tab-btn-spot').classList.toggle('active', tab === 'spot');
+            document.getElementById('table-wrap-futures').style.display = tab === 'futures' ? 'block' : 'none';
+            document.getElementById('table-wrap-spot').style.display = tab === 'spot' ? 'block' : 'none';
+        }
+
+        // Fetch Futures Positions & Wallet
+        async function fetchFutures() {
+            if (!apiKey || !secretKey) {
+                elEmptyFutures.style.display = 'flex';
+                elFuturesTbody.innerHTML = '';
+                elBadgeFutures.textContent = '0';
+                elTotalPnl.textContent = '$0.00';
+                elTotalPnl.className = 'stat-val stat-pnl-zero';
+                elWalletBal.textContent = '$0.00';
+                return;
+            }
+
+            const ts = Date.now() + timeOffset;
+            const query = `recvWindow=60000&timestamp=${ts}`;
+            const signature = sign(query);
+
+            try {
+                // Fetch Positions
+                const posPromise = fetch(`https://fapi.binance.com/fapi/v2/positionRisk?${query}&signature=${signature}`, {
+                    headers: { 'X-MBX-APIKEY': apiKey }
+                }).then(r => r.json());
+
+                // Fetch Account Balance
+                const balPromise = fetch(`https://fapi.binance.com/fapi/v2/balance?${query}&signature=${signature}`, {
+                    headers: { 'X-MBX-APIKEY': apiKey }
+                }).then(r => r.json());
+
+                const [positions, balances] = await Promise.all([posPromise, balPromise]);
+
+                // Calculate balances
+                if (Array.isArray(balances)) {
+                    const usdt = balances.find(b => b.asset === 'USDT');
+                    if (usdt) {
+                        elWalletBal.textContent = formatUSD(usdt.balance);
+                    }
+                }
+
+                // Parse active positions
+                if (Array.isArray(positions)) {
+                    const active = positions.filter(p => parseFloat(p.positionAmt) !== 0);
+                    elBadgeFutures.textContent = active.length;
+
+                    let totalPnl = 0;
+                    let html = '';
+
+                    active.forEach(p => {
+                        const amt = parseFloat(p.positionAmt);
+                        const isLong = amt > 0;
+                        const entry = parseFloat(p.entryPrice);
+                        const mark = parseFloat(p.markPrice);
+                        const liq = parseFloat(p.liquidationPrice);
+                        const pnl = parseFloat(p.unRealizedProfit);
+                        const lev = p.leverage;
+                        const margin = parseFloat(p.isolatedMargin || (Math.abs(amt) * entry / lev));
+                        const roe = margin > 0 ? (pnl / margin) * 100 : 0;
+
+                        totalPnl += pnl;
+
+                        const pnlClass = pnl >= 0 ? 'stat-pnl-pos' : 'stat-pnl-neg';
+                        const pnlSign = pnl >= 0 ? '+' : '';
+                        const roeSign = roe >= 0 ? '+' : '';
+
+                        html += `
+                            <tr data-symbol="${p.symbol}" class="${p.symbol === activeChartSymbol ? 'active-row' : ''}" onclick="switchChart('${p.symbol}')">
+                                <td>
+                                    <div class="sym-cell">
+                                        <span class="sym-name">${p.symbol}</span>
+                                        <span class="badge-pos ${isLong ? 'badge-long' : 'badge-short'}">${isLong ? 'LONG' : 'SHORT'}</span>
+                                        <span class="badge-lev">${lev}x</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="num-font">${Math.abs(amt).toFixed(4)}</span>
+                                    <span style="font-size: 11px; color: var(--text-sub); display: block;">≈ ${formatUSD(Math.abs(amt) * mark)}</span>
+                                </td>
+                                <td class="num-font">$${entry.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td class="num-font" style="font-weight: 800;">$${mark.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td class="num-font liq-warn">${liq > 0 ? '$' + liq.toLocaleString('en-US', { minimumFractionDigits: 2 }) : '--'}</td>
+                                <td>
+                                    <span class="pnl-cell-val ${pnlClass}">${pnlSign}${formatUSD(pnl)}</span>
+                                    <span class="pnl-cell-sub ${pnlClass}">${roeSign}${roe.toFixed(2)}%</span>
+                                </td>
+                                <td>
+                                    <button class="btn-ctrl" style="padding: 4px 8px; font-size: 11px;" onclick="event.stopPropagation(); switchChart('${p.symbol}')">📈 Chart</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    elFuturesTbody.innerHTML = html;
+                    elEmptyFutures.style.display = active.length === 0 ? 'flex' : 'none';
+
+                    // Update total PnL
+                    const pnlSign = totalPnl >= 0 ? '+' : '';
+                    elTotalPnl.textContent = pnlSign + formatUSD(totalPnl);
+                    if (totalPnl > 0) {
+                        elTotalPnl.className = 'stat-val stat-pnl-pos';
+                        if (totalPnl > lastPnlValue && lastPnlValue !== 0) playChime(880); // profit alert
+                    } else if (totalPnl < 0) {
+                        elTotalPnl.className = 'stat-val stat-pnl-neg';
+                    } else {
+                        elTotalPnl.className = 'stat-val stat-pnl-zero';
+                    }
+                    lastPnlValue = totalPnl;
+                }
+            } catch(e) {
+                console.error('Error fetching futures data:', e);
+            }
+        }
+
+        // Fetch Spot Open Orders
+        async function fetchSpotOrders() {
+            if (!apiKey || !secretKey) {
+                elEmptySpot.style.display = 'flex';
+                elSpotTbody.innerHTML = '';
+                elBadgeSpot.textContent = '0';
+                return;
+            }
+
+            const ts = Date.now() + timeOffset;
+            const query = `recvWindow=60000&timestamp=${ts}`;
+            const signature = sign(query);
+
+            try {
+                const res = await fetch(`https://api.binance.com/api/v3/openOrders?${query}&signature=${signature}`, {
+                    headers: { 'X-MBX-APIKEY': apiKey }
+                });
+                const orders = await res.json();
+
+                if (Array.isArray(orders)) {
+                    elBadgeSpot.textContent = orders.length;
+                    elEmptySpot.style.display = orders.length === 0 ? 'flex' : 'none';
+
+                    let html = '';
+                    orders.forEach(o => {
+                        const isBuy = o.side === 'BUY';
+                        const price = parseFloat(o.price);
+                        const origQty = parseFloat(o.origQty);
+                        const total = price * origQty;
+                        const dateStr = new Date(o.time).toLocaleTimeString();
+
+                        html += `
+                            <tr onclick="switchChart('${o.symbol}')">
+                                <td><span class="sym-name">${o.symbol}</span></td>
+                                <td><span class="badge-lev">${o.type}</span></td>
+                                <td><span class="badge-pos ${isBuy ? 'badge-long' : 'badge-short'}">${o.side}</span></td>
+                                <td class="num-font">$${price.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td class="num-font">${origQty}</td>
+                                <td class="num-font">${formatUSD(total)}</td>
+                                <td style="color: var(--text-sub); font-size: 11px;">${dateStr}</td>
+                            </tr>
+                        `;
+                    });
+                    elSpotTbody.innerHTML = html;
+                }
+            } catch(e) {}
+        }
+
+        // Fetch Top Tickers
+        async function fetchTickers() {
+            const symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT', 'XRPUSDT', 'DOGEUSDT'];
+            try {
+                const r = await fetch('https://api.binance.com/api/v3/ticker/24hr');
+                const list = await r.json();
+                if (Array.isArray(list)) {
+                    list.forEach(item => {
+                        if (symbols.includes(item.symbol)) {
+                            const pEl = document.getElementById('t-' + item.symbol);
+                            const cEl = document.getElementById('c-' + item.symbol);
+                            if (pEl && cEl) {
+                                const chg = parseFloat(item.priceChangePercent);
+                                pEl.textContent = '$' + parseFloat(item.lastPrice).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                                cEl.textContent = (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%';
+                                cEl.className = 'ticker-chg ' + (chg >= 0 ? 'chg-up' : 'chg-down');
+                            }
+                        }
+                    });
+                }
+            } catch(e) {}
+        }
+
+        // Polling loop
+        async function runPoll() {
+            await fetchFutures();
+            if (activeTab === 'spot') await fetchSpotOrders();
+            elLastSync.textContent = 'Last update: ' + new Date().toLocaleTimeString();
+        }
+
+        function restartPolling() {
+            if (pollTimer) clearInterval(pollTimer);
+            runPoll();
+            pollTimer = setInterval(runPoll, refreshRate);
+        }
+
+        // Initial launch
+        fetchTickers();
+        setInterval(fetchTickers, 5000);
+        restartPolling();
+
+        // UI Event Listeners
+        document.getElementById('btn-open-settings').addEventListener('click', () => {
+            inputKey.value = apiKey;
+            inputSecret.value = secretKey;
+            selectRefresh.value = refreshRate.toString();
+            modal.classList.add('active');
+        });
+
+        document.getElementById('btn-close-modal').addEventListener('click', () => modal.classList.remove('active'));
+        document.getElementById('btn-cancel-modal').addEventListener('click', () => modal.classList.remove('active'));
+
+        document.getElementById('btn-save-keys').addEventListener('click', () => {
+            apiKey = inputKey.value.trim();
+            secretKey = inputSecret.value.trim();
+            refreshRate = parseInt(selectRefresh.value);
+
+            localStorage.setItem('binance_user_apikey', apiKey);
+            localStorage.setItem('binance_user_secret', secretKey);
+            localStorage.setItem('binance_refresh_rate', refreshRate.toString());
+
+            modal.classList.remove('active');
+            restartPolling();
+        });
+
+        document.getElementById('btn-clear-keys').addEventListener('click', () => {
+            if (confirm('Clear stored API keys from this browser?')) {
+                apiKey = '';
+                secretKey = '';
+                localStorage.removeItem('binance_user_apikey');
+                localStorage.removeItem('binance_user_secret');
+                inputKey.value = '';
+                inputSecret.value = '';
+                modal.classList.remove('active');
+                restartPolling();
+            }
+        });
+
+        // Mini Mode Toggle
+        document.getElementById('btn-toggle-mini').addEventListener('click', () => {
+            document.body.classList.toggle('mini-mode');
+            const isMini = document.body.classList.contains('mini-mode');
+            document.getElementById('btn-toggle-mini').innerHTML = isMini ? '<span>🗖 Full Desk</span>' : '<span>🗖 Mini Desk</span>';
+        });
+
+        // Audio Alerts Toggle
+        document.getElementById('btn-toggle-sound').addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            localStorage.setItem('binance_sound_enabled', soundEnabled.toString());
+            document.getElementById('sound-icon').textContent = soundEnabled ? '🔔' : '🔕';
+            if (soundEnabled) playChime(659.25);
+        });
+        if (soundEnabled) document.getElementById('sound-icon').textContent = '🔔';
+        else document.getElementById('sound-icon').textContent = '🔕';
+    </script>
+</body>
+</html>
