@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>iPadOS & CryptoDesk Widgets Hub</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+            background: #0b0f19;
+            color: #ffffff;
+            padding: 24px 16px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header {
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        .header p {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+        .action-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 440px;
+            margin-bottom: 30px;
+        }
+        .btn-download {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 20px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            transition: transform 0.1s ease;
+        }
+        .btn-download:active {
+            transform: scale(0.97);
+        }
+        .btn-deb {
+            background: linear-gradient(135deg, #007aff, #0056b3);
+            color: #ffffff;
+            box-shadow: 0 8px 24px rgba(0, 122, 255, 0.35);
+        }
+        .btn-zip {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .cards-list {
+            width: 100%;
+            max-width: 640px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin-bottom: 30px;
+        }
+        .widget-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .widget-icon {
+            font-size: 28px;
+            width: 46px;
+            height: 46px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .widget-details {
+            flex: 1;
+        }
+        .widget-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 3px;
+        }
+        .widget-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+            margin-left: 6px;
+        }
+        .widget-desc {
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+        .guide-box {
+            width: 100%;
+            max-width: 640px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 20px;
+        }
+        .guide-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 12px;
+        }
+        .guide-step {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #007aff;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>iPadOS & CryptoDesk Widgets</h1>
+        <p>Standalone, customizable widgets designed for iOS 9.3.5 & modern Xen HTML / iWidgets</p>
+    </div>
+
+    <div class="action-box">
+        <a href="iPadOS_Cards.deb" class="btn-download btn-deb">
+            <span>📥 Download iPadOS_Cards.deb</span>
+        </a>
+        <a href="iPadOS_Cards.zip" class="btn-download btn-zip">
+            <span>📦 Download iPadOS_Cards.zip</span>
+        </a>
+    </div>
+
+    <div class="cards-list">
+        <div class="widget-item">
+            <div class="widget-icon">🕒</div>
+            <div class="widget-details">
+                <div class="widget-title">iPadOS Clock <span class="widget-badge">Small (140x140)</span></div>
+                <div class="widget-desc">Sky-blue iOS 16 card with analog dial, numbers 1-12, and live ticking orange second hand. Matches the top-left screenshot clock.</div>
+            </div>
+        </div>
+
+        <div class="widget-item">
+            <div class="widget-icon">📈</div>
+            <div class="widget-details">
+                <div class="widget-title">CryptoDesk Large Card <span class="widget-badge">Large (280x280)</span></div>
+                <div class="widget-desc">Large 2x2 square card matching red checkmark size. Live Binance ticker (BTC, ETH, SOL, DOGE, XRP, BNB), 24h stats, glowing wave chart, and coin switcher modal (tap ⚙).</div>
+            </div>
+        </div>
+
+        <div class="widget-item">
+            <div class="widget-icon">⛅</div>
+            <div class="widget-details">
+                <div class="widget-title">iPadOS Weather Large Card <span class="widget-badge">Large (280x280)</span></div>
+                <div class="widget-desc">Large 2x2 square card matching red checkmark UI. Cupertino / custom city, hero temp 61°, 6-hour forecast strip, 4-day forecast with temperature bars, and city lookup modal (tap ⚙).</div>
+            </div>
+        </div>
+
+        <div class="widget-item">
+            <div class="widget-icon">🔋</div>
+            <div class="widget-details">
+                <div class="widget-title">iPadOS Battery Card <span class="widget-badge">Medium (280x145)</span></div>
+                <div class="widget-desc">Glass card with 4 Apple-style battery rings (iPad, Apple Pencil, AirPods, Watch).</div>
+            </div>
+        </div>
+
+        <div class="widget-item">
+            <div class="widget-icon">🌤️</div>
+            <div class="widget-details">
+                <div class="widget-title">iPadOS Weather Card <span class="widget-badge">Medium (280x145)</span></div>
+                <div class="widget-desc">Medium horizontal weather card with live Open-Meteo current condition, hourly strip, and settings modal.</div>
+            </div>
+        </div>
+
+        <div class="widget-item">
+            <div class="widget-icon">💎</div>
+            <div class="widget-details">
+                <div class="widget-title">CryptoDesk Card <span class="widget-badge">Medium (280x145)</span></div>
+                <div class="widget-desc">Medium horizontal crypto card with live Binance ticker, fear & greed index, and mini chart.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="guide-box">
+        <div class="guide-title">How to Install in 1 Minute</div>
+        <div class="guide-step">
+            <div class="step-num">1</div>
+            <div>Tap <b>Download iPadOS_Cards.deb</b> in Safari on your iPad. When prompted, choose <b>Open in Filza</b>.</div>
+        </div>
+        <div class="guide-step">
+            <div class="step-num">2</div>
+            <div>In Filza, tap <b>iPadOS_Cards.deb</b>, then tap <b>Install</b> in the top-right corner. It will extract cleanly to <code>/var/mobile/Library/Widgets/Homescreen/</code>.</div>
+        </div>
+        <div class="guide-step">
+            <div class="step-num">3</div>
+            <div>Go to <b>Settings > Xen HTML > Homescreen > Add Widget</b>. Choose <b>iPadOS Clock</b>, <b>CryptoDesk Large Card</b>, or <b>iPadOS Weather Large Card</b> and position them wherever you want!</div>
+        </div>
+    </div>
+</body>
+</html>
