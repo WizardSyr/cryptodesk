@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Instagram">
+    <title>Instagram Lite</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            padding-bottom: 75px; /* for bottom nav */
+        }
+
+        /* Top Header */
+        .top-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid #1c1c1c;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        .ig-logo {
+            font-family: 'Brush Script MT', cursive, -apple-system, sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+        }
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .nav-icon {
+            font-size: 20px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        /* Main Container */
+        .feed-container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 4px;
+        }
+
+        /* Stories Tray */
+        .stories-tray {
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px 10px;
+            gap: 14px;
+            border-bottom: 1px solid #1a1a1a;
+            scrollbar-width: none;
+        }
+        .stories-tray::-webkit-scrollbar {
+            display: none;
+        }
+        .story-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            flex-shrink: 0;
+            width: 66px;
+        }
+        .story-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            padding: 2.5px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .story-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #000000;
+            background: #1c1c1c;
+        }
+        .story-username {
+            font-size: 11px;
+            color: #d1d1d1;
+            max-width: 64px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        /* Post Card */
+        .post-card {
+            background-color: #0c0c0c;
+            border: 1px solid #1a1a1a;
+            border-radius: 14px;
+            margin: 16px 0;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+        }
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .author-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #262626;
+        }
+        .author-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .author-name-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .author-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .verified-badge {
+            color: #0095f6;
+            font-size: 13px;
+        }
+        .post-location {
+            font-size: 11px;
+            color: #848e9c;
+        }
+        .post-more {
+            font-size: 18px;
+            color: #848e9c;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        /* Media Container (Photo / Video) */
+        .post-media-wrap {
+            position: relative;
+            width: 100%;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px;
+        }
+        .post-img {
+            width: 100%;
+            max-height: 540px;
+            object-fit: contain;
+            display: block;
+        }
+        .post-video {
+            width: 100%;
+            max-height: 540px;
+            display: block;
+            background: #000000;
+        }
+        .video-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .video-ctrl-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #ffffff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Double-tap animated heart */
+        .double-tap-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 80px;
+            color: #ff3040;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+        }
+        .double-tap-heart.animate {
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 0.95;
+        }
+
+        /* Post Actions Bar */
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px 6px 14px;
+        }
+        .actions-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .act-icon {
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        .act-icon:active {
+            transform: scale(0.85);
+        }
+        .act-icon.liked {
+            color: #ff3040;
+        }
+        .act-icon.saved {
+            color: #f0b90b;
+        }
+
+        /* Post Details (Likes, Caption, Date) */
+        .post-body {
+            padding: 0 14px 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .likes-count {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .caption-text {
+            font-size: 13.5px;
+            line-height: 1.4;
+            color: #efefef;
+        }
+        .caption-username {
+            font-weight: 700;
+            margin-right: 6px;
+            color: #ffffff;
+        }
+        .hashtag {
+            color: #0095f6;
+            cursor: pointer;
+        }
+        .post-date {
+            font-size: 11px;
+            color: #737373;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Bottom Tab Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid #1c1c1c;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0 16px 0;
+            z-index: 100;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #848e9c;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+        .nav-btn.active {
+            color: #ffffff;
+        }
+        .nav-btn-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Explore Grid View */
+        .explore-grid {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 4px;
+        }
+        .grid-item {
+            position: relative;
+            padding-bottom: 100%;
+            background: #181818;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        .grid-item img, .grid-item video {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+        }
+        .grid-type-icon {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            font-size: 14px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        /* Saved Posts View */
+        .saved-view {
+            display: none;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 10px 8px;
+        }
+        .saved-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 6px;
+            border-bottom: 1px solid #1a1a1a;
+            margin-bottom: 12px;
+        }
+        .saved-title {
+            font-size: 18px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .empty-saved {
+            text-align: center;
+            color: #737373;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Add / Import Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-box {
+            background: #141414;
+            border: 1px solid #262626;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 480px;
+            padding: 20px;
+        }
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .modal-head-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #f0b90b;
+        }
+        .modal-input {
+            width: 100%;
+            background: #202020;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .modal-input:focus {
+            border-color: #0095f6;
+        }
+        .modal-btn {
+            width: 100%;
+            background: #0095f6;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Toast Notification */
+        .toast-msg {
+            position: fixed;
+            bottom: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #262626;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 300;
+        }
+        .toast-msg.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navbar -->
+    <div class="top-navbar">
+        <div class="ig-logo" onclick="switchTab('feed')">Instagram</div>
+        <div class="header-icons">
+            <span class="nav-icon" onclick="openImportModal()" title="Add / Import Post">➕</span>
+            <span class="nav-icon" onclick="switchTab('saved')" title="Saved Posts">🔖</span>
+        </div>
+    </div>
+
+    <!-- Feed View (Default) -->
+    <div class="feed-container" id="feed-view">
+        <!-- Stories Carousel -->
+        <div class="stories-tray" id="stories-tray">
+            <!-- Rendered by JS -->
+        </div>
+
+        <!-- Posts Feed -->
+        <div id="posts-stream">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+
+    <!-- Explore Grid View -->
+    <div class="explore-grid" id="explore-view">
+        <!-- Rendered by JS -->
+    </div>
+
+    <!-- Saved Posts View -->
+    <div class="saved-view" id="saved-view">
+        <div class="saved-header">
+            <div class="saved-title"><span>🔖</span> Saved Posts</div>
+            <button class="nav-btn" style="font-size:12px; color:#f6465d;" onclick="clearAllSaved()">Clear All</button>
+        </div>
+        <div id="saved-stream">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <button class="nav-btn active" id="btn-feed" onclick="switchTab('feed')">
+            <span>🏠</span>
+            <span class="nav-btn-label">HOME</span>
+        </button>
+        <button class="nav-btn" id="btn-explore" onclick="switchTab('explore')">
+            <span>🔍</span>
+            <span class="nav-btn-label">EXPLORE</span>
+        </button>
+        <button class="nav-btn" onclick="openImportModal()">
+            <span>➕</span>
+            <span class="nav-btn-label">ADD</span>
+        </button>
+        <button class="nav-btn" id="btn-reels" onclick="filterReels()">
+            <span>🎬</span>
+            <span class="nav-btn-label">REELS</span>
+        </button>
+        <button class="nav-btn" id="btn-saved" onclick="switchTab('saved')">
+            <span>🔖</span>
+            <span class="nav-btn-label">SAVED</span>
+        </button>
+    </div>
+
+    <!-- Modal to Add / Import Instagram Post -->
+    <div class="modal-overlay" id="import-modal">
+        <div class="modal-box">
+            <div class="modal-head">
+                <span class="modal-head-title">Add Instagram Post / Video</span>
+                <span style="cursor:pointer; font-size:18px;" onclick="closeImportModal()">✕</span>
+            </div>
+            <input type="text" id="import-title" class="modal-input" placeholder="Creator / Title (e.g. CryptoWizard, MemeKing)">
+            <input type="text" id="import-media" class="modal-input" placeholder="Direct Image or MP4 Video URL">
+            <input type="text" id="import-caption" class="modal-input" placeholder="Caption (optional)">
+            <button class="modal-btn" onclick="submitCustomPost()">+ Add to My Feed</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-msg" id="toast">Saved to Collection!</div>
+
+    <script>
+        // High quality curated posts with actual working HD videos & photos
+        var INITIAL_POSTS = [
+            {
+                id: "post_1",
+                username: "bitcoin.magazine",
+                verified: true,
+                avatar: "https://assets.coincap.io/assets/icons/btc@2x.png",
+                location: "Bitcoin Network",
+                type: "video",
+                mediaUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                posterUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
+                likes: 84320,
+                caption: "Bitcoin Hashrate hits brand-new all-time high! Massive institutional capital inflows accelerating global adoption. Are you ready for the next bull run? 🚀🔥 #Bitcoin #Crypto #Finance",
+                date: "2 HOURS AGO",
+                isLiked: false,
+                isSaved: false
+            },
+            {
+                id: "post_2",
+                username: "solana.foundation",
+                verified: true,
+                avatar: "https://assets.coincap.io/assets/icons/sol@2x.png",
+                location: "Solana Eco",
+                type: "image",
+                mediaUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80",
+                likes: 42190,
+                caption: "Over 65,000 transactions per second benchmark achieved. The fastest, most scalable blockchain for web3 builders worldwide. ⚡🟣 #Solana #CryptoCommunity",
+                date: "4 HOURS AGO",
+                isLiked: false,
+                isSaved: false
+            },
+            {
+                id: "post_3",
+                username: "supercars.daily",
+                verified: true,
+                avatar: "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=128&q=80",
+                location: "Monaco, Monte Carlo",
+                type: "video",
+                mediaUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
+                posterUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80",
+                likes: 129480,
+                caption: "The sound of pure twin-turbo V8 roaring through Monaco tunnels! Which color would you pick: Matte Black or Acid Green? 🏎️💨 #Supercars #Hypercar #Monaco",
+                date: "7 HOURS AGO",
+                isLiked: false,
+                isSaved: false
+            },
+            {
+                id: "post_4",
+                username: "nature.aesthetic",
+                verified: false,
+                avatar: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=128&q=80",
+                location: "Swiss Alps, Switzerland",
+                type: "image",
+                mediaUrl: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80",
+                likes: 67340,
+                caption: "Waking up above the clouds in the heart of the Alps. Tag someone you’d escape here with right now! 🏔️✨ #Travel #Switzerland #Mountains",
+                date: "12 HOURS AGO",
+                isLiked: false,
+                isSaved: false
+            },
+            {
+                id: "post_5",
+                username: "cyberpunk.tokyo",
+                verified: false,
+                avatar: "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=128&q=80",
+                location: "Shinjuku, Tokyo",
+                type: "video",
+                mediaUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                posterUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800&q=80",
+                likes: 91400,
+                caption: "Rainy neon nights in Tokyo. Blade Runner vibes everywhere you look. 🌧️🏮 #Tokyo #Cyberpunk #NightPhotography",
+                date: "1 DAY AGO",
+                isLiked: false,
+                isSaved: false
+            }
+        ];
+
+        var STORIES = [
+            { name: "Your Story", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=128&q=80" },
+            { name: "bitcoin", avatar: "https://assets.coincap.io/assets/icons/btc@2x.png" },
+            { name: "solana", avatar: "https://assets.coincap.io/assets/icons/sol@2x.png" },
+            { name: "supercars", avatar: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=128&q=80" },
+            { name: "travel", avatar: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=128&q=80" },
+            { name: "cyberpunk", avatar: "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=128&q=80" }
+        ];
+
+        var posts = [];
+        var savedPostIds = [];
+
+        function loadStorage() {
+            try {
+                var savedPosts = localStorage.getItem("ig_lite_posts_v1");
+                if (savedPosts) posts = JSON.parse(savedPosts);
+                var savedIds = localStorage.getItem("ig_lite_saved_ids_v1");
+                if (savedIds) savedPostIds = JSON.parse(savedIds);
+            } catch(e) {}
+
+            if (!posts || posts.length === 0) {
+                posts = INITIAL_POSTS.slice();
+            }
+            if (!savedPostIds) {
+                savedPostIds = [];
+            }
+        }
+
+        function saveStorage() {
+            try {
+                localStorage.setItem("ig_lite_posts_v1", JSON.stringify(posts));
+                localStorage.setItem("ig_lite_saved_ids_v1", JSON.stringify(savedPostIds));
+            } catch(e) {}
+        }
+
+        function init() {
+            loadStorage();
+            renderStories();
+            renderFeed(posts, "posts-stream");
+            renderExploreGrid();
+        }
+
+        function renderStories() {
+            var tray = document.getElementById("stories-tray");
+            var html = "";
+            for (var i = 0; i < STORIES.length; i++) {
+                var s = STORIES[i];
+                html += '<div class="story-item" onclick="showToast(\'Story opened: ' + s.name + '\')">' +
+                    '<div class="story-ring">' +
+                        '<img class="story-avatar" src="' + s.avatar + '">' +
+                    '</div>' +
+                    '<span class="story-username">' + s.name + '</span>' +
+                '</div>';
+            }
+            tray.innerHTML = html;
+        }
+
+        function renderFeed(list, containerId) {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+
+            if (list.length === 0) {
+                container.innerHTML = '<div class="empty-saved"><span>🔖</span><span style="font-size:16px; font-weight:700;">No Saved Posts Yet</span><span>Tap the bookmark icon on any post to save it here!</span></div>';
+                return;
+            }
+
+            var html = "";
+            for (var i = 0; i < list.length; i++) {
+                var p = list[i];
+                var isSaved = savedPostIds.indexOf(p.id) !== -1;
+                var heartClass = p.isLiked ? "act-icon liked" : "act-icon";
+                var saveClass = isSaved ? "act-icon saved" : "act-icon";
+                var verifiedBadge = p.verified ? '<span class="verified-badge">✓</span>' : '';
+
+                var mediaHtml = '';
+                if (p.type === "video") {
+                    mediaHtml = '<video class="post-video" id="vid-' + p.id + '" src="' + p.mediaUrl + '" poster="' + (p.posterUrl || '') + '" playsinline webkit-playsinline loop onclick="toggleVideoPlay(\'' + p.id + '\')"></video>' +
+                        '<div class="video-badge">▶ REEL / VIDEO</div>' +
+                        '<button class="video-ctrl-btn" onclick="toggleVideoSound(\'' + p.id + '\', this)">🔊</button>';
+                } else {
+                    mediaHtml = '<img class="post-img" src="' + p.mediaUrl + '" ondblclick="doubleTapLike(\'' + p.id + '\')">';
+                }
+
+                html += '<div class="post-card" id="card-' + p.id + '">' +
+                    '<div class="post-header">' +
+                        '<div class="post-author">' +
+                            '<img class="author-avatar" src="' + p.avatar + '">' +
+                            '<div class="author-text">' +
+                                '<div class="author-name-row">' +
+                                    '<span class="author-name">' + p.username + '</span>' +
+                                    verifiedBadge +
+                                '</div>' +
+                                '<span class="post-location">' + (p.location || 'Instagram') + '</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<span class="post-more" onclick="deleteOrOptions(\'' + p.id + '\')">•••</span>' +
+                    '</div>' +
+
+                    '<div class="post-media-wrap" id="media-wrap-' + p.id + '" ondblclick="doubleTapLike(\'' + p.id + '\')">' +
+                        mediaHtml +
+                        '<div class="double-tap-heart" id="heart-' + p.id + '">❤️</div>' +
+                    '</div>' +
+
+                    '<div class="post-actions">' +
+                        '<div class="actions-left">' +
+                            '<span class="' + heartClass + '" id="like-btn-' + p.id + '" onclick="toggleLike(\'' + p.id + '\')">' + (p.isLiked ? '❤️' : '🤍') + '</span>' +
+                            '<span class="act-icon" onclick="showToast(\'Comments feature active!\')">💬</span>' +
+                            '<span class="act-icon" onclick="sharePost(\'' + p.id + '\')">✈️</span>' +
+                        '</div>' +
+                        '<span class="' + saveClass + '" id="save-btn-' + p.id + '" onclick="toggleSavePost(\'' + p.id + '\')">' + (isSaved ? '🔖' : '🏷️') + '</span>' +
+                    '</div>' +
+
+                    '<div class="post-body">' +
+                        '<span class="likes-count" id="likes-' + p.id + '">' + p.likes.toLocaleString() + ' likes</span>' +
+                        '<div class="caption-text">' +
+                            '<span class="caption-username">' + p.username + '</span>' +
+                            formatCaption(p.caption) +
+                        '</div>' +
+                        '<span class="post-date">' + p.date + '</span>' +
+                    '</div>' +
+                '</div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        function formatCaption(text) {
+            if (!text) return "";
+            return text.replace(/#(\w+)/g, '<span class="hashtag">#$1</span>');
+        }
+
+        function toggleLike(id) {
+            for (var i = 0; i < posts.length; i++) {
+                if (posts[i].id === id) {
+                    posts[i].isLiked = !posts[i].isLiked;
+                    posts[i].likes += (posts[i].isLiked ? 1 : -1);
+
+                    var btn = document.getElementById("like-btn-" + id);
+                    var count = document.getElementById("likes-" + id);
+                    if (btn) {
+                        btn.innerHTML = posts[i].isLiked ? "❤️" : "🤍";
+                        btn.className = posts[i].isLiked ? "act-icon liked" : "act-icon";
+                    }
+                    if (count) count.innerText = posts[i].likes.toLocaleString() + " likes";
+                    saveStorage();
+                    break;
+                }
+            }
+        }
+
+        function doubleTapLike(id) {
+            var heart = document.getElementById("heart-" + id);
+            if (heart) {
+                heart.classList.add("animate");
+                setTimeout(function() { heart.classList.remove("animate"); }, 600);
+            }
+            for (var i = 0; i < posts.length; i++) {
+                if (posts[i].id === id && !posts[i].isLiked) {
+                    toggleLike(id);
+                    break;
+                }
+            }
+        }
+
+        // SAVE POSTS FUNCTIONALITY
+        function toggleSavePost(id) {
+            var idx = savedPostIds.indexOf(id);
+            var btn = document.getElementById("save-btn-" + id);
+
+            if (idx === -1) {
+                savedPostIds.unshift(id);
+                if (btn) {
+                    btn.innerHTML = "🔖";
+                    btn.className = "act-icon saved";
+                }
+                showToast("Post Saved to Collection! 🔖");
+            } else {
+                savedPostIds.splice(idx, 1);
+                if (btn) {
+                    btn.innerHTML = "🏷️";
+                    btn.className = "act-icon";
+                }
+                showToast("Post Removed from Saved.");
+            }
+            saveStorage();
+
+            // If we are currently in Saved tab, re-render
+            var savedView = document.getElementById("saved-view");
+            if (savedView.style.display === "block") {
+                renderSavedView();
+            }
+        }
+
+        function renderSavedView() {
+            var savedList = [];
+            for (var i = 0; i < savedPostIds.length; i++) {
+                var sid = savedPostIds[i];
+                for (var j = 0; j < posts.length; j++) {
+                    if (posts[j].id === sid) {
+                        savedList.push(posts[j]);
+                        break;
+                    }
+                }
+            }
+            renderFeed(savedList, "saved-stream");
+        }
+
+        function clearAllSaved() {
+            if (confirm("Remove all saved posts?")) {
+                savedPostIds = [];
+                saveStorage();
+                renderSavedView();
+                renderFeed(posts, "posts-stream");
+                showToast("All Saved Posts Cleared.");
+            }
+        }
+
+        // VIDEO PLAY & SOUND CONTROLS
+        function toggleVideoPlay(id) {
+            var vid = document.getElementById("vid-" + id);
+            if (!vid) return;
+            if (vid.paused) {
+                vid.play();
+                showToast("Playing Video ▶");
+            } else {
+                vid.pause();
+                showToast("Paused ⏸");
+            }
+        }
+
+        function toggleVideoSound(id, btn) {
+            var vid = document.getElementById("vid-" + id);
+            if (!vid) return;
+            vid.muted = !vid.muted;
+            btn.innerHTML = vid.muted ? "🔇" : "🔊";
+            showToast(vid.muted ? "Muted 🔇" : "Sound ON 🔊");
+        }
+
+        // EXPLORE GRID
+        function renderExploreGrid() {
+            var grid = document.getElementById("explore-view");
+            var html = "";
+            for (var i = 0; i < posts.length; i++) {
+                var p = posts[i];
+                var icon = p.type === "video" ? '<span class="grid-type-icon">▶</span>' : '';
+                var mediaPreview = p.type === "video" ?
+                    '<video src="' + p.mediaUrl + '" poster="' + (p.posterUrl || '') + '"></video>' :
+                    '<img src="' + p.mediaUrl + '">';
+
+                html += '<div class="grid-item" onclick="openGridPost(\'' + p.id + '\')">' +
+                    mediaPreview +
+                    icon +
+                '</div>';
+            }
+            grid.innerHTML = html;
+        }
+
+        function openGridPost(id) {
+            switchTab("feed");
+            setTimeout(function() {
+                var el = document.getElementById("card-" + id);
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+            }, 100);
+        }
+
+        function filterReels() {
+            switchTab("feed");
+            var reelsOnly = [];
+            for (var i = 0; i < posts.length; i++) {
+                if (posts[i].type === "video") reelsOnly.push(posts[i]);
+            }
+            renderFeed(reelsOnly, "posts-stream");
+            showToast("Showing Reels Only 🎬");
+        }
+
+        // TAB NAVIGATION
+        function switchTab(tab) {
+            document.getElementById("feed-view").style.display = tab === "feed" ? "block" : "none";
+            document.getElementById("explore-view").style.display = tab === "explore" ? "grid" : "none";
+            document.getElementById("saved-view").style.display = tab === "saved" ? "block" : "none";
+
+            document.getElementById("btn-feed").className = tab === "feed" ? "nav-btn active" : "nav-btn";
+            document.getElementById("btn-explore").className = tab === "explore" ? "nav-btn active" : "nav-btn";
+            document.getElementById("btn-saved").className = tab === "saved" ? "nav-btn active" : "nav-btn";
+
+            if (tab === "saved") {
+                renderSavedView();
+            } else if (tab === "feed") {
+                renderFeed(posts, "posts-stream");
+            }
+            window.scrollTo(0, 0);
+        }
+
+        // ADD / IMPORT POST
+        function openImportModal() {
+            document.getElementById("import-modal").classList.add("show");
+        }
+
+        function closeImportModal() {
+            document.getElementById("import-modal").classList.remove("show");
+        }
+
+        function submitCustomPost() {
+            var author = document.getElementById("import-title").value.trim() || "creator";
+            var url = document.getElementById("import-media").value.trim();
+            var caption = document.getElementById("import-caption").value.trim() || "New post uploaded via Instagram Lite";
+
+            if (!url) {
+                alert("Please enter an image or video URL!");
+                return;
+            }
+
+            var isVid = url.indexOf(".mp4") !== -1 || url.indexOf("video") !== -1;
+            var newId = "custom_" + Date.now();
+
+            var newPost = {
+                id: newId,
+                username: author.toLowerCase().replace(/\s+/g, "_"),
+                verified: false,
+                avatar: "https://assets.coincap.io/assets/icons/btc@2x.png",
+                location: "Shared Post",
+                type: isVid ? "video" : "image",
+                mediaUrl: url,
+                posterUrl: url,
+                likes: 1,
+                caption: caption,
+                date: "JUST NOW",
+                isLiked: false,
+                isSaved: true // automatically save imported posts!
+            };
+
+            posts.unshift(newPost);
+            savedPostIds.unshift(newId);
+            saveStorage();
+
+            closeImportModal();
+            document.getElementById("import-title").value = "";
+            document.getElementById("import-media").value = "";
+            document.getElementById("import-caption").value = "";
+
+            renderFeed(posts, "posts-stream");
+            renderExploreGrid();
+            showToast("Post Added and Saved! 🚀");
+        }
+
+        function deleteOrOptions(id) {
+            if (confirm("Delete this post from your feed?")) {
+                for (var i = 0; i < posts.length; i++) {
+                    if (posts[i].id === id) {
+                        posts.splice(i, 1);
+                        break;
+                    }
+                }
+                var sIdx = savedPostIds.indexOf(id);
+                if (sIdx !== -1) savedPostIds.splice(sIdx, 1);
+                saveStorage();
+                renderFeed(posts, "posts-stream");
+                renderExploreGrid();
+                showToast("Post Deleted.");
+            }
+        }
+
+        function sharePost(id) {
+            showToast("Link Copied to Clipboard! 📋");
+        }
+
+        function showToast(msg) {
+            var t = document.getElementById("toast");
+            t.innerText = msg;
+            t.classList.add("show");
+            setTimeout(function() { t.classList.remove("show"); }, 2000);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
