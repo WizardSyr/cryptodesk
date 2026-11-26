@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=700, height=480, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Trojan / Binance PnL Card</title>
     <style>
         :root {
@@ -23,40 +23,43 @@
             -webkit-user-select: none;
         }
 
-        body {
-            width: 700px;
-            height: 480px;
+        html, body {
+            width: 100vw;
+            height: 100vh;
             background: transparent;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: #ffffff;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            padding: 8px 10px;
+            padding: 6px 8px;
         }
 
         /* Top Draggable Toolbar */
         .toolbar {
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 10px 8px;
+            padding: 2px 6px 6px;
             cursor: move;
             -webkit-app-region: drag;
+            flex-shrink: 0;
         }
 
         .tool-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             -webkit-app-region: no-drag;
+            flex-wrap: wrap;
         }
 
         .btn-tool {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.12);
             color: #cbd5e1;
-            padding: 5px 10px;
+            padding: 4px 9px;
             border-radius: 8px;
             font-size: 11px;
             font-weight: 700;
@@ -94,6 +97,7 @@
             align-items: center;
             gap: 6px;
             -webkit-app-region: no-drag;
+            flex-shrink: 0;
         }
 
         .btn-win {
@@ -121,17 +125,17 @@
             color: #f6465d;
         }
 
-        /* The Exact Cool PnL Card */
+        /* The Fluid Responsive Cool PnL Card */
         .card-container {
-            width: 680px;
-            height: 420px;
+            flex: 1;
+            width: 100%;
+            height: calc(100% - 38px);
             border-radius: 20px;
             background: #0a0d14;
             position: relative;
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08);
             display: flex;
-            margin: 0 auto;
         }
 
         /* Left Side: Illustration / Custom Image */
@@ -139,7 +143,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 60%;
+            width: 58%;
             height: 100%;
             clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
             overflow: hidden;
@@ -180,7 +184,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 60.5%;
+            width: 58.5%;
             height: 100%;
             clip-path: polygon(99% 0, 100% 0, 80% 100%, 79% 100%);
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(56, 189, 248, 0.8) 40%, rgba(14, 203, 129, 0.6) 100%);
@@ -196,7 +200,7 @@
             right: 0;
             width: 52%;
             height: 100%;
-            padding: 24px 28px 20px 10px;
+            padding: clamp(14px, 3vh, 28px) clamp(16px, 3.5vw, 32px) clamp(12px, 2.5vh, 20px) 10px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -210,13 +214,13 @@
         .brand-header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
         }
 
         .brand-logo-svg {
-            width: 28px;
-            height: 28px;
+            width: clamp(22px, 3.5vw, 30px);
+            height: clamp(22px, 3.5vw, 30px);
             filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.5));
         }
 
@@ -227,7 +231,7 @@
         }
 
         .brand-top-text {
-            font-size: 15px;
+            font-size: clamp(12px, 2vw, 16px);
             font-weight: 900;
             letter-spacing: 0.8px;
             color: #ffffff;
@@ -235,7 +239,7 @@
         }
 
         .brand-sub-text {
-            font-size: 10px;
+            font-size: clamp(8px, 1.2vw, 11px);
             font-weight: 800;
             letter-spacing: 0.5px;
             color: var(--brand-cyan);
@@ -247,11 +251,11 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .pair-label {
-            font-size: 28px;
+            font-size: clamp(20px, 4vw, 32px);
             font-weight: 900;
             color: #ffffff;
             letter-spacing: -0.5px;
@@ -260,7 +264,7 @@
         }
 
         .pnl-percent {
-            font-size: 54px;
+            font-size: clamp(34px, 7.5vw, 64px);
             font-weight: 900;
             color: var(--brand-green);
             line-height: 1;
@@ -275,17 +279,16 @@
         .duration-row {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 14px;
+            gap: 6px;
+            font-size: clamp(11px, 1.8vw, 15px);
             font-weight: 700;
             color: #ffffff;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .arrow-btn {
             color: var(--text-gray);
             cursor: pointer;
-            font-size: 14px;
             padding: 0 4px;
         }
         .arrow-btn:hover { color: #ffffff; }
@@ -293,8 +296,8 @@
         /* Two Columns (Invested / Current Gain) */
         .stats-grid {
             display: flex;
-            gap: 32px;
-            margin-top: 14px;
+            gap: clamp(16px, 4vw, 36px);
+            margin-top: 8px;
         }
 
         .col-stat {
@@ -304,18 +307,18 @@
         }
 
         .stat-col-title {
-            font-size: 13px;
+            font-size: clamp(10px, 1.6vw, 14px);
             font-weight: 700;
             color: var(--text-gray);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
         .title-green { color: var(--brand-green); }
 
         .stat-crypto-val {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 16px;
+            gap: 5px;
+            font-size: clamp(13px, 2.3vw, 20px);
             font-weight: 900;
             font-family: "SF Pro Display", monospace;
             color: #ffffff;
@@ -323,13 +326,13 @@
         }
 
         .coin-icon {
-            width: 16px;
-            height: 13px;
+            width: clamp(12px, 2vw, 18px);
+            height: clamp(10px, 1.6vw, 15px);
             display: inline-block;
         }
 
         .stat-usd-val {
-            font-size: 12px;
+            font-size: clamp(9px, 1.5vw, 13px);
             font-weight: 700;
             color: var(--text-gray);
             margin-top: 2px;
@@ -342,8 +345,8 @@
         .footer-row {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-top: 12px;
+            gap: 12px;
+            margin-top: 8px;
         }
 
         .referral-box {
@@ -353,14 +356,14 @@
         }
 
         .ref-hint {
-            font-size: 11px;
+            font-size: clamp(9px, 1.4vw, 12px);
             font-weight: 600;
             color: var(--text-gray);
             outline: none;
         }
 
         .ref-code {
-            font-size: 14px;
+            font-size: clamp(11px, 1.8vw, 15px);
             font-weight: 900;
             color: #ffffff;
             letter-spacing: 0.3px;
@@ -368,8 +371,8 @@
         }
 
         .qr-box {
-            width: 44px;
-            height: 44px;
+            width: clamp(34px, 5.5vw, 48px);
+            height: clamp(34px, 5.5vw, 48px);
             background: #ffffff;
             border-radius: 6px;
             padding: 3px;
@@ -384,28 +387,111 @@
             height: 100%;
         }
 
-        /* Preset Picker Drawer */
-        .presets-bar {
+        /* Settings Modal Overlay */
+        .modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 13, 20, 0.96);
+            border-radius: 20px;
+            padding: 20px 24px;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .modal-overlay.active {
             display: flex;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 6px;
-            margin-top: 4px;
-            padding: 0 4px;
         }
-        .preset-pill {
-            font-size: 10px;
+
+        .modal-title {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--brand-yellow);
+        }
+
+        .safety-box {
+            background: rgba(14, 203, 129, 0.08);
+            border: 1px solid rgba(14, 203, 129, 0.25);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 11px;
+            color: #a7f3d0;
+            line-height: 1.4;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin: 4px 0;
+        }
+
+        .field-label {
+            font-size: 11px;
             font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-gray);
-            cursor: pointer;
         }
-        .preset-pill:hover, .preset-pill.active {
+
+        .field-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 8px 12px;
             color: #ffffff;
-            border-color: var(--brand-cyan);
-            background: rgba(56, 189, 248, 0.15);
+            font-size: 12px;
+            font-family: monospace;
+            outline: none;
+        }
+        .field-input:focus { border-color: var(--brand-yellow); }
+
+        .modal-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .m-btn {
+            flex: 1;
+            padding: 9px 0;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .m-btn-save { background: var(--brand-yellow); color: #121214; }
+        .m-btn-cancel { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
+        .m-btn-clear { background: rgba(246, 70, 93, 0.15); color: #f6465d; border: 1px solid rgba(246, 70, 93, 0.3); }
+
+        .save-indicator {
+            font-size: 11px;
+            color: var(--brand-green);
+            font-weight: 700;
+            text-align: center;
+            display: none;
+        }
+
+        /* Resize Grip */
+        .resize-grip {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 14px;
+            height: 14px;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 20;
         }
     </style>
 </head>
@@ -426,6 +512,10 @@
                 <span>🔄 Live Binance Sync</span>
             </button>
 
+            <button type="button" class="btn-tool" id="btn-open-settings" title="Binance API Key Settings">
+                <span>⚙ Settings</span>
+            </button>
+
             <button type="button" class="btn-tool btn-save-png" id="btn-export-png">
                 <span>📸 Save as PNG</span>
             </button>
@@ -438,7 +528,7 @@
         </div>
     </div>
 
-    <!-- The Exact Cool PnL Card -->
+    <!-- The Resizable Cool PnL Card -->
     <div class="card-container" id="pnl-card-element">
         <!-- Left Illustration Box -->
         <div class="art-box" id="art-box-trigger" title="Click or Drag & Drop any image here!">
@@ -452,7 +542,7 @@
         <!-- Right Side Stats -->
         <div class="stats-box">
             <!-- Brand -->
-            <div class="brand-header" id="brand-header-click">
+            <div class="brand-header" id="brand-header-click" title="Click to switch brand">
                 <div class="brand-title-group">
                     <span class="brand-top-text" id="brand-title-top">TROJAN</span>
                     <span class="brand-sub-text" id="brand-title-sub">ON SOLANA</span>
@@ -486,8 +576,7 @@
                     <div class="stat-crypto-val">
                         <span id="invested-crypto" contenteditable="true" spellcheck="false">1.299</span>
                         <span class="coin-icon" id="coin-icon-invested">
-                            <!-- Solana Logo -->
-                            <svg viewBox="0 0 397 311" fill="none" style="width: 16px; height: 13px;">
+                            <svg viewBox="0 0 397 311" fill="none" style="width: 100%; height: 100%;">
                                 <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h313.7c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7z" fill="url(#sol_g1)"/>
                                 <path d="M64.6 3.8C67 1.4 70.3 0 73.8 0h313.7c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8z" fill="url(#sol_g2)"/>
                                 <path d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H10.2c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h313.7c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" fill="url(#sol_g3)"/>
@@ -507,8 +596,7 @@
                     <div class="stat-crypto-val">
                         <span id="gain-crypto" contenteditable="true" spellcheck="false" style="color: var(--brand-green);">6.381</span>
                         <span class="coin-icon" id="coin-icon-gain">
-                            <!-- Solana Logo -->
-                            <svg viewBox="0 0 397 311" fill="none" style="width: 16px; height: 13px;">
+                            <svg viewBox="0 0 397 311" fill="none" style="width: 100%; height: 100%;">
                                 <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h313.7c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7z" fill="url(#sol_g1)"/>
                                 <path d="M64.6 3.8C67 1.4 70.3 0 73.8 0h313.7c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8z" fill="url(#sol_g2)"/>
                                 <path d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H10.2c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h313.7c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" fill="url(#sol_g3)"/>
@@ -532,16 +620,46 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Presets bar -->
-    <div class="presets-bar">
-        <span style="font-size: 10px; color: var(--text-gray);">Quick Presets:</span>
-        <button class="preset-pill active" onclick="loadPreset('money_heist_art.jpg')">🎭 Money Heist</button>
-        <button class="preset-pill" onclick="loadMemePreset('pepe')">🐸 Pepe</button>
-        <button class="preset-pill" onclick="loadMemePreset('gigachad')">🗿 Gigachad</button>
-        <button class="preset-pill" onclick="loadMemePreset('doge')">🐶 Doge</button>
-        <button class="preset-pill" onclick="loadMemePreset('bull')">🐂 Cyber Bull</button>
+        <!-- Subtle Resize Grip in bottom right -->
+        <svg class="resize-grip" viewBox="0 0 10 10" fill="#ffffff">
+            <circle cx="8" cy="8" r="1"/>
+            <circle cx="5" cy="8" r="1"/>
+            <circle cx="8" cy="5" r="1"/>
+            <circle cx="2" cy="8" r="1"/>
+            <circle cx="5" cy="5" r="1"/>
+            <circle cx="8" cy="2" r="1"/>
+        </svg>
+
+        <!-- Settings Modal (Overlay) -->
+        <div class="modal-overlay" id="modal-settings">
+            <div class="modal-header">
+                <span class="modal-title">BINANCE READ-ONLY API SETUP</span>
+                <span style="cursor: pointer; color: var(--text-gray); font-size: 18px;" id="btn-close-modal">✕</span>
+            </div>
+
+            <div class="safety-box">
+                🛡️ <b>100% Safe Read-Only Guarantee:</b> In Binance API Management, check <b>ONLY "Enable Reading"</b>. Never enable trading or withdrawals. Keys are stored permanently on your PC and signed locally with zero external servers.
+            </div>
+
+            <div class="field-group">
+                <span class="field-label">BINANCE API KEY</span>
+                <input type="password" class="field-input" id="input-api-key" placeholder="Paste Binance API Key">
+            </div>
+
+            <div class="field-group">
+                <span class="field-label">BINANCE SECRET KEY</span>
+                <input type="password" class="field-input" id="input-secret-key" placeholder="Paste Binance Secret Key">
+            </div>
+
+            <div class="save-indicator" id="save-msg">✓ Saved permanently to PC (binance_config.json)!</div>
+
+            <div class="modal-buttons">
+                <button type="button" class="m-btn m-btn-clear" id="btn-clear-keys">Clear Keys</button>
+                <button type="button" class="m-btn m-btn-cancel" id="btn-cancel-modal">Cancel</button>
+                <button type="button" class="m-btn m-btn-save" id="btn-save-keys">Save Permanently</button>
+            </div>
+        </div>
     </div>
 
     <!-- Hidden canvas for PNG export -->
@@ -550,6 +668,8 @@
     <script src="crypto-js.min.js"></script>
     <script>
         // State
+        var apiKey = '';
+        var secretKey = '';
         var isPinned = true;
         var currentBrand = 'trojan'; // 'trojan' or 'binance'
         var artImg = document.getElementById('card-art-img');
@@ -557,11 +677,38 @@
         var livePositions = [];
         var currentPosIdx = 0;
 
-        // Restore saved custom image if present
-        var savedImg = localStorage.getItem('pnl_custom_image');
-        if (savedImg) {
-            artImg.src = savedImg;
+        // Modal Elements
+        var modal = document.getElementById('modal-settings');
+        var inputKey = document.getElementById('input-api-key');
+        var inputSecret = document.getElementById('input-secret-key');
+        var saveMsg = document.getElementById('save-msg');
+
+        // Load Keys Permanently from Python Disk Storage or localStorage
+        function loadSavedKeys() {
+            // First check pywebview disk storage bridge
+            if (window.pywebview && window.pywebview.api && window.pywebview.api.load_keys) {
+                window.pywebview.api.load_keys().then(function(cfg) {
+                    if (cfg && cfg.api_key) {
+                        apiKey = cfg.api_key;
+                        secretKey = cfg.secret_key || '';
+                        localStorage.setItem('binance_user_apikey', apiKey);
+                        localStorage.setItem('binance_user_secret', secretKey);
+                    }
+                    if (cfg && cfg.custom_image) {
+                        artImg.src = cfg.custom_image;
+                    }
+                }).catch(function() {});
+            } else {
+                // Fallback to localStorage
+                apiKey = localStorage.getItem('binance_user_apikey') || '';
+                secretKey = localStorage.getItem('binance_user_secret') || '';
+                var savedImg = localStorage.getItem('pnl_custom_image');
+                if (savedImg) artImg.src = savedImg;
+            }
         }
+
+        window.addEventListener('pywebviewready', loadSavedKeys);
+        setTimeout(loadSavedKeys, 300);
 
         // Window controls via pywebview
         document.getElementById('btn-close').addEventListener('click', function() {
@@ -577,6 +724,56 @@
             isPinned = !isPinned;
             this.classList.toggle('active-pin', isPinned);
             if (window.pywebview && window.pywebview.api) window.pywebview.api.toggle_pin(isPinned);
+        });
+
+        // Settings Modal
+        document.getElementById('btn-open-settings').addEventListener('click', function() {
+            inputKey.value = apiKey;
+            inputSecret.value = secretKey;
+            saveMsg.style.display = 'none';
+            modal.classList.add('active');
+        });
+
+        document.getElementById('btn-close-modal').addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+
+        document.getElementById('btn-cancel-modal').addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+
+        document.getElementById('btn-save-keys').addEventListener('click', function() {
+            apiKey = inputKey.value.trim();
+            secretKey = inputSecret.value.trim();
+
+            // Save to localStorage
+            localStorage.setItem('binance_user_apikey', apiKey);
+            localStorage.setItem('binance_user_secret', secretKey);
+
+            // Save permanently to disk via Python
+            if (window.pywebview && window.pywebview.api && window.pywebview.api.save_keys) {
+                window.pywebview.api.save_keys(apiKey, secretKey, artImg.src);
+            }
+
+            saveMsg.style.display = 'block';
+            setTimeout(function() {
+                modal.classList.remove('active');
+            }, 800);
+        });
+
+        document.getElementById('btn-clear-keys').addEventListener('click', function() {
+            if (confirm('Clear saved Binance keys from this PC?')) {
+                apiKey = '';
+                secretKey = '';
+                localStorage.removeItem('binance_user_apikey');
+                localStorage.removeItem('binance_user_secret');
+                inputKey.value = '';
+                inputSecret.value = '';
+                if (window.pywebview && window.pywebview.api && window.pywebview.api.save_keys) {
+                    window.pywebview.api.save_keys('', '', '');
+                }
+                modal.classList.remove('active');
+            }
         });
 
         // Image upload handling
@@ -616,29 +813,11 @@
                 try {
                     localStorage.setItem('pnl_custom_image', evt.target.result);
                 } catch(e) {}
+                if (window.pywebview && window.pywebview.api && window.pywebview.api.save_keys) {
+                    window.pywebview.api.save_keys(apiKey, secretKey, evt.target.result);
+                }
             };
             reader.readAsDataURL(file);
-        }
-
-        function loadPreset(src) {
-            artImg.src = src;
-            localStorage.removeItem('pnl_custom_image');
-        }
-
-        function loadMemePreset(name) {
-            // High quality meme presets
-            var urls = {
-                'pepe': 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80',
-                'gigachad': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80',
-                'doge': 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=800&q=80',
-                'bull': 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80'
-            };
-            if (urls[name]) {
-                artImg.src = urls[name];
-                try {
-                    localStorage.setItem('pnl_custom_image', urls[name]);
-                } catch(e) {}
-            }
         }
 
         // Brand Switcher (Trojan ⇄ Binance Pro)
@@ -668,10 +847,8 @@
 
         // Live Binance Sync
         document.getElementById('btn-sync-binance').addEventListener('click', function() {
-            var apiKey = localStorage.getItem('binance_user_apikey') || '';
-            var secretKey = localStorage.getItem('binance_user_secret') || '';
             if (!apiKey || !secretKey) {
-                alert('No Binance API key found! Please enter your Read-Only API key first.');
+                modal.classList.add('active');
                 return;
             }
 
@@ -691,13 +868,13 @@
                             currentPosIdx = 0;
                             displayPosition(livePositions[0]);
                         } else {
-                            alert('No active open positions currently found on Binance!');
+                            alert('Connected to Binance! No open positions are currently active.');
                         }
                     } catch(e) {
                         alert('Error parsing Binance data.');
                     }
                 } else {
-                    alert('Binance request failed (Code: ' + xhr.status + ')');
+                    alert('Binance connection failed (Code: ' + xhr.status + '). Tap Settings to check your keys.');
                 }
             };
             xhr.send();
@@ -767,7 +944,7 @@
             ctx.save();
             ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.lineTo(W * 0.60, 0);
+            ctx.lineTo(W * 0.58, 0);
             ctx.lineTo(W * 0.48, H);
             ctx.lineTo(0, H);
             ctx.closePath();
@@ -776,7 +953,7 @@
             // Cover fit image
             var imgW = artImg.naturalWidth || artImg.width || 600;
             var imgH = artImg.naturalHeight || artImg.height || 640;
-            var scale = Math.max((W * 0.60) / imgW, H / imgH);
+            var scale = Math.max((W * 0.58) / imgW, H / imgH);
             var sw = imgW * scale;
             var sh = imgH * scale;
             ctx.drawImage(artImg, 0, (H - sh) / 2, sw, sh);
@@ -785,7 +962,7 @@
             // Draw illuminated diagonal slash border
             ctx.save();
             ctx.beginPath();
-            ctx.moveTo(W * 0.60, 0);
+            ctx.moveTo(W * 0.58, 0);
             ctx.lineTo(W * 0.48, H);
             ctx.strokeStyle = '#38bdf8';
             ctx.lineWidth = 4;
@@ -817,7 +994,7 @@
             ctx.shadowColor = pnlText.indexOf('-') !== -1 ? 'rgba(246, 70, 93, 0.6)' : 'rgba(14, 203, 129, 0.7)';
             ctx.shadowBlur = 25;
             ctx.fillText(pnlText, W - 60, 310);
-            ctx.shadowBlur = 0; // reset
+            ctx.shadowBlur = 0;
 
             // Duration
             ctx.fillStyle = '#cbd5e1';
