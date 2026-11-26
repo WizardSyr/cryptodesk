@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>iPadOS & CryptoDesk Widgets Hub</title>
+    <title>iPadOS & CryptoDesk Hub</title>
     <style>
         * {
             box-sizing: border-box;
@@ -44,7 +44,7 @@
             flex-direction: column;
             gap: 12px;
             width: 100%;
-            max-width: 440px;
+            max-width: 480px;
             margin-bottom: 30px;
         }
         .btn-download {
@@ -55,7 +55,7 @@
             padding: 14px 20px;
             border-radius: 16px;
             text-decoration: none;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             text-align: center;
             transition: transform 0.1s ease;
@@ -67,6 +67,21 @@
             background: linear-gradient(135deg, #007aff, #0056b3);
             color: #ffffff;
             box-shadow: 0 8px 24px rgba(0, 122, 255, 0.35);
+        }
+        .btn-theme {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: #ffffff;
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
+        }
+        .btn-tiktok {
+            background: linear-gradient(135deg, #fe2c55, #25f4ee);
+            color: #ffffff;
+            box-shadow: 0 8px 24px rgba(254, 44, 85, 0.35);
+        }
+        .btn-iblank {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #ffffff;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
         }
         .btn-zip {
             background: rgba(255, 255, 255, 0.1);
@@ -92,8 +107,8 @@
         }
         .widget-icon {
             font-size: 28px;
-            width: 46px;
-            height: 46px;
+            width: 48px;
+            height: 48px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             display: flex;
@@ -109,6 +124,10 @@
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
         }
         .widget-badge {
             display: inline-block;
@@ -118,7 +137,10 @@
             border-radius: 6px;
             background: rgba(56, 189, 248, 0.2);
             color: #38bdf8;
-            margin-left: 6px;
+        }
+        .badge-safe {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
         }
         .widget-desc {
             font-size: 12px;
@@ -132,6 +154,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 18px;
             padding: 20px;
+            margin-bottom: 20px;
         }
         .guide-title {
             font-size: 16px;
@@ -160,42 +183,73 @@
             font-size: 12px;
             flex-shrink: 0;
         }
+        .security-badge {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #a7f3d0;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>iPadOS & CryptoDesk Widgets</h1>
-        <p>Standalone, customizable widgets designed for iOS 9.3.5 & modern Xen HTML / iWidgets</p>
+        <h1>iPadOS 16 & CryptoDesk Hub</h1>
+        <p>Custom-built widgets, modern themes, and apps tailored for iOS 9.3.5</p>
     </div>
 
     <div class="action-box">
         <a href="iPadOS_Cards.deb" class="btn-download btn-deb">
-            <span>📥 Download iPadOS_Cards.deb</span>
+            <span>📥 Download iPadOS_Cards.deb (Updated with Binance Trades)</span>
         </a>
-        <a href="TikTakPlus.deb" class="btn-download" style="background: linear-gradient(135deg, #fe2c55, #25f4ee); color: #ffffff; box-shadow: 0 8px 24px rgba(254, 44, 85, 0.35);">
-            <span>🎵 Download TikTak+ (TikTok for iOS 9)</span>
+        <a href="iPadOS_Icons_Theme.deb" class="btn-download btn-theme">
+            <span>🎨 Download iPadOS_Icons_Theme.deb (250+ Modern Icons)</span>
         </a>
-        <a href="iBlank.deb" class="btn-download" style="background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);">
-            <span>👻 Download iBlank.deb (100% Invisible Icons - No Black Squares)</span>
+        <a href="TikTakPlus_0.5.7.deb" class="btn-download btn-tiktok">
+            <span>🎵 Download TikTak+ v0.5.7 (TikTok with Video Fix)</span>
+        </a>
+        <a href="iBlank.deb" class="btn-download btn-iblank">
+            <span>👻 Download iBlank.deb (Invisible Icons)</span>
         </a>
         <a href="iPadOS_Cards.zip" class="btn-download btn-zip">
-            <span>📦 Download iPadOS_Cards.zip</span>
+            <span>📦 Download iPadOS_Cards.zip (Manual Filza Extract)</span>
         </a>
     </div>
 
     <div class="cards-list">
         <div class="widget-item">
-            <div class="widget-icon">🕒</div>
+            <div class="widget-icon">⚡</div>
             <div class="widget-details">
-                <div class="widget-title">iPadOS Clock <span class="widget-badge">Small (140x140)</span></div>
-                <div class="widget-desc">Sky-blue iOS 16 card with analog dial, numbers 1-12, and live ticking orange second hand. Matches the top-left screenshot clock.</div>
+                <div class="widget-title">
+                    Binance Trades & PnL Card 
+                    <span class="widget-badge">Large (280x280)</span>
+                    <span class="widget-badge badge-safe">100% Safe Read-Only</span>
+                </div>
+                <div class="widget-desc">Live Futures positions (Long/Short, Leverage, Entry/Mark, Liquidation Price, PnL & PnL%), Spot open orders, USDT Wallet balance, and server time-sync. Runs client-side HMAC SHA256 locally on iPad.</div>
+            </div>
+        </div>
+
+        <div class="widget-item">
+            <div class="widget-icon">🎨</div>
+            <div class="widget-details">
+                <div class="widget-title">
+                    iPadOS 16 Icons Theme
+                    <span class="widget-badge">Theme</span>
+                </div>
+                <div class="widget-desc">250+ rounded square high-resolution iPadOS 16 icons for stock apps (App Store, Safari, Settings, Camera, Music) and popular apps (Spotify, Discord, Twitter, TikTak+, Chrome, VNC). Compatible with Anemone & WinterBoard.</div>
             </div>
         </div>
 
         <div class="widget-item">
             <div class="widget-icon">📈</div>
             <div class="widget-details">
-                <div class="widget-title">CryptoDesk Large Card <span class="widget-badge">Large (280x280)</span></div>
+                <div class="widget-title">
+                    CryptoDesk Large Card 
+                    <span class="widget-badge">Large (280x280)</span>
+                </div>
                 <div class="widget-desc">Large 2x2 square card matching red checkmark size. Live Binance ticker (BTC, ETH, SOL, DOGE, XRP, BNB), 24h stats, glowing wave chart, and coin switcher modal (tap ⚙).</div>
             </div>
         </div>
@@ -203,49 +257,73 @@
         <div class="widget-item">
             <div class="widget-icon">⛅</div>
             <div class="widget-details">
-                <div class="widget-title">iPadOS Weather Large Card <span class="widget-badge">Large (280x280)</span></div>
-                <div class="widget-desc">Large 2x2 square card matching red checkmark UI. Cupertino / custom city, hero temp 61°, 6-hour forecast strip, 4-day forecast with temperature bars, and city lookup modal (tap ⚙).</div>
+                <div class="widget-title">
+                    iPadOS Weather Large Card 
+                    <span class="widget-badge">Large (280x280)</span>
+                </div>
+                <div class="widget-desc">Large 2x2 square weather card. Hero temperature, 6-hour forecast strip, 4-day forecast with temperature gradient bars, and city lookup modal (tap ⚙).</div>
+            </div>
+        </div>
+
+        <div class="widget-item">
+            <div class="widget-icon">🕒</div>
+            <div class="widget-details">
+                <div class="widget-title">
+                    iPadOS Clock 
+                    <span class="widget-badge">Small (140x140)</span>
+                </div>
+                <div class="widget-desc">Sky-blue iOS 16 card with analog dial, numbers 1-12, and live ticking orange second hand.</div>
             </div>
         </div>
 
         <div class="widget-item">
             <div class="widget-icon">🔋</div>
             <div class="widget-details">
-                <div class="widget-title">iPadOS Battery Card <span class="widget-badge">Medium (280x145)</span></div>
+                <div class="widget-title">
+                    iPadOS Battery Card 
+                    <span class="widget-badge">Medium (280x145)</span>
+                </div>
                 <div class="widget-desc">Glass card with 4 Apple-style battery rings (iPad, Apple Pencil, AirPods, Watch).</div>
-            </div>
-        </div>
-
-        <div class="widget-item">
-            <div class="widget-icon">🌤️</div>
-            <div class="widget-details">
-                <div class="widget-title">iPadOS Weather Card <span class="widget-badge">Medium (280x145)</span></div>
-                <div class="widget-desc">Medium horizontal weather card with live Open-Meteo current condition, hourly strip, and settings modal.</div>
-            </div>
-        </div>
-
-        <div class="widget-item">
-            <div class="widget-icon">💎</div>
-            <div class="widget-details">
-                <div class="widget-title">CryptoDesk Card <span class="widget-badge">Medium (280x145)</span></div>
-                <div class="widget-desc">Medium horizontal crypto card with live Binance ticker, fear & greed index, and mini chart.</div>
             </div>
         </div>
     </div>
 
     <div class="guide-box">
-        <div class="guide-title">How to Install in 1 Minute</div>
+        <div class="guide-title">🛡️ How to Setup Binance Trades Card Safely</div>
         <div class="guide-step">
             <div class="step-num">1</div>
-            <div>Tap <b>Download iPadOS_Cards.deb</b> in Safari on your iPad. When prompted, choose <b>Open in Filza</b>.</div>
+            <div>On your phone or computer, log into Binance and go to <b>Profile > API Management</b>.</div>
         </div>
         <div class="guide-step">
             <div class="step-num">2</div>
-            <div>In Filza, tap <b>iPadOS_Cards.deb</b>, then tap <b>Install</b> in the top-right corner. It will extract cleanly to <code>/var/mobile/Library/Widgets/Homescreen/</code>.</div>
+            <div>Create a new API Key (label it <code>iPad Desk</code>).</div>
         </div>
         <div class="guide-step">
             <div class="step-num">3</div>
-            <div>Go to <b>Settings > Xen HTML > Homescreen > Add Widget</b>. Choose <b>iPadOS Clock</b>, <b>CryptoDesk Large Card</b>, or <b>iPadOS Weather Large Card</b> and position them wherever you want!</div>
+            <div>Check <b>ONLY "Enable Reading"</b>. Keep <b>Spot & Margin Trading</b>, <b>Futures Trading</b>, and <b>Withdrawals</b> completely UNCHECKED!</div>
+        </div>
+        <div class="guide-step">
+            <div class="step-num">4</div>
+            <div>On the iPad widget, tap the <b>⚙</b> icon in the top-right corner. Paste your API Key and Secret Key, then tap <b>Save & Connect</b>.</div>
+        </div>
+        <div class="security-badge">
+            🔒 <b>Zero Risk Guarantee:</b> Because "Enable Reading" is the only active permission on Binance, the API key is mathematically incapable of placing trades, closing positions, or withdrawing funds. All signing occurs locally inside your iPad's WebKit.
+        </div>
+    </div>
+
+    <div class="guide-box">
+        <div class="guide-title">How to Install in 1 Minute via Filza</div>
+        <div class="guide-step">
+            <div class="step-num">1</div>
+            <div>Tap <b>Download iPadOS_Cards.deb</b> (or <b>iPadOS_Icons_Theme.deb</b>) above. When prompted, tap <b>Open in Filza</b>.</div>
+        </div>
+        <div class="guide-step">
+            <div class="step-num">2</div>
+            <div>In Filza, tap the downloaded <code>.deb</code> file, then tap <b>Install</b> in the top right.</div>
+        </div>
+        <div class="guide-step">
+            <div class="step-num">3</div>
+            <div>For Widgets: Open <b>Settings > Xen HTML > Homescreen > Add Widget</b> and select <b>Binance Trades Card</b>.<br>For Icons: Open <b>Anemone</b> (or <b>WinterBoard</b>), check <b>iPadOS 16 Icons</b>, and tap <b>Apply / Respring</b>.</div>
         </div>
     </div>
 </body>
