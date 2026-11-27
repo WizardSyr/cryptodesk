@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CryptoDesk Large Card</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="crypto-js.min.js"></script>
+</head>
+<body>
+    <div class="crypto-large-card">
+        
+        <!-- Top Navigation Bar: Tabs & Gear -->
+        <div class="top-nav-row">
+            <div class="tab-pill-box">
+                <button class="nav-tab active" id="tab-btn-trades">
+                    <span>⚡ Trades</span>
+                    <span class="count-bubble" id="trades-count">1</span>
+                </button>
+                <button class="nav-tab" id="tab-btn-market">
+                    <span>📈 Market</span>
+                </button>
+            </div>
+            <div class="right-actions">
+                <span id="sync-dot" class="sync-dot live" title="Live Sync"></span>
+                <span class="btn-gear" id="btn-open-settings" title="Settings">⚙</span>
+            </div>
+        </div>
+
+        <!-- ================= 1. OPEN TRADES VIEW (DEFAULT) ================= -->
+        <div id="view-trades" class="view-panel active">
+            <!-- Header strip -->
+            <div class="trades-subhead">
+                <span>BINANCE FUTURES POSITIONS</span>
+                <span class="tap-hint">TAP FOR PNL CARD</span>
+            </div>
+
+            <!-- List of Open Positions -->
+            <div id="trades-container" class="trades-scroll-list">
+                <!-- Dynamically injected trade rows or demo trade -->
+            </div>
+
+            <!-- Total Unrealized PnL Footer -->
+            <div class="pnl-summary-bar">
+                <span class="pnl-sum-label">TOTAL PNL:</span>
+                <div class="pnl-sum-val-wrap">
+                    <span id="sum-pnl-val" class="pnl-sum-green">+$1.29 USDT</span>
+                    <span id="sum-roi-val" class="pnl-sum-roi">(+19.48%)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 2. MARKET CHART VIEW ================= -->
+        <div id="view-market" class="view-panel">
+            <div class="market-hero">
+                <div>
+                    <div class="coin-badge" id="btn-coin-header">
+                        <span class="coin-icon" id="coin-icon">₿</span>
+                        <span class="coin-title" id="coin-title">BTC / USDT</span>
+                    </div>
+                    <div class="price-text" id="coin-price">$91,091.39</div>
+                </div>
+                <div class="change-pill" id="coin-change">+4.46%</div>
+            </div>
+
+            <div class="stats-strip">
+                <div class="stat-item">
+                    <span class="stat-label">24h High</span>
+                    <span class="stat-val" id="stat-high">$92,400</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">24h Low</span>
+                    <span class="stat-val" id="stat-low">$88,150</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Volume</span>
+                    <span class="stat-val" id="stat-vol">38.4K</span>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <canvas id="crypto-large-chart" width="248" height="90"></canvas>
+            </div>
+        </div>
+
+        <!-- ================= 3. PNL CARD MODAL (MATCHING IMAGE 1) ================= -->
+        <div id="modal-pnl" class="pnl-card-modal">
+            <!-- Large Faint Binance Watermark -->
+            <svg class="pnl-watermark-svg" viewBox="0 0 100 100">
+                <path d="M50 0 L66 16 L50 32 L34 16 Z M18 32 L34 48 L18 64 L2 48 Z M82 32 L98 48 L82 64 L66 48 Z M50 68 L66 84 L50 100 L34 84 Z M50 38 L62 50 L50 62 L38 50 Z" />
+            </svg>
+
+            <!-- Top Row: Avatar with Purple Glowing Eyes, Username, Date, Close Button -->
+            <div class="pnl-top-row">
+                <div class="user-block">
+                    <!-- Avatar with purple eyes -->
+                    <div class="avatar-ring">
+                        <svg viewBox="0 0 36 36" class="avatar-svg">
+                            <circle cx="18" cy="18" r="17" fill="#120c1a" />
+                            <path d="M 7 18 C 7 11, 29 11, 29 18 C 29 25, 7 25, 7 18 Z" fill="#241433" />
+                            <!-- Purple Glowing Eyes -->
+                            <ellipse cx="13" cy="18" rx="2.8" ry="1.4" fill="#c084fc" />
+                            <ellipse cx="23" cy="18" rx="2.8" ry="1.4" fill="#c084fc" />
+                            <circle cx="13" cy="18" r="0.9" fill="#fff" />
+                            <circle cx="23" cy="18" r="0.9" fill="#fff" />
+                        </svg>
+                    </div>
+                    <div class="user-meta">
+                        <div class="username-text" id="pnl-user">IceWizard101</div>
+                        <div class="date-text" id="pnl-date">2026-11-27 17:30</div>
+                    </div>
+                </div>
+                <button class="btn-close-pnl" id="btn-close-pnl" title="Back to trades">✕</button>
+            </div>
+
+            <!-- Middle Row: Symbol, Side Badge, Giant Glowing PnL -->
+            <div class="pnl-mid-body">
+                <div class="pnl-pair-title" id="pnl-pair">LINKUSDT Perpetual</div>
+                <div class="pnl-side-row">
+                    <span class="pnl-side-tag side-short" id="pnl-side">Short</span>
+                    <span class="side-bar">|</span>
+                    <span class="pnl-lev-tag" id="pnl-lev">15x</span>
+                </div>
+
+                <div class="pnl-giant-val" id="pnl-amount">
+                    0.97 <span class="pnl-unit">USDT</span>
+                </div>
+                <div class="pnl-giant-pct" id="pnl-pct">+14.71%</div>
+
+                <!-- Entry & Exit Price Grid (Matching Image 1) -->
+                <div class="pnl-price-grid">
+                    <div class="price-col">
+                        <span class="price-label">Entry Price</span>
+                        <span class="price-val" id="pnl-entry">9.444</span>
+                    </div>
+                    <div class="price-col">
+                        <span class="price-label" id="pnl-exit-label">Exit Price</span>
+                        <span class="price-val" id="pnl-exit">9.342</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Row: Binance Futures Yellow Logo, Referral, White QR Code -->
+            <div class="pnl-bot-row">
+                <div class="binance-brand-block">
+                    <div class="logo-line">
+                        <svg viewBox="0 0 24 24" class="binance-icon-svg">
+                            <path d="M12 0 L16 4 L12 8 L8 4 Z M4 8 L8 12 L4 16 L0 12 Z M20 8 L24 12 L20 16 L16 12 Z M12 16 L16 20 L12 24 L8 20 Z M12 9.5 L14.5 12 L12 14.5 L9.5 12 Z" />
+                        </svg>
+                        <div class="brand-text">
+                            <span class="brand-binance">BINANCE</span>
+                            <span class="brand-futures">FUTURES</span>
+                        </div>
+                    </div>
+                    <div class="ref-label">Referral code</div>
+                    <div class="ref-code" id="pnl-ref">792542923</div>
+                </div>
+
+                <!-- White QR Code Box -->
+                <div class="qr-box">
+                    <svg viewBox="0 0 33 33" class="qr-svg">
+                        <rect x="0" y="0" width="7" height="7"/>
+                        <rect x="1" y="1" width="5" height="5" fill="white"/>
+                        <rect x="2" y="2" width="3" height="3"/>
+                        <rect x="26" y="0" width="7" height="7"/>
+                        <rect x="27" y="1" width="5" height="5" fill="white"/>
+                        <rect x="28" y="2" width="3" height="3"/>
+                        <rect x="0" y="26" width="7" height="7"/>
+                        <rect x="1" y="27" width="5" height="5" fill="white"/>
+                        <rect x="2" y="28" width="3" height="3"/>
+                        <rect x="10" y="2" width="2" height="2"/>
+                        <rect x="14" y="2" width="3" height="2"/>
+                        <rect x="20" y="2" width="2" height="2"/>
+                        <rect x="9" y="8" width="2" height="2"/>
+                        <rect x="13" y="9" width="3" height="2"/>
+                        <rect x="18" y="8" width="2" height="2"/>
+                        <rect x="22" y="9" width="2" height="2"/>
+                        <rect x="2" y="10" width="2" height="2"/>
+                        <rect x="10" y="14" width="4" height="4"/>
+                        <rect x="16" y="15" width="2" height="2"/>
+                        <rect x="20" y="14" width="3" height="3"/>
+                        <rect x="25" y="14" width="2" height="2"/>
+                        <rect x="9" y="20" width="2" height="3"/>
+                        <rect x="13" y="21" width="2" height="2"/>
+                        <rect x="17" y="20" width="3" height="2"/>
+                        <rect x="22" y="22" width="3" height="2"/>
+                        <rect x="10" y="26" width="3" height="2"/>
+                        <rect x="15" y="26" width="2" height="3"/>
+                        <rect x="20" y="27" width="2" height="2"/>
+                        <rect x="25" y="26" width="3" height="2"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 4. SETTINGS MODAL (API & COIN CONFIG) ================= -->
+        <div id="modal-settings" class="modal-overlay">
+            <div class="modal-title-bar">
+                <span>CONFIG & KEYS</span>
+                <span class="btn-close-modal" id="btn-close-settings">✕</span>
+            </div>
+            
+            <div class="modal-body-scroll">
+                <div class="field-group">
+                    <label>Binance API Key (Read-Only):</label>
+                    <input type="text" id="input-api-key" placeholder="Paste API Key" class="text-input">
+                </div>
+                <div class="field-group">
+                    <label>Binance Secret Key:</label>
+                    <input type="password" id="input-secret-key" placeholder="Paste Secret Key" class="text-input">
+                </div>
+                <div class="field-group">
+                    <label>Username on PnL Card:</label>
+                    <input type="text" id="input-username" value="IceWizard101" class="text-input">
+                </div>
+                <div class="field-group">
+                    <label>Referral Code:</label>
+                    <input type="text" id="input-referral" value="792542923" class="text-input">
+                </div>
+                <div class="field-group">
+                    <label>Market View Coin:</label>
+                    <div class="chip-grid">
+                        <span class="chip" data-coin="BTC">BTC</span>
+                        <span class="chip" data-coin="ETH">ETH</span>
+                        <span class="chip" data-coin="SOL">SOL</span>
+                        <span class="chip" data-coin="LINK">LINK</span>
+                        <span class="chip" data-coin="DOGE">DOGE</span>
+                        <span class="chip" data-coin="XRP">XRP</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-btn-row">
+                <button class="m-btn m-demo" id="btn-demo-keys">Use Demo</button>
+                <button class="m-btn m-save" id="btn-save-keys">Save & Sync</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
