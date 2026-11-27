@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IPTV & M3U Channels Hub</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background-color: #0d1117;
+            color: #f0f6fc;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            padding: 24px 16px 60px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #f43f5e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        .header p {
+            font-size: 14px;
+            color: #8b949e;
+            line-height: 1.4;
+        }
+
+        .guide-box {
+            width: 100%;
+            max-width: 620px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 24px;
+        }
+        .guide-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #f0b90b;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .guide-steps {
+            font-size: 13px;
+            color: #c9d1d9;
+            line-height: 1.6;
+        }
+
+        .playlists-grid {
+            width: 100%;
+            max-width: 620px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+        }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-title-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-icon {
+            font-size: 24px;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .card-badge {
+            font-size: 11px;
+            font-weight: 700;
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            padding: 3px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        .card-desc {
+            font-size: 13px;
+            color: #8b949e;
+            line-height: 1.4;
+        }
+        .url-box {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-family: monospace;
+            font-size: 11px;
+            color: #58a6ff;
+            word-break: break-all;
+            user-select: all;
+            -webkit-user-select: all;
+        }
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .btn {
+            flex: 1;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn-copy {
+            background: #238636;
+            color: #ffffff;
+        }
+        .btn-copy:active {
+            background: #2ea043;
+            transform: scale(0.98);
+        }
+        .btn-download {
+            background: #21262d;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+        }
+        .btn-download:active {
+            background: #30363d;
+        }
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            background: #238636;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>📺 Big M3U IPTV Library</h1>
+        <p>Curated, working live TV playlists ready to import into TVPro or any iOS IPTV player.</p>
+    </div>
+
+    <!-- Instructions -->
+    <div class="guide-box">
+        <div class="guide-title">📲 How to Add to TVPro:</div>
+        <div class="guide-steps">
+            1. Tap <b>📋 Copy URL</b> on any playlist below.<br>
+            2. Open <b>TVPro</b> (or your IPTV app) on your iPad.<br>
+            3. Tap <b>Add Playlist (+) ➔ Remote M3U URL</b>, paste the URL, and tap <b>Add</b>!
+        </div>
+    </div>
+
+    <div class="playlists-grid">
+
+        <!-- 1. Movies & Cinema -->
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title-box">
+                    <span class="card-icon">🎬</span>
+                    <span class="card-title">Movies & Cinema 24/7</span>
+                </div>
+                <span class="card-badge">~1,500 Channels</span>
+            </div>
+            <div class="card-desc">Non-stop movie streams, action, horror, comedy, classic cinema, and drama channels from around the world.</div>
+            <div class="url-box" id="url-movies">https://iptv-org.github.io/iptv/categories/movies.m3u</div>
+            <div class="btn-row">
+                <button class="btn btn-copy" onclick="copyUrl('url-movies')">📋 Copy URL</button>
+                <a class="btn btn-download" href="iptv/movies.m3u" download>⬇ Download M3U</a>
+            </div>
+        </div>
+
+        <!-- 2. Live Sports -->
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title-box">
+                    <span class="card-icon">⚽</span>
+                    <span class="card-title">Sports & Live Matches</span>
+                </div>
+                <span class="card-badge">~1,000 Channels</span>
+            </div>
+            <div class="card-desc">Football, basketball, motorsports, fighting, racing, extreme sports, and international sports networks.</div>
+            <div class="url-box" id="url-sports">https://iptv-org.github.io/iptv/categories/sports.m3u</div>
+            <div class="btn-row">
+                <button class="btn btn-copy" onclick="copyUrl('url-sports')">📋 Copy URL</button>
+                <a class="btn btn-download" href="iptv/sports.m3u" download>⬇ Download M3U</a>
+            </div>
+        </div>
+
+        <!-- 3. Arabic Channels -->
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title-box">
+                    <span class="card-icon">🌙</span>
+                    <span class="card-title">Arabic Channels (قنوات عربية)</span>
+                </div>
+                <span class="card-badge">~500 Channels</span>
+            </div>
+            <div class="card-desc">MBC, Al Arabiya, Al Jazeera, Rotana, Abu Dhabi, Dubai, Syrian, Egyptian & Gulf national and entertainment channels.</div>
+            <div class="url-box" id="url-arabic">https://iptv-org.github.io/iptv/languages/ara.m3u</div>
+            <div class="btn-row">
+                <button class="btn btn-copy" onclick="copyUrl('url-arabic')">📋 Copy URL</button>
+                <a class="btn btn-download" href="iptv/arabic.m3u" download>⬇ Download M3U</a>
+            </div>
+        </div>
+
+        <!-- 4. USA TV -->
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title-box">
+                    <span class="card-icon">🇺🇸</span>
+                    <span class="card-title">USA TV & Entertainment</span>
+                </div>
+                <span class="card-badge">~1,800 Channels</span>
+            </div>
+            <div class="card-desc">American networks, cable-style streams, local affiliates, news, documentaries, and sitcoms.</div>
+            <div class="url-box" id="url-usa">https://iptv-org.github.io/iptv/countries/us.m3u</div>
+            <div class="btn-row">
+                <button class="btn btn-copy" onclick="copyUrl('url-usa')">📋 Copy URL</button>
+                <a class="btn btn-download" href="iptv/usa.m3u" download>⬇ Download M3U</a>
+            </div>
+        </div>
+
+        <!-- 5. Cartoons & Anime -->
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title-box">
+                    <span class="card-icon">🦄</span>
+                    <span class="card-title">Animation, Kids & Anime</span>
+                </div>
+                <span class="card-badge">~400 Channels</span>
+            </div>
+            <div class="card-desc">Cartoons, kids shows, anime 24/7 streams, family entertainment, and animated classics.</div>
+            <div class="url-box" id="url-animation">https://iptv-org.github.io/iptv/categories/animation.m3u</div>
+            <div class="btn-row">
+                <button class="btn btn-copy" onclick="copyUrl('url-animation')">📋 Copy URL</button>
+                <a class="btn btn-download" href="iptv/animation.m3u" download>⬇ Download M3U</a>
+            </div>
+        </div>
+
+        <!-- 6. Music & Concerts -->
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title-box">
+                    <span class="card-icon">🎵</span>
+                    <span class="card-title">Music & MTV Live</span>
+                </div>
+                <span class="card-badge">~1,200 Channels</span>
+            </div>
+            <div class="card-desc">Music videos, live concerts, EDM, pop, hip hop, rock, jazz, and 24/7 radio visual streams.</div>
+            <div class="url-box" id="url-music">https://iptv-org.github.io/iptv/categories/music.m3u</div>
+            <div class="btn-row">
+                <button class="btn btn-copy" onclick="copyUrl('url-music')">📋 Copy URL</button>
+                <a class="btn btn-download" href="iptv/music.m3u" download>⬇ Download M3U</a>
+            </div>
+        </div>
+
+        <!-- 7. Free-TV Curated Worldwide -->
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title-box">
+                    <span class="card-icon">🌍</span>
+                    <span class="card-title">Free-TV Curated with EPG</span>
+                </div>
+                <span class="card-badge">High Stability</span>
+            </div>
+            <div class="card-desc">Curated global television with program logos and electronic program guide (EPG) built in.</div>
+            <div class="url-box" id="url-freetv">https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8</div>
+            <div class="btn-row">
+                <button class="btn btn-copy" onclick="copyUrl('url-freetv')">📋 Copy URL</button>
+                <a class="btn btn-download" href="iptv/free_tv.m3u" download>⬇ Download M3U</a>
+            </div>
+        </div>
+
+        <!-- 8. Master Mega Collection (30,000+ Channels) -->
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title-box">
+                    <span class="card-icon">⚡</span>
+                    <span class="card-title">Ultimate World Index</span>
+                </div>
+                <span class="card-badge">30,000+ Channels</span>
+            </div>
+            <div class="card-desc">Every public channel in the world grouped by category. (⚠️ May take 15 seconds to load on older iPads).</div>
+            <div class="url-box" id="url-master">https://iptv-org.github.io/iptv/index.category.m3u</div>
+            <div class="btn-row">
+                <button class="btn btn-copy" onclick="copyUrl('url-master')">📋 Copy URL</button>
+                <a class="btn btn-download" href="https://iptv-org.github.io/iptv/index.category.m3u" target="_blank">⬇ Direct Link</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="toast" id="toast">Copied to Clipboard!</div>
+
+    <script>
+        function copyUrl(elementId) {
+            var text = document.getElementById(elementId).innerText;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text);
+            } else {
+                var temp = document.createElement('textarea');
+                temp.value = text;
+                document.body.appendChild(temp);
+                temp.select();
+                document.execCommand('copy');
+                document.body.removeChild(temp);
+            }
+            var toast = document.getElementById('toast');
+            toast.className = 'toast show';
+            setTimeout(function() {
+                toast.className = 'toast';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
