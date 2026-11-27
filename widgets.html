@@ -1,237 +1,622 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>iPadOS Widgets Showcase & Download</title>
+    <title>iPadOS Modern Widgets</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            background-color: #0b0f19;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 24px 16px 50px 16px;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
 
-        .header {
-            text-align: center;
-            max-width: 680px;
-            margin-bottom: 24px;
-        }
-        .header h1 {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-        .header p {
-            font-size: 14px;
-            color: #94a3b8;
-            line-height: 1.5;
-        }
+html, body {
+    width: 100%;
+    height: 100%;
+    background: url("iPadOS16_Light.jpg") no-repeat center center fixed; background-size: cover;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+}
 
-        /* Action Buttons */
-        .action-box {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin-bottom: 30px;
-            width: 100%;
-            max-width: 600px;
-        }
-        .btn-action {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #1e293b;
-            color: #f8fafc;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 700;
-            border: 1px solid #334155;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-            transition: all 0.2s;
-        }
-        .btn-action:hover, .btn-action:active {
-            background: #2563eb;
-            border-color: #3b82f6;
-            transform: translateY(-2px);
-        }
-        .btn-highlight {
-            background: linear-gradient(135deg, #0284c7, #2563eb);
-            border-color: #38bdf8;
-        }
+/* 3-Column Responsive Grid across the top of iPad */
+.widgets-row {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    height: 250px;
+}
 
-        /* Live iPad Desktop Stage */
-        .desktop-stage-wrap {
-            width: 100%;
-            max-width: 860px;
-            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&auto=format&fit=crop&q=80') center/cover no-repeat;
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 32px;
-            padding: 30px 24px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.7);
-            margin-bottom: 36px;
-            position: relative;
-            overflow: hidden;
-        }
-        .stage-title-pill {
-            display: inline-block;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #38bdf8;
-            margin-bottom: 24px;
-            border: 1px solid rgba(255,255,255,0.15);
-        }
+/* Generic Card Styles */
+.widget-card {
+    border-radius: 22px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+}
 
-        .widgets-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            align-items: center;
-            justify-items: center;
-        }
+/* ================= LEFT COLUMN: 2 Stacked Light Cards ================= */
+.col-left {
+    flex: 1.1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    height: 100%;
+}
 
-        /* Individual Showcase Item Card */
-        .showcase-block {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
+.light-card {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #1c1c1e;
+    padding: 14px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-        /* Guide Section */
-        .guide-box {
-            width: 100%;
-            max-width: 680px;
-            background: #141b2a;
-            border: 1px solid #1e293b;
-            border-radius: 20px;
-            padding: 24px;
-            margin-top: 10px;
-        }
-        .guide-title {
-            font-size: 16px;
-            font-weight: 800;
-            color: #f0b90b;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .step-row {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 14px;
-            font-size: 13px;
-            line-height: 1.5;
-            color: #cbd5e1;
-        }
-        .step-circle {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #2563eb;
-            color: #fff;
-            font-weight: 800;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-    </style>
+/* Battery Widget (4 Rings) */
+.battery-grid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+.battery-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.ring-wrap {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ring-svg {
+    transform: rotate(-90deg);
+    width: 44px;
+    height: 44px;
+}
+.ring-bg {
+    fill: none;
+    stroke: #e5e5ea;
+    stroke-width: 3.5;
+}
+.ring-fill {
+    fill: none;
+    stroke: #34c759;
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+}
+.ring-icon {
+    position: absolute;
+    font-size: 14px;
+    color: #1c1c1e;
+}
+.battery-pct {
+    font-size: 11px;
+    font-weight: 700;
+    color: #3a3a3c;
+}
+
+/* Reminders Widget */
+.reminders-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.rem-icon-badge {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #ff9500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 14px;
+}
+.rem-body {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: 4px;
+}
+.rem-count {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+    color: #1c1c1e;
+}
+.rem-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ff9500;
+    margin-top: 2px;
+}
+.rem-msg {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8e8e93;
+}
+
+/* ================= MIDDLE COLUMN: Stocks Widget ================= */
+.col-middle {
+    flex: 1.25;
+    height: 100%;
+}
+.stocks-card {
+    background: #1c1c1e;
+    border: 1px solid #2c2c2e;
+    color: #ffffff;
+    padding: 14px 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.stocks-top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.stock-symbol-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.stock-ticker {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+.stock-name {
+    font-size: 11px;
+    color: #8e8e93;
+    margin-top: 2px;
+}
+.stock-chg {
+    font-size: 13px;
+    font-weight: 700;
+    color: #34c759;
+}
+.stock-price-hero {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 4px 0 2px 0;
+    letter-spacing: -0.5px;
+}
+.stock-stats-grid {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #8e8e93;
+    font-weight: 600;
+}
+.stock-canvas-wrap {
+    width: 100%;
+    height: 105px;
+    position: relative;
+    margin-top: 4px;
+}
+canvas#stock-chart {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ================= RIGHT COLUMN: Weather Widget ================= */
+.col-right {
+    flex: 1.25;
+    height: 100%;
+}
+.weather-card {
+    background: #1a202c;
+    border: 1px solid #2d3748;
+    color: #ffffff;
+    padding: 14px 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.weather-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.weather-city {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+.weather-temp {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+}
+.weather-condition {
+    text-align: right;
+    font-size: 11px;
+    color: #a0aec0;
+}
+.weather-hi-lo {
+    font-size: 10px;
+    color: #cbd5e0;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* Hourly Strip */
+.weather-hourly {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.hour-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    font-weight: 600;
+}
+.hour-time { color: #a0aec0; }
+.hour-icon { font-size: 12px; }
+.hour-temp { color: #ffffff; font-weight: 700; }
+
+/* 5-Day Forecast Bars */
+.weather-days {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 10px;
+    font-weight: 600;
+}
+.day-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.day-name {
+    width: 28px;
+    color: #cbd5e0;
+}
+.day-icon {
+    font-size: 11px;
+    width: 18px;
+    text-align: center;
+}
+.bar-track {
+    flex: 1;
+    height: 4px;
+    background: #2d3748;
+    border-radius: 2px;
+    margin: 0 8px;
+    position: relative;
+    overflow: hidden;
+}
+.bar-fill {
+    position: absolute;
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #38bdf8, #f59e0b);
+}
+.day-temps {
+    width: 44px;
+    text-align: right;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+</style>
 </head>
 <body>
+    <div class="widgets-row">
+        <!-- LEFT COLUMN: Battery & Reminders -->
+        <div class="col-left">
+            <!-- Battery Widget -->
+            <div class="widget-card light-card">
+                <div class="battery-grid">
+                    <!-- iPad -->
+                    <div class="battery-item">
+                        <div class="ring-wrap">
+                            <svg class="ring-svg" viewBox="0 0 44 44">
+                                <circle class="ring-bg" cx="22" cy="22" r="18"></circle>
+                                <circle class="ring-fill" id="ring-ipad" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="21.5"></circle>
+                            </svg>
+                            <span class="ring-icon">📱</span>
+                        </div>
+                        <span class="battery-pct" id="pct-ipad">81%</span>
+                    </div>
 
-    <div class="header">
-        <h1>iPadOS Custom Widgets Collection</h1>
-        <p>Interactive widgets designed pixel-by-pixel for iPadOS, Xen HTML, and standalone Safari web view.</p>
-    </div>
+                    <!-- AirPods -->
+                    <div class="battery-item">
+                        <div class="ring-wrap">
+                            <svg class="ring-svg" viewBox="0 0 44 44">
+                                <circle class="ring-bg" cx="22" cy="22" r="18"></circle>
+                                <circle class="ring-fill" id="ring-pods" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="0"></circle>
+                            </svg>
+                            <span class="ring-icon">🎧</span>
+                        </div>
+                        <span class="battery-pct">100%</span>
+                    </div>
 
-    <div class="action-box">
-        <a href="iPadOS_Cards.deb" class="btn-action btn-highlight">
-            <span>📦 Download iPadOS_Cards.deb (v3.0)</span>
-        </a>
-        <a href="cards.html" class="btn-action">
-            <span>🎴 View All Cards Hub</span>
-        </a>
-    </div>
+                    <!-- AirPods Case -->
+                    <div class="battery-item">
+                        <div class="ring-wrap">
+                            <svg class="ring-svg" viewBox="0 0 44 44">
+                                <circle class="ring-bg" cx="22" cy="22" r="18"></circle>
+                                <circle class="ring-fill" id="ring-case" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="26"></circle>
+                            </svg>
+                            <span class="ring-icon">🔋</span>
+                        </div>
+                        <span class="battery-pct">77%</span>
+                    </div>
 
-    <!-- Live Interactive Wallpaper Stage -->
-    <div class="desktop-stage-wrap">
-        <div class="stage-title-pill">✨ Live Interactive Widgets (Tap to Test)</div>
-
-        <div class="widgets-grid">
-            <!-- 1. Minimal Clock (No Box, Transparent) -->
-            <div class="showcase-block" style="align-items:flex-start; padding-left:10px;">
-                <iframe src="SeparateWidgets/iPadOS Minimal Clock/index.html" style="width:240px; height:85px; border:none; background:transparent;" scrolling="no"></iframe>
-                <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">1. Minimalist Clock (No Box, Tap to cycle language)</div>
+                    <!-- Apple Pencil -->
+                    <div class="battery-item">
+                        <div class="ring-wrap">
+                            <svg class="ring-svg" viewBox="0 0 44 44">
+                                <circle class="ring-bg" cx="22" cy="22" r="18"></circle>
+                                <circle class="ring-fill" id="ring-pencil" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="0"></circle>
+                            </svg>
+                            <span class="ring-icon">✏️</span>
+                        </div>
+                        <span class="battery-pct">100%</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- 3. Analog Clock (LA Small) -->
-            <div class="showcase-block">
-                <iframe src="SeparateWidgets/iPadOS Analog LA Clock/index.html" style="width:150px; height:150px; border:none; background:transparent;" scrolling="no"></iframe>
-                <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">3. iPadOS Analog Clock (Tap to cycle cities)</div>
+            <!-- Reminders Widget -->
+            <div class="widget-card light-card reminders-card">
+                <div>
+                    <div class="rem-icon-badge">📋</div>
+                </div>
+                <div class="rem-body">
+                    <div>
+                        <div class="rem-count">0</div>
+                        <div class="rem-label">Reminders</div>
+                    </div>
+                    <div class="rem-msg">All Reminders Completed</div>
+                </div>
             </div>
+        </div>
 
-            <!-- 2. Weather Large Card -->
-            <div class="showcase-block">
-                <iframe src="SeparateWidgets/iPadOS Weather Card/index.html" style="width:330px; height:170px; border:none; background:transparent;" scrolling="no"></iframe>
-                <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">2. Weather Large Card (Tap temp for °F/°C, city to change)</div>
+        <!-- MIDDLE COLUMN: Stocks Widget -->
+        <div class="col-middle">
+            <div class="widget-card stocks-card">
+                <div>
+                    <div class="stocks-top-header">
+                        <div>
+                            <div class="stock-symbol-row">
+                                <span style="font-size:12px;opacity:0.8;"></span>
+                                <span class="stock-ticker">AAPL</span>
+                            </div>
+                            <div class="stock-name">Apple Inc.</div>
+                        </div>
+                        <div class="stock-chg">+0.41%</div>
+                    </div>
+                    <div class="stock-price-hero">199.20</div>
+                    <div class="stock-stats-grid">
+                        <span>Open 198.50</span>
+                        <span>High 200.10</span>
+                        <span>Low 197.80</span>
+                        <span>Cap 3.05T</span>
+                    </div>
+                </div>
+                <div class="stock-canvas-wrap">
+                    <canvas id="stock-chart" width="280" height="105"></canvas>
+                </div>
             </div>
+        </div>
 
-            <!-- 4. Spotify / Music Player -->
-            <div class="showcase-block">
-                <iframe src="SeparateWidgets/iPadOS Spotify Player/index.html" style="width:330px; height:155px; border:none; background:transparent;" scrolling="no"></iframe>
-                <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">4. Spotify / Music Player (Tap 4 albums to switch songs)</div>
+        <!-- RIGHT COLUMN: Weather Widget -->
+        <div class="col-right">
+            <div class="widget-card weather-card">
+                <div class="weather-top">
+                    <div>
+                        <div class="weather-city">UC San Diego</div>
+                        <div class="weather-temp">61°</div>
+                    </div>
+                    <div class="weather-condition">
+                        <div style="font-size:16px;">⛅</div>
+                        <div>Mostly Cloudy</div>
+                        <div class="weather-hi-lo">H:70° L:52°</div>
+                    </div>
+                </div>
+
+                <!-- Hourly forecast strip -->
+                <div class="weather-hourly">
+                    <div class="hour-col">
+                        <span class="hour-time">Now</span>
+                        <span class="hour-icon">⛅</span>
+                        <span class="hour-temp">61°</span>
+                    </div>
+                    <div class="hour-col">
+                        <span class="hour-time">1PM</span>
+                        <span class="hour-icon">⛅</span>
+                        <span class="hour-temp">63°</span>
+                    </div>
+                    <div class="hour-col">
+                        <span class="hour-time">2PM</span>
+                        <span class="hour-icon">☁️</span>
+                        <span class="hour-temp">65°</span>
+                    </div>
+                    <div class="hour-col">
+                        <span class="hour-time">3PM</span>
+                        <span class="hour-icon">☁️</span>
+                        <span class="hour-temp">64°</span>
+                    </div>
+                    <div class="hour-col">
+                        <span class="hour-time">4PM</span>
+                        <span class="hour-icon">🌇</span>
+                        <span class="hour-temp">57°</span>
+                    </div>
+                </div>
+
+                <!-- 5-day forecast -->
+                <div class="weather-days">
+                    <div class="day-row">
+                        <span class="day-name">Sat</span>
+                        <span class="day-icon">☀️</span>
+                        <div class="bar-track"><div class="bar-fill" style="left:20%;width:55%;"></div></div>
+                        <span class="day-temps">70°</span>
+                    </div>
+                    <div class="day-row">
+                        <span class="day-name">Sun</span>
+                        <span class="day-icon">☀️</span>
+                        <div class="bar-track"><div class="bar-fill" style="left:25%;width:55%;"></div></div>
+                        <span class="day-temps">70°</span>
+                    </div>
+                    <div class="day-row">
+                        <span class="day-name">Mon</span>
+                        <span class="day-icon">⛅</span>
+                        <div class="bar-track"><div class="bar-fill" style="left:15%;width:50%;"></div></div>
+                        <span class="day-temps">67°</span>
+                    </div>
+                    <div class="day-row">
+                        <span class="day-name">Tue</span>
+                        <span class="day-icon">☀️</span>
+                        <div class="bar-track"><div class="bar-fill" style="left:30%;width:55%;"></div></div>
+                        <span class="day-temps">71°</span>
+                    </div>
+                    <div class="day-row">
+                        <span class="day-name">Wed</span>
+                        <span class="day-icon">☀️</span>
+                        <div class="bar-track"><div class="bar-fill" style="left:35%;width:55%;"></div></div>
+                        <span class="day-temps">73°</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Installation Instructions -->
-    <div class="guide-box">
-        <div class="guide-title">📲 How to Install as Homescreen Widgets (Xen HTML)</div>
-        <div class="step-row">
-            <div class="step-circle">1</div>
-            <div>Download <b><a href="iPadOS_Cards.deb" style="color:#38bdf8;">iPadOS_Cards.deb</a></b> directly on your iPad in Safari, then tap <b>Open in Filza</b>.</div>
-        </div>
-        <div class="step-row">
-            <div class="step-circle">2</div>
-            <div>In Filza, tap <code>iPadOS_Cards.deb</code> and press <b>Install</b> (at top right).</div>
-        </div>
-        <div class="step-row">
-            <div class="step-circle">3</div>
-            <div>Go to <b>Settings > Xen HTML > Homescreen > Add Widget</b>, and select your new widgets:
-                <br>• <b>iPadOS Minimal Clock</b>
-                <br>• <b>iPadOS Weather Card</b>
-                <br>• <b>iPadOS Analog LA Clock</b>
-                <br>• <b>iPadOS Spotify Player</b>
-            </div>
-        </div>
-    </div>
+    <script>
+// iPadOS Modern Widgets - ES5 Compatible for iOS 9.3.5 WebKit
+(function() {
+    // 1. Draw Stock Chart
+    function drawStockChart() {
+        var canvas = document.getElementById('stock-chart');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        if (!ctx) return;
 
+        // Retina display scaling
+        var dpr = window.devicePixelRatio || 1;
+        var rect = canvas.getBoundingClientRect();
+        var width = rect.width || 280;
+        var height = rect.height || 105;
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.scale(dpr, dpr);
+
+        // Chart Data (AAPL upward wave like screenshot)
+        var points = [
+            18, 22, 19, 25, 30, 24, 20, 16, 22, 28, 
+            35, 32, 40, 48, 45, 52, 60, 58, 65, 72, 
+            68, 75, 82, 78, 85, 90, 84, 88, 92, 95
+        ];
+
+        var stepX = width / (points.length - 1);
+        var minY = 10;
+        var maxY = 100;
+
+        function getY(val) {
+            // Invert Y axis for canvas
+            return height - ((val - minY) / (maxY - minY)) * (height - 20) - 10;
+        }
+
+        // Draw Area Fill Gradient
+        var gradient = ctx.createLinearGradient(0, 0, 0, height);
+        gradient.addColorStop(0, 'rgba(52, 199, 89, 0.45)');
+        gradient.addColorStop(0.7, 'rgba(52, 199, 89, 0.1)');
+        gradient.addColorStop(1, 'rgba(52, 199, 89, 0.0)');
+
+        ctx.beginPath();
+        ctx.moveTo(0, getY(points[0]));
+        for (var i = 1; i < points.length; i++) {
+            var prevX = (i - 1) * stepX;
+            var prevY = getY(points[i - 1]);
+            var currX = i * stepX;
+            var currY = getY(points[i]);
+            var midX = (prevX + currX) / 2;
+            ctx.quadraticCurveTo(prevX, prevY, midX, (prevY + currY) / 2);
+        }
+        ctx.lineTo(width, getY(points[points.length - 1]));
+        ctx.lineTo(width, height);
+        ctx.lineTo(0, height);
+        ctx.closePath();
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        // Draw Line
+        ctx.beginPath();
+        ctx.moveTo(0, getY(points[0]));
+        for (var j = 1; j < points.length; j++) {
+            var pX = (j - 1) * stepX;
+            var pY = getY(points[j - 1]);
+            var cX = j * stepX;
+            var cY = getY(points[j]);
+            var mX = (pX + cX) / 2;
+            ctx.quadraticCurveTo(pX, pY, mX, (pY + cY) / 2);
+        }
+        ctx.lineTo(width, getY(points[points.length - 1]));
+        ctx.strokeStyle = '#34c759';
+        ctx.lineWidth = 2.2;
+        ctx.stroke();
+    }
+
+    // 2. Battery Monitoring (if supported by browser/iOS)
+    function initBattery() {
+        if (navigator.getBattery) {
+            navigator.getBattery().then(function(battery) {
+                function updateBatteryUI() {
+                    var level = Math.round(battery.level * 100);
+                    var pctEl = document.getElementById('pct-ipad');
+                    var ringEl = document.getElementById('ring-ipad');
+                    if (pctEl) pctEl.textContent = level + '%';
+                    if (ringEl) {
+                        var circum = 2 * Math.PI * 18; // r = 18 -> ~113.1
+                        var offset = circum - (circum * level / 100);
+                        ringEl.style.strokeDashoffset = offset;
+                    }
+                }
+                updateBatteryUI();
+                battery.addEventListener('levelchange', updateBatteryUI);
+            }).catch(function(e) {});
+        }
+    }
+
+    // Init on load & resize
+    window.addEventListener('load', function() {
+        drawStockChart();
+        initBattery();
+    });
+
+    window.addEventListener('resize', function() {
+        drawStockChart();
+    });
+})();
+
+</script>
 </body>
 </html>
