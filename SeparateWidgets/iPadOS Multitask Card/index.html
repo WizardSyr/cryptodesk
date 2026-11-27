@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="multitask-card">
+        
+        <div class="card-header">
+            <div class="window-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <div class="header-title">Split View Multitask</div>
+            <div class="ram-pill">340MB Free</div>
+        </div>
+
+        <div class="split-view-container">
+            <!-- Left Window -->
+            <div id="win-left" class="split-window">
+                <div class="window-nav">
+                    <span id="l-icon" class="window-icon">🧭</span>
+                    <span id="l-name" class="window-name">Safari</span>
+                </div>
+                <div class="window-body">
+                    <div>
+                        <div id="l-title" class="safari-preview">Apple Official</div>
+                        <div id="l-sub" class="safari-sub">iPadOS Multi-Window</div>
+                    </div>
+                    <div style="font-size:6px; color:#64748b; font-family:monospace;">Tap to switch</div>
+                </div>
+            </div>
+
+            <!-- Right Window -->
+            <div id="win-right" class="split-window">
+                <div class="window-nav">
+                    <span id="r-icon" class="window-icon">📈</span>
+                    <span id="r-name" class="window-name">CryptoDesk</span>
+                </div>
+                <div class="window-body">
+                    <div>
+                        <div id="r-title" class="crypto-val">BTC: $98,420</div>
+                        <div id="r-sub" class="crypto-up">SOL: $242.80 (+4.2%)</div>
+                    </div>
+                    <div style="font-size:6px; color:#64748b; font-family:monospace;">Tap to switch</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Dock -->
+        <div class="dock-bar">
+            <span class="dock-item" title="Safari">🧭</span>
+            <span class="dock-item" title="CryptoDesk">📈</span>
+            <span class="dock-item" title="TikTak+">🎵</span>
+            <span class="dock-item" title="Music">💿</span>
+            <span class="dock-item" title="Messages">💬</span>
+        </div>
+
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
