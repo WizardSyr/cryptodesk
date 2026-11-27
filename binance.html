@@ -8,7 +8,6 @@
     <meta name="apple-mobile-web-app-title" content="Binance Desk">
     <title>Binance Futures - Pro Trading Desk & PnL</title>
     <link rel="apple-touch-icon" href="https://bin.bnbstatic.com/static/images/common/favicon.ico">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -125,7 +124,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s;
         }
         .btn-gear:active {
             transform: scale(0.95);
@@ -232,7 +230,7 @@
             border: 1px solid rgba(246, 70, 93, 0.3);
         }
 
-        /* 3-Column Wallet Sub-stats */
+        /* 4-Column Wallet Sub-stats */
         .wallet-grid-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -410,10 +408,7 @@
         /* ================= PNL CARD MODAL (MATCHING IMAGE 1) ================= */
         .pnl-modal-backdrop {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -423,9 +418,7 @@
             z-index: 1000;
             padding: 16px;
         }
-        .pnl-modal-backdrop.open {
-            display: flex;
-        }
+        .pnl-modal-backdrop.open { display: flex; }
         .pnl-card-container {
             width: 100%;
             max-width: 380px;
@@ -917,7 +910,7 @@
                 <span style="cursor:pointer;color:#848e9c;" onclick="closeApiModal()">✕</span>
             </div>
             <div class="api-field-wrap">
-                <label>Binance API Key (Read-Only):</label>
+                <label>Binance API Key:</label>
                 <input type="text" id="api-key-input" placeholder="Paste your Binance API Key" class="api-input">
             </div>
             <div class="api-field-wrap">
@@ -939,9 +932,104 @@
         </div>
     </div>
 
+    <!-- PURE STANDALONE ES5 HMAC-SHA256 (ZERO EXTERNAL CDN DEPENDENCY) -->
     <script>
-        var bApiKey = (localStorage.getItem('binance_apikey') || localStorage.getItem('binance_user_apikey') || '').replace(/[\r\n\s\t]/g, '');
-        var bSecretKey = (localStorage.getItem('binance_secret') || localStorage.getItem('binance_user_secret') || '').replace(/[\r\n\s\t]/g, '');
+        function rawSha256(ascii) {
+            function rightRotate(value, amount) {
+                return (value >>> amount) | (value << (32 - amount));
+            }
+            var mathPow = Math.pow;
+            var maxWord = mathPow(2, 32);
+            var i, j;
+            var result = '';
+            var words = [];
+            var asciiBitLength = ascii.length * 8;
+            var hash = rawSha256.h = rawSha256.h || [];
+            var k = rawSha256.k = rawSha256.k || [];
+            var primeCounter = k.length;
+            var isComposite = {};
+            for (var candidate = 2; primeCounter < 64; candidate++) {
+                if (!isComposite[candidate]) {
+                    for (i = 0; i < 313; i += candidate) isComposite[i] = candidate;
+                    hash[primeCounter] = (mathPow(candidate, .5) * maxWord) | 0;
+                    k[primeCounter++] = (mathPow(candidate, 1/3) * maxWord) | 0;
+                }
+            }
+            ascii += '';
+            while (ascii.length % 64 - 56) ascii += ' ';
+            for (i = 0; i < ascii.length; i++) {
+                j = ascii.charCodeAt(i);
+                words[i >> 2] |= j << ((3 - i) % 4) * 8;
+            }
+            words[words.length] = ((asciiBitLength / maxWord) | 0);
+            words[words.length] = (asciiBitLength) | 0;
+            for (j = 0; j < words.length;) {
+                var w = words.slice(j, j += 16);
+                var oldHash = hash;
+                hash = hash.slice(0, 8);
+                for (i = 0; i < 64; i++) {
+                    var w15 = w[i - 15], w2 = w[i - 2];
+                    var a = hash[0], e = hash[4];
+                    var temp1 = hash[7]
+                        + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25))
+                        + ((e & hash[5]) ^ ((~e) & hash[6]))
+                        + k[i]
+                        + (w[i] = (i < 16) ? w[i] : (
+                                w[i - 16]
+                                + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3))
+                                + w[i - 7]
+                                + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))
+                            ) | 0
+                        );
+                    var temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22))
+                        + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+                    hash = [(temp1 + temp2) | 0].concat(hash);
+                    hash[4] = (hash[4] + temp1) | 0;
+                }
+                for (i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+            }
+            for (i = 0; i < 8; i++) {
+                for (j = 3; j + 1; j--) {
+                    var b = (hash[i] >> (j * 8)) & 255;
+                    result += ((b < 16) ? 0 : '') + b.toString(16);
+                }
+            }
+            return result;
+        }
+
+        function hexToBytes(hex) {
+            var bytes = [];
+            for (var c = 0; c < hex.length; c += 2) bytes.push(parseInt(hex.substr(c, 2), 16));
+            return bytes;
+        }
+
+        function bytesToStr(bytes) {
+            var str = '';
+            for (var i = 0; i < bytes.length; i++) str += String.fromCharCode(bytes[i]);
+            return str;
+        }
+
+        function hmacSha256(message, secret) {
+            var blockSize = 64;
+            var keyBytes = [];
+            for (var i = 0; i < secret.length; i++) keyBytes.push(secret.charCodeAt(i));
+            if (keyBytes.length > blockSize) keyBytes = hexToBytes(rawSha256(secret));
+            while (keyBytes.length < blockSize) keyBytes.push(0);
+            var oKeyPad = [], iKeyPad = [];
+            for (var b = 0; b < blockSize; b++) {
+                oKeyPad[b] = keyBytes[b] ^ 0x5c;
+                iKeyPad[b] = keyBytes[b] ^ 0x36;
+            }
+            var inner = rawSha256(bytesToStr(iKeyPad) + message);
+            var outer = rawSha256(bytesToStr(oKeyPad) + bytesToStr(hexToBytes(inner)));
+            return outer;
+        }
+    </script>
+
+    <!-- MAIN TRADING ENGINE SCRIPT -->
+    <script>
+        var bApiKey = (localStorage.getItem('binance_apikey') || localStorage.getItem('binance_user_apikey') || '').replace(/[\r\n\s\t'"]/g, '');
+        var bSecretKey = (localStorage.getItem('binance_secret') || localStorage.getItem('binance_user_secret') || '').replace(/[\r\n\s\t'"]/g, '');
         var bUsername = localStorage.getItem('pnl_username') || 'IceWizard101';
         var bReferral = localStorage.getItem('pnl_referral') || '792542923';
         var bTimeOffset = 0;
@@ -965,27 +1053,23 @@
             var startReq = Date.now();
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'https://fapi.binance.com/fapi/v1/time', true);
+            xhr.timeout = 5000;
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         try {
                             var d = JSON.parse(xhr.responseText);
-                            var endReq = Date.now();
-                            var latency = Math.round((endReq - startReq) / 2);
-                            bTimeOffset = (d.serverTime + latency) - endReq;
+                            var now = Date.now();
+                            // Subtract 300ms to guarantee timestamp is never ahead of Binance clock (avoids -1021 error)
+                            bTimeOffset = (d.serverTime - 300) - now;
                         } catch(e) {}
                     }
                     if (cb) cb();
                 }
             };
+            xhr.onerror = function() { if (cb) cb(); };
+            xhr.ontimeout = function() { if (cb) cb(); };
             xhr.send();
-        }
-
-        function hmacSha256(str, secret) {
-            if (typeof CryptoJS !== 'undefined') {
-                return CryptoJS.HmacSHA256(str, secret).toString(CryptoJS.enc.Hex);
-            }
-            return '';
         }
 
         function toggleBalanceVisibility() {
@@ -1030,11 +1114,11 @@
             var uIn = document.getElementById('api-username-input');
             var rIn = document.getElementById('api-ref-input');
             if (kIn) {
-                bApiKey = kIn.value.replace(/[\r\n\s\t]/g, '');
+                bApiKey = kIn.value.replace(/[\r\n\s\t'"]/g, '');
                 localStorage.setItem('binance_apikey', bApiKey);
             }
             if (sIn) {
-                bSecretKey = sIn.value.replace(/[\r\n\s\t]/g, '');
+                bSecretKey = sIn.value.replace(/[\r\n\s\t'"]/g, '');
                 localStorage.setItem('binance_secret', bSecretKey);
             }
             if (uIn) {
@@ -1073,11 +1157,13 @@
                 var ts = Date.now() + bTimeOffset;
                 var query = 'timestamp=' + ts + '&recvWindow=60000';
                 var sig = hmacSha256(query, bSecretKey);
-                var url = 'https://fapi.binance.com/fapi/v2/account?' + query + '&signature=' + sig;
 
+                // Fetch Account balances and positions
+                var url = 'https://fapi.binance.com/fapi/v2/account?' + query + '&signature=' + sig;
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', url, true);
                 xhr.setRequestHeader('X-MBX-APIKEY', bApiKey);
+                xhr.timeout = 10000;
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
@@ -1089,23 +1175,134 @@
                                 renderErrorState('JSON Parsing Error', e.message);
                             }
                         } else {
-                            var errMsg = 'HTTP ' + xhr.status;
-                            try {
-                                var errJson = JSON.parse(xhr.responseText);
-                                if (errJson.msg) errMsg = errJson.msg + ' (Code: ' + errJson.code + ')';
-                            } catch(e) {
-                                errMsg = xhr.statusText || errMsg;
-                            }
-                            renderErrorState('Binance API Error (' + xhr.status + ')', errMsg);
+                            // If account endpoint returned an error, try balance endpoint as fallback
+                            tryBalanceFallback(query, sig, xhr);
                         }
                     }
+                };
+                xhr.onerror = function() {
+                    renderErrorState('Network / CORS Error', 'Cannot reach fapi.binance.com. Check your internet connection or ad-blocker.');
+                };
+                xhr.ontimeout = function() {
+                    renderErrorState('Timeout Error', 'Binance API request timed out after 10 seconds. Retrying...');
                 };
                 xhr.send();
             });
         }
 
+        function tryBalanceFallback(query, sig, origXhr) {
+            var balUrl = 'https://fapi.binance.com/fapi/v2/balance?' + query + '&signature=' + sig;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', balUrl, true);
+            xhr.setRequestHeader('X-MBX-APIKEY', bApiKey);
+            xhr.timeout = 8000;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            var balances = JSON.parse(xhr.responseText);
+                            var usdtBal = 0, availBal = 0;
+                            for (var i = 0; i < balances.length; i++) {
+                                if (balances[i].asset === 'USDT') {
+                                    usdtBal = parseFloat(balances[i].balance || balances[i].crossWalletBalance || 0);
+                                    availBal = parseFloat(balances[i].availableBalance || balances[i].withdrawAvailable || 0);
+                                    break;
+                                }
+                            }
+                            // Also fetch positionRisk
+                            fetchPositionsRiskFallback(query, sig, usdtBal, availBal);
+                        } catch(e) {
+                            parseAndRenderBinanceError(origXhr);
+                        }
+                    } else {
+                        parseAndRenderBinanceError(origXhr);
+                    }
+                }
+            };
+            xhr.onerror = function() { parseAndRenderBinanceError(origXhr); };
+            xhr.send();
+        }
+
+        function fetchPositionsRiskFallback(query, sig, usdtBal, availBal) {
+            var posUrl = 'https://fapi.binance.com/fapi/v2/positionRisk?' + query + '&signature=' + sig;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', posUrl, true);
+            xhr.setRequestHeader('X-MBX-APIKEY', bApiKey);
+            xhr.timeout = 8000;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            var positions = JSON.parse(xhr.responseText);
+                            setStatus('live', 'Live Connected');
+                            var totalUnrealizedPnl = 0;
+                            var active = [];
+                            for (var i = 0; i < positions.length; i++) {
+                                var p = positions[i];
+                                var amt = parseFloat(p.positionAmt);
+                                if (amt !== 0) {
+                                    var isShort = amt < 0;
+                                    var mark = parseFloat(p.markPrice);
+                                    var entry = parseFloat(p.entryPrice);
+                                    var sizeUsdt = Math.abs(amt * mark);
+                                    var lev = parseInt(p.leverage) || 1;
+                                    var margin = sizeUsdt / lev;
+                                    var pnl = parseFloat(p.unRealizedProfit);
+                                    var pnlPct = margin > 0 ? (pnl / margin) * 100 : 0;
+                                    totalUnrealizedPnl += pnl;
+
+                                    active.push({
+                                        symbol: p.symbol,
+                                        side: isShort ? 'Short' : 'Long',
+                                        leverage: lev,
+                                        size: sizeUsdt.toFixed(2),
+                                        entryPrice: entry.toFixed(3),
+                                        bePrice: entry.toFixed(3),
+                                        markPrice: mark.toFixed(3),
+                                        liqPrice: parseFloat(p.liquidationPrice || 0).toFixed(3),
+                                        marginRatio: (p.marginRatio ? parseFloat(p.marginRatio).toFixed(2) + '%' : '4.99%'),
+                                        margin: margin.toFixed(2) + ' USDT (' + (p.marginType || 'Cross') + ')',
+                                        pnl: pnl.toFixed(2),
+                                        pnlPct: pnlPct.toFixed(2)
+                                    });
+                                }
+                            }
+                            var syntheticAcc = {
+                                totalMarginBalance: (usdtBal + totalUnrealizedPnl).toFixed(2),
+                                totalWalletBalance: usdtBal.toFixed(2),
+                                totalUnrealizedProfit: totalUnrealizedPnl.toFixed(2),
+                                availableBalance: availBal.toFixed(2),
+                                totalMaintMargin: 0,
+                                positions: []
+                            };
+                            renderAccountData(syntheticAcc);
+                            liveTradesList = active;
+                            renderPositionsTable(active);
+                        } catch(e) {}
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function parseAndRenderBinanceError(xhr) {
+            var errMsg = 'HTTP ' + xhr.status;
+            var errCode = null;
+            try {
+                var errJson = JSON.parse(xhr.responseText);
+                if (errJson.msg) {
+                    errMsg = errJson.msg;
+                    errCode = errJson.code;
+                }
+            } catch(e) {
+                errMsg = xhr.statusText || errMsg;
+            }
+            var title = 'Binance API Error ' + (xhr.status ? '(' + xhr.status + ')' : '');
+            if (errCode) title += ' [Code: ' + errCode + ']';
+            renderErrorState(title, errMsg);
+        }
+
         function renderAccountData(acc) {
-            // Wallet Values
             var totalMarginBal = parseFloat(acc.totalMarginBalance || 0);
             var walletBal = parseFloat(acc.totalWalletBalance || 0);
             var unrealizedPnl = parseFloat(acc.totalUnrealizedProfit || 0);
@@ -1150,41 +1347,42 @@
                 if (pnlRoi) pnlRoi.textContent = '(' + (isPos ? '+' : '') + roi.toFixed(2) + '%)';
             }
 
-            // Positions
-            var rawPositions = acc.positions || [];
-            var active = [];
-            for (var i = 0; i < rawPositions.length; i++) {
-                var p = rawPositions[i];
-                var amt = parseFloat(p.positionAmt);
-                if (amt !== 0) {
-                    var isShort = amt < 0;
-                    var mark = parseFloat(p.markPrice);
-                    var entry = parseFloat(p.entryPrice);
-                    var sizeUsdt = Math.abs(amt * mark);
-                    var lev = parseInt(p.leverage) || 1;
-                    var margin = parseFloat(p.initialMargin) || (sizeUsdt / lev);
-                    var pnl = parseFloat(p.unrealizedProfit);
-                    var pnlPct = margin > 0 ? (pnl / margin) * 100 : 0;
+            // Positions from account object
+            if (acc.positions && acc.positions.length > 0) {
+                var rawPositions = acc.positions;
+                var active = [];
+                for (var i = 0; i < rawPositions.length; i++) {
+                    var p = rawPositions[i];
+                    var amt = parseFloat(p.positionAmt);
+                    if (amt !== 0) {
+                        var isShort = amt < 0;
+                        var mark = parseFloat(p.markPrice);
+                        var entry = parseFloat(p.entryPrice);
+                        var sizeUsdt = Math.abs(amt * mark);
+                        var lev = parseInt(p.leverage) || 1;
+                        var margin = parseFloat(p.initialMargin) || (sizeUsdt / lev);
+                        var pnl = parseFloat(p.unrealizedProfit);
+                        var pnlPct = margin > 0 ? (pnl / margin) * 100 : 0;
 
-                    active.push({
-                        symbol: p.symbol,
-                        side: isShort ? 'Short' : 'Long',
-                        leverage: lev,
-                        size: sizeUsdt.toFixed(2),
-                        entryPrice: entry.toFixed(3),
-                        bePrice: entry.toFixed(3),
-                        markPrice: mark.toFixed(3),
-                        liqPrice: parseFloat(p.liquidationPrice || 0).toFixed(3),
-                        marginRatio: (p.marginRatio ? parseFloat(p.marginRatio).toFixed(2) + '%' : '4.99%'),
-                        margin: margin.toFixed(2) + ' USDT (' + (p.marginType || 'Cross') + ')',
-                        pnl: pnl.toFixed(2),
-                        pnlPct: pnlPct.toFixed(2)
-                    });
+                        active.push({
+                            symbol: p.symbol,
+                            side: isShort ? 'Short' : 'Long',
+                            leverage: lev,
+                            size: sizeUsdt.toFixed(2),
+                            entryPrice: entry.toFixed(3),
+                            bePrice: entry.toFixed(3),
+                            markPrice: mark.toFixed(3),
+                            liqPrice: parseFloat(p.liquidationPrice || 0).toFixed(3),
+                            marginRatio: (p.marginRatio ? parseFloat(p.marginRatio).toFixed(2) + '%' : '4.99%'),
+                            margin: margin.toFixed(2) + ' USDT (' + (p.marginType || 'Cross') + ')',
+                            pnl: pnl.toFixed(2),
+                            pnlPct: pnlPct.toFixed(2)
+                        });
+                    }
                 }
+                liveTradesList = active;
+                renderPositionsTable(active);
             }
-
-            liveTradesList = active;
-            renderPositionsTable(active);
         }
 
         function renderPositionsTable(trades) {
@@ -1267,15 +1465,15 @@
             var tbody = document.getElementById('trades-tbody');
             if (tbody) {
                 tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:26px 14px;color:#f6465d;">' +
-                    '<div style="font-size:16px;font-weight:800;margin-bottom:6px;">⚠️ ' + title + '</div>' +
-                    '<div style="font-size:12px;color:#eaecef;background:#241217;border:1px solid #4a1c24;padding:8px 12px;border-radius:8px;max-width:520px;margin:0 auto 12px auto;font-family:monospace;">' + message + '</div>' +
-                    '<div style="font-size:11px;color:#848e9c;max-width:480px;margin:0 auto 12px auto;line-height:1.5;">' +
-                    '<b>How to fix on Binance:</b><br>' +
-                    '1. In <b>API Management</b>, ensure <b>"Enable Reading"</b> AND <b>"Enable Futures"</b> are checked.<br>' +
-                    '2. If you set IP access restrictions, ensure your IP is allowed or set to Unrestricted.<br>' +
-                    '3. Re-paste your API Key and Secret Key carefully.' +
+                    '<div style="font-size:16px;font-weight:800;margin-bottom:8px;">⚠️ ' + title + '</div>' +
+                    '<div style="font-size:12px;color:#eaecef;background:#241217;border:1px solid #4a1c24;padding:10px 14px;border-radius:10px;max-width:540px;margin:0 auto 14px auto;font-family:monospace;word-break:break-all;">' + message + '</div>' +
+                    '<div style="font-size:11px;color:#848e9c;max-width:500px;margin:0 auto 16px auto;line-height:1.6;text-align:left;">' +
+                    '<b>How to resolve on Binance:</b><br>' +
+                    '• <b>Check "Enable Futures":</b> In Binance API Management, ensure both <b>"Enable Reading"</b> and <b>"Enable Futures"</b> are checked.<br>' +
+                    '• <b>Check IP Access:</b> Set IP access restriction to <b>Unrestricted</b> (or add your network IP).<br>' +
+                    '• <b>Key format:</b> Make sure you copied both the <b>API Key</b> and <b>Secret Key</b> without missing letters or spaces.' +
                     '</div>' +
-                    '<button class="btn-wallet-action" onclick="openApiModal()" style="display:inline-flex;padding:6px 16px;font-size:11px;">⚙️ Edit API Keys</button>' +
+                    '<button class="btn-wallet-action" onclick="openApiModal()" style="display:inline-flex;padding:7px 18px;font-size:12px;background:#f0b90b;color:#000;border:none;font-weight:800;">⚙️ Edit API Keys</button>' +
                     '</td></tr>';
             }
         }
