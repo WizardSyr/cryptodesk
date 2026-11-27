@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Battery Card</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="battery-card">
+        <!-- iPad -->
+        <div class="battery-item">
+            <div class="ring-wrap">
+                <svg class="ring-svg" viewBox="0 0 44 44">
+                    <circle class="ring-bg" cx="22" cy="22" r="18"></circle>
+                    <circle class="ring-fill" id="ring-ipad" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="21.5"></circle>
+                </svg>
+                <span class="ring-icon">📱</span>
+            </div>
+            <span class="battery-pct" id="pct-ipad">81%</span>
+        </div>
+
+        <!-- AirPods -->
+        <div class="battery-item">
+            <div class="ring-wrap">
+                <svg class="ring-svg" viewBox="0 0 44 44">
+                    <circle class="ring-bg" cx="22" cy="22" r="18"></circle>
+                    <circle class="ring-fill" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="0"></circle>
+                </svg>
+                <span class="ring-icon">🎧</span>
+            </div>
+            <span class="battery-pct">100%</span>
+        </div>
+
+        <!-- AirPods Case -->
+        <div class="battery-item">
+            <div class="ring-wrap">
+                <svg class="ring-svg" viewBox="0 0 44 44">
+                    <circle class="ring-bg" cx="22" cy="22" r="18"></circle>
+                    <circle class="ring-fill" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="26"></circle>
+                </svg>
+                <span class="ring-icon">🔋</span>
+            </div>
+            <span class="battery-pct">77%</span>
+        </div>
+
+        <!-- Apple Pencil -->
+        <div class="battery-item">
+            <div class="ring-wrap">
+                <svg class="ring-svg" viewBox="0 0 44 44">
+                    <circle class="ring-bg" cx="22" cy="22" r="18"></circle>
+                    <circle class="ring-fill" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="0"></circle>
+                </svg>
+                <span class="ring-icon">✏️</span>
+            </div>
+            <span class="battery-pct">100%</span>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

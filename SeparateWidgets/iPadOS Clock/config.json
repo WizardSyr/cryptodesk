@@ -1,0 +1,15 @@
+{
+    "name": "iPadOS Clock",
+    "author": "Antigravity",
+    "size": {
+        "max-width": "140px",
+        "width": "140px",
+        "height": "140px"
+    },
+    "options": [
+        {
+            "type": "title",
+            "text": "iPadOS Analog Clock"
+        }
+    ]
+}

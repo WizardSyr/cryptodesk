@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CryptoDesk Card</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="crypto-card">
+        <!-- Main Card View -->
+        <div>
+            <div class="crypto-header" id="header-tap">
+                <div class="coin-info">
+                    <span class="coin-icon" id="coin-icon">₿</span>
+                    <span class="coin-symbol" id="coin-title">BTC / USDT</span>
+                    <span class="fear-greed-badge" id="fg-badge">11 Extreme Fear</span>
+                </div>
+                <div class="header-right">
+                    <div class="crypto-change" id="coin-change">+4.46%</div>
+                    <span class="btn-gear" id="btn-open-settings">⚙</span>
+                </div>
+            </div>
+            <div class="crypto-hero-row">
+                <div class="crypto-price" id="coin-price">$91,091.39</div>
+                <div class="crypto-session" id="market-session">Binance Spot</div>
+            </div>
+        </div>
+        <div class="canvas-wrap">
+            <canvas id="crypto-chart" width="272" height="56"></canvas>
+        </div>
+
+        <!-- Edit / Settings Modal -->
+        <div class="settings-overlay" id="settings-modal">
+            <div class="modal-header">
+                <span>CHANGE COIN</span>
+                <span style="font-size:14px;cursor:pointer;" id="btn-close-modal">✕</span>
+            </div>
+            <div class="modal-input-row">
+                <input type="text" class="coin-input" id="input-coin" placeholder="BTC, ETH, SOL..." maxlength="10">
+            </div>
+            <div class="quick-chips">
+                <span class="chip" data-coin="BTC">BTC</span>
+                <span class="chip" data-coin="ETH">ETH</span>
+                <span class="chip" data-coin="SOL">SOL</span>
+                <span class="chip" data-coin="DOGE">DOGE</span>
+                <span class="chip" data-coin="XRP">XRP</span>
+                <span class="chip" data-coin="PEPE">PEPE</span>
+                <span class="chip" data-coin="SUI">SUI</span>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-action btn-cancel" id="btn-cancel">Cancel</button>
+                <button class="btn-action btn-save" id="btn-save">Save Coin</button>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

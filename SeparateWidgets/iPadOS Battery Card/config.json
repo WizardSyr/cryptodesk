@@ -1,0 +1,15 @@
+{
+    "name": "iPadOS Battery Card",
+    "author": "Antigravity",
+    "size": {
+        "max-width": "240px",
+        "width": "240px",
+        "height": "95px"
+    },
+    "options": [
+        {
+            "type": "title",
+            "text": "iPadOS Battery Rings"
+        }
+    ]
+}

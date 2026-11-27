@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=280, height=280, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CryptoDesk Market Watchlist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="market-large-card" id="market-card">
+        <!-- Header -->
+        <div class="card-header" onclick="fetchMarketData()">
+            <div class="header-left">
+                <span class="live-indicator"></span>
+                <span class="header-title">CRYPTO SPOT</span>
+            </div>
+            <div class="header-right">
+                <span class="fg-badge" id="fg-badge">Fear 11</span>
+                <span class="refresh-icon">↻</span>
+            </div>
+        </div>
+
+        <!-- Coin Watchlist Rows -->
+        <div class="coin-list" id="coin-list">
+            <!-- Coin rows rendered via JS -->
+            <div class="coin-row active" id="row-BTC" onclick="selectCoin(0)">
+                <div class="coin-icon-box btc">₿</div>
+                <div class="coin-meta">
+                    <div class="coin-sym">BTC <span class="coin-pair">/USDT</span></div>
+                    <div class="coin-name">Bitcoin</div>
+                </div>
+                <div class="coin-data">
+                    <div class="coin-price" id="price-BTC">$59,860.20</div>
+                    <div class="change-pill down" id="change-BTC">-1.67%</div>
+                </div>
+            </div>
+
+            <div class="coin-row" id="row-ETH" onclick="selectCoin(1)">
+                <div class="coin-icon-box eth">Ξ</div>
+                <div class="coin-meta">
+                    <div class="coin-sym">ETH <span class="coin-pair">/USDT</span></div>
+                    <div class="coin-name">Ethereum</div>
+                </div>
+                <div class="coin-data">
+                    <div class="coin-price" id="price-ETH">$1,666.40</div>
+                    <div class="change-pill down" id="change-ETH">-2.38%</div>
+                </div>
+            </div>
+
+            <div class="coin-row" id="row-SOL" onclick="selectCoin(2)">
+                <div class="coin-icon-box sol">◎</div>
+                <div class="coin-meta">
+                    <div class="coin-sym">SOL <span class="coin-pair">/USDT</span></div>
+                    <div class="coin-name">Solana</div>
+                </div>
+                <div class="coin-data">
+                    <div class="coin-price" id="price-SOL">$71.99</div>
+                    <div class="change-pill up" id="change-SOL">+0.46%</div>
+                </div>
+            </div>
+
+            <div class="coin-row" id="row-BNB" onclick="selectCoin(3)">
+                <div class="coin-icon-box bnb">🟡</div>
+                <div class="coin-meta">
+                    <div class="coin-sym">BNB <span class="coin-pair">/USDT</span></div>
+                    <div class="coin-name">BNB Chain</div>
+                </div>
+                <div class="coin-data">
+                    <div class="coin-price" id="price-BNB">$553.75</div>
+                    <div class="change-pill down" id="change-BNB">-0.50%</div>
+                </div>
+            </div>
+
+            <div class="coin-row" id="row-DOGE" onclick="selectCoin(4)">
+                <div class="coin-icon-box doge">Ð</div>
+                <div class="coin-meta">
+                    <div class="coin-sym">DOGE <span class="coin-pair">/USDT</span></div>
+                    <div class="coin-name">Dogecoin</div>
+                </div>
+                <div class="coin-data">
+                    <div class="coin-price" id="price-DOGE">$0.0577</div>
+                    <div class="change-pill up" id="change-DOGE">+1.28%</div>
+                </div>
+            </div>
+
+            <div class="coin-row" id="row-XRP" onclick="selectCoin(5)">
+                <div class="coin-icon-box xrp">✕</div>
+                <div class="coin-meta">
+                    <div class="coin-sym">XRP <span class="coin-pair">/USDT</span></div>
+                    <div class="coin-name">Ripple</div>
+                </div>
+                <div class="coin-data">
+                    <div class="coin-price" id="price-XRP">$0.9500</div>
+                    <div class="change-pill down" id="change-XRP">-0.38%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer / Mini Status -->
+        <div class="card-footer">
+            <span id="footer-details">BTC 24h: H $62,248 · L $58,792</span>
+            <span class="auto-tag">Live · Binance</span>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPadOS Weather Widget</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="weather-card" id="weather-card">
+        <!-- Top Header -->
+        <div class="card-header">
+            <div class="header-left">
+                <div class="weather-app-icon">
+                    <svg viewBox="0 0 24 24" class="hdr-cloud-svg">
+                        <circle cx="9" cy="9" r="4" fill="#f0b90b" />
+                        <path d="M7 16 C 5.5 16, 4 14.5, 4 13 C 4 11.5, 5.2 10.2, 6.7 10.1 C 7.3 8.3, 9 7, 11 7 C 13.5 7, 15.5 8.8, 15.9 11.2 C 16.2 11.1, 16.6 11, 17 11 C 18.7 11, 20 12.3, 20 14 C 20 15.7, 18.7 17, 17 17 L 7 17 Z" fill="#ffffff" />
+                    </svg>
+                </div>
+                <span class="header-title">WEATHER</span>
+            </div>
+            <div class="header-right">
+                <svg viewBox="0 0 24 24" class="chevron-svg">
+                    <path d="M6 9 L12 15 L18 9" stroke="#8e8e93" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Main Body -->
+        <div class="card-body">
+            <div class="body-left">
+                <!-- Large Sun & Cloud Icon -->
+                <div class="main-weather-icon">
+                    <svg viewBox="0 0 64 64" class="sun-cloud-hero">
+                        <!-- Sun -->
+                        <circle cx="26" cy="24" r="14" fill="#f59e0b" />
+                        <g stroke="#f59e0b" stroke-width="3" stroke-linecap="round">
+                            <line x1="26" y1="4" x2="26" y2="8" />
+                            <line x1="26" y1="40" x2="26" y2="44" />
+                            <line x1="6" y1="24" x2="10" y2="24" />
+                            <line x1="42" y1="24" x2="46" y2="24" />
+                            <line x1="12" y1="10" x2="15" y2="13" />
+                            <line x1="37" y1="35" x2="40" y2="38" />
+                            <line x1="12" y1="38" x2="15" y2="35" />
+                            <line x1="37" y1="13" x2="40" y2="10" />
+                        </g>
+                        <!-- Cloud -->
+                        <path d="M18 48 C 14 48, 10 44.5, 10 40 C 10 36, 13 32.5, 17 32 C 18.5 26, 24 22, 30 22 C 37 22, 42.5 27, 43.5 33.5 C 44.5 33, 45.7 33, 47 33 C 51.5 33, 55 36.5, 55 41 C 55 45.5, 51.5 49, 47 49 L 18 49 Z" fill="#ffffff" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.3))"/>
+                    </svg>
+                </div>
+                <div class="city-details">
+                    <div class="city-name" id="city-name" onclick="cycleCity()">San Francisco</div>
+                    <div class="weather-condition" id="weather-condition">Partly Cloudy</div>
+                    <div class="rain-chance" id="rain-chance">Chance of Rain: 0%</div>
+                </div>
+            </div>
+
+            <div class="body-right">
+                <div class="current-temp" id="current-temp" onclick="toggleUnit()">68°</div>
+                <div class="high-low-temp" id="high-low-temp">78° / 56°</div>
+            </div>
+        </div>
+
+        <!-- Hourly Forecast Row -->
+        <div class="hourly-forecast-row" id="hourly-container">
+            <!-- Slots will be populated by JS -->
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

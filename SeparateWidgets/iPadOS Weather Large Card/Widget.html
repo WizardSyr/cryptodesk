@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=280, height=280, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>iPadOS Weather Large Card</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="weather-large-card">
+        <!-- Top Section -->
+        <div class="top-section">
+            <div class="city-group">
+                <div class="city-title-row">
+                    <span class="city-name" id="weather-city">Cupertino</span>
+                    <span class="btn-gear" id="btn-open-settings" title="Weather Settings">⚙</span>
+                </div>
+                <div class="hero-temp" id="weather-temp">61°</div>
+            </div>
+            <div class="condition-group">
+                <div class="cond-icon" id="cond-icon">☀️</div>
+                <div class="cond-text" id="cond-text">Sunny</div>
+                <div class="hi-lo-text" id="cond-hi-lo">H:71° L:41°</div>
+            </div>
+        </div>
+
+        <!-- Hourly Forecast Strip (6 hours) -->
+        <div class="hourly-box" id="hourly-box">
+            <div class="h-col"><span class="h-time">Now</span><span class="h-icon">☀️</span><span class="h-temp">61°</span></div>
+            <div class="h-col"><span class="h-time">11AM</span><span class="h-icon">☀️</span><span class="h-temp">65°</span></div>
+            <div class="h-col"><span class="h-time">12PM</span><span class="h-icon">☀️</span><span class="h-temp">68°</span></div>
+            <div class="h-col"><span class="h-time">1PM</span><span class="h-icon">☀️</span><span class="h-temp">70°</span></div>
+            <div class="h-col"><span class="h-time">2PM</span><span class="h-icon">☀️</span><span class="h-temp">71°</span></div>
+            <div class="h-col"><span class="h-time">3PM</span><span class="h-icon">☀️</span><span class="h-temp">68°</span></div>
+        </div>
+
+        <!-- Daily Forecast Section (4 days) -->
+        <div class="daily-box" id="daily-box">
+            <div class="d-row"><span class="d-name">Today</span><span class="d-icon">☀️</span><div class="d-track"><div class="d-fill" style="left:15%;width:65%;"></div></div><span class="d-temp-range">55° / 71°</span></div>
+            <div class="d-row"><span class="d-name">Thu</span><span class="d-icon">⛅</span><div class="d-track"><div class="d-fill" style="left:20%;width:55%;"></div></div><span class="d-temp-range">52° / 68°</span></div>
+            <div class="d-row"><span class="d-name">Fri</span><span class="d-icon">☀️</span><div class="d-track"><div class="d-fill" style="left:10%;width:70%;"></div></div><span class="d-temp-range">57° / 73°</span></div>
+            <div class="d-row"><span class="d-name">Sat</span><span class="d-icon">🌤️</span><div class="d-track"><div class="d-fill" style="left:25%;width:50%;"></div></div><span class="d-temp-range">50° / 66°</span></div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div class="weather-modal" id="weather-modal">
+            <div class="modal-header-line">
+                <span>WEATHER SETTINGS</span>
+                <span id="btn-close-modal" style="cursor:pointer;font-size:16px;">✕</span>
+            </div>
+
+            <div style="margin: 6px 0;">
+                <div style="font-size:11px;color:#94a3b8;margin-bottom:4px;font-weight:600;">CITY / LOCATION</div>
+                <input type="text" class="city-input" id="input-city" placeholder="e.g. Cupertino, London, Tokyo">
+                <div id="geo-status" style="font-size:10px;color:#38bdf8;margin-top:4px;min-height:14px;"></div>
+            </div>
+
+            <div class="unit-row">
+                <span style="font-weight:600;">UNIT</span>
+                <div class="unit-pills">
+                    <button type="button" class="u-btn" id="unit-c">°C</button>
+                    <button type="button" class="u-btn" id="unit-f">°F</button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="f-btn f-cancel" id="btn-cancel">Cancel</button>
+                <button type="button" class="f-btn f-save" id="btn-save">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

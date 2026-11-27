@@ -1,0 +1,186 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+html, body {
+    width: 300px;
+    height: 145px;
+    background: transparent;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.crypto-card {
+    width: 300px;
+    height: 145px;
+    border-radius: 22px;
+    background: rgba(28, 28, 30, 0.94);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    padding: 11px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+.crypto-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.coin-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.coin-icon {
+    font-size: 15px;
+}
+.coin-symbol {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+.fear-greed-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background: rgba(255, 149, 0, 0.2);
+    color: #ff9500;
+    border: 1px solid rgba(255, 149, 0, 0.4);
+}
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.crypto-change {
+    font-size: 12px;
+    font-weight: 700;
+    color: #34c759;
+}
+.crypto-change.down {
+    color: #ff3b30;
+}
+.btn-gear {
+    font-size: 13px;
+    opacity: 0.6;
+    cursor: pointer;
+    padding: 2px 4px;
+}
+.btn-gear:active {
+    opacity: 1;
+}
+.crypto-hero-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 2px 0 0 0;
+}
+.crypto-price {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+}
+.crypto-session {
+    font-size: 9px;
+    color: #8e8e93;
+    font-weight: 600;
+}
+.canvas-wrap {
+    width: 100%;
+    height: 56px;
+    position: relative;
+    margin-top: 2px;
+}
+canvas#crypto-chart {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Modal Overlay */
+.settings-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(18, 18, 20, 0.97);
+    border-radius: 22px;
+    padding: 10px 14px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 100;
+}
+.settings-overlay.active {
+    display: flex;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #8e8e93;
+}
+.modal-input-row {
+    display: flex;
+    gap: 6px;
+}
+.coin-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 5px 8px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    outline: none;
+}
+.quick-chips {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+.chip {
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.12);
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    color: #e5e5ea;
+}
+.chip:active, .chip.selected {
+    background: #007aff;
+    color: #ffffff;
+}
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+.btn-action {
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+}
+.btn-save { background: #34c759; color: #ffffff; }
+.btn-cancel { background: rgba(255, 255, 255, 0.15); color: #ffffff; }

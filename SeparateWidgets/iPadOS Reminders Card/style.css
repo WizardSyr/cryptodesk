@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+html, body {
+    width: 240px;
+    height: 95px;
+    background: transparent;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.reminders-card {
+    width: 240px;
+    height: 95px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    color: #1c1c1e;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.rem-icon-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #ff9500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 13px;
+}
+.rem-body {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.rem-count { font-size: 26px; font-weight: 800; line-height: 1; color: #1c1c1e; }
+.rem-label { font-size: 11px; font-weight: 600; color: #ff9500; margin-top: 1px; }
+.rem-msg { font-size: 12px; font-weight: 600; color: #8e8e93; }

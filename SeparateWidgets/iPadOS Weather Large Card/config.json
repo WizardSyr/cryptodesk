@@ -1,0 +1,15 @@
+{
+    "name": "iPadOS Weather Large Card",
+    "author": "Antigravity",
+    "size": {
+        "max-width": "280px",
+        "width": "280px",
+        "height": "280px"
+    },
+    "options": [
+        {
+            "type": "title",
+            "text": "iPadOS Weather Large Widget"
+        }
+    ]
+}

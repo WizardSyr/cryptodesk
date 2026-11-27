@@ -1,0 +1,21 @@
+{
+    "name": "CryptoDesk Card",
+    "author": "Antigravity",
+    "size": {
+        "max-width": "300px",
+        "width": "300px",
+        "height": "145px"
+    },
+    "options": [
+        {
+            "type": "title",
+            "text": "Coin Settings"
+        },
+        {
+            "type": "text",
+            "default": "BTC",
+            "key": "coinSymbol",
+            "text": "Coin Symbol (BTC, ETH, SOL, DOGE, PEPE...)"
+        }
+    ]
+}

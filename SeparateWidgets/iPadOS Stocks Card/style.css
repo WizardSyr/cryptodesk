@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+html, body {
+    width: 280px;
+    height: 145px;
+    background: transparent;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.stocks-card {
+    width: 280px;
+    height: 145px;
+    border-radius: 22px;
+    background: rgba(28, 28, 30, 0.94);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.stocks-top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.stock-symbol-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.stock-ticker { font-size: 14px; font-weight: 800; }
+.stock-name { font-size: 11px; color: #8e8e93; }
+.stock-chg { font-size: 12px; font-weight: 700; color: #34c759; }
+.stock-price-hero { font-size: 24px; font-weight: 800; margin: 2px 0 1px 0; }
+.stock-stats-grid {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: #8e8e93;
+    font-weight: 600;
+}
+.stock-canvas-wrap {
+    width: 100%;
+    height: 52px;
+    position: relative;
+    margin-top: 2px;
+}
+canvas#stock-chart {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
