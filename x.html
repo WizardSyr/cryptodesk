@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="X / Twitter">
+    <title>X / Twitter</title>
+    <link rel="apple-touch-icon" href="https://abs.twimg.com/responsive-web/client-web/icon-default.ee534d6a.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #090b10;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 24px;
+        }
+        .card {
+            background: #141924;
+            border: 1px solid #20283a;
+            border-radius: 20px;
+            padding: 28px 24px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            border-radius: 18px;
+            margin: 0 auto 16px auto;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+        .icon-box img { width: 100%; height: 100%; object-fit: cover; }
+        h1 { font-size: 22px; margin-bottom: 8px; font-weight: 800; letter-spacing: -0.5px; }
+        p { font-size: 13px; color: #848e9c; line-height: 1.5; margin-bottom: 22px; }
+        .btn {
+            display: block;
+            background: #0ecb81;
+            color: #000;
+            font-weight: 800;
+            font-size: 16px;
+            padding: 14px 20px;
+            border-radius: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 15px rgba(14, 203, 129, 0.3);
+        }
+        .instruction {
+            padding: 14px;
+            background: rgba(240, 185, 11, 0.1);
+            border: 1px dashed rgba(240, 185, 11, 0.4);
+            border-radius: 12px;
+            font-size: 12px;
+            color: #f0b90b;
+            line-height: 1.6;
+        }
+    </style>
+    <script>
+        var targetScheme = 'surf://x.com';
+        var isStandalone = window.navigator.standalone || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+        
+        function launch() {
+            window.location.replace(targetScheme);
+        }
+
+        // If launched directly from iOS Home Screen WebClip, redirect instantly!
+        if (isStandalone) {
+            launch();
+        }
+    </script>
+</head>
+<body>
+    <div class="card">
+        <div class="icon-box">
+            <img src="https://abs.twimg.com/responsive-web/client-web/icon-default.ee534d6a.png" alt="X / Twitter">
+        </div>
+        <h1>X / Twitter</h1>
+        <p>Launch <b>X / Twitter</b> seamlessly inside <b>Surf Browser</b> on your iPad.</p>
+        <button class="btn" onclick="launch()">⚡ Open in Surf</button>
+        <div class="instruction">
+            📲 <b>Add to Home Screen:</b><br>
+            Tap Safari Share icon ↗ at the top of Safari, then choose <b>'Add to Home Screen'</b>!
+        </div>
+    </div>
+</body>
+</html>

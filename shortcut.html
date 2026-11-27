@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Surf Shortcut">
+    <title id="page-title">Surf Shortcut Creator</title>
+    <link id="page-icon" rel="apple-touch-icon" href="https://seg6.space/surf/icon.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #090b10;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 24px 16px 40px 16px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .header p {
+            font-size: 13px;
+            color: #848e9c;
+        }
+        .card {
+            background: #141924;
+            border: 1px solid #20283a;
+            border-radius: 18px;
+            padding: 20px;
+            max-width: 480px;
+            width: 100%;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #f0b90b;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+        }
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .preset-btn {
+            background: #0f131c;
+            border: 1px solid #20283a;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .preset-btn:active {
+            border-color: #0ecb81;
+            transform: scale(0.96);
+        }
+        .preset-btn img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+        }
+        .preset-btn span {
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .input-group {
+            margin-bottom: 14px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #848e9c;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .input-group input {
+            width: 100%;
+            background: #090b10;
+            border: 1px solid #20283a;
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+        .input-group input:focus {
+            border-color: #f0b90b;
+        }
+        .action-btn {
+            width: 100%;
+            background: #0ecb81;
+            color: #000;
+            font-size: 15px;
+            font-weight: 800;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(14, 203, 129, 0.3);
+        }
+        .info-box {
+            background: rgba(240, 185, 11, 0.1);
+            border: 1px dashed rgba(240, 185, 11, 0.4);
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 12px;
+            color: #f0b90b;
+            line-height: 1.6;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function getParam(p) {
+            var match = RegExp('[?&]' + p + '=([^&]*)').exec(window.location.search);
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        }
+
+        var urlParam = getParam('url');
+        var nameParam = getParam('name');
+        var iconParam = getParam('icon');
+        var isStandalone = window.navigator.standalone || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+
+        if (urlParam) {
+            var target = urlParam.replace(/^https?:\/\//i, '');
+            if (isStandalone) {
+                window.location.replace('surf://' + target);
+            }
+        }
+
+        function createCustom() {
+            var u = document.getElementById('in-url').value.trim();
+            var n = document.getElementById('in-name').value.trim() || 'Surf Shortcut';
+            var ic = document.getElementById('in-icon').value.trim() || 'https://seg6.space/surf/icon.png';
+            if (!u) {
+                alert('Please enter a website URL!');
+                return;
+            }
+            u = u.replace(/^https?:\/\//i, '');
+            var link = window.location.pathname + '?url=' + encodeURIComponent(u) + '&name=' + encodeURIComponent(n) + '&icon=' + encodeURIComponent(ic);
+            window.location.href = link;
+        }
+
+        window.onload = function() {
+            if (nameParam) {
+                document.getElementById('page-title').textContent = nameParam;
+                document.title = nameParam;
+            }
+            if (iconParam) {
+                document.getElementById('page-icon').href = iconParam;
+            }
+            if (urlParam) {
+                document.getElementById('builder-card').style.display = 'none';
+                document.getElementById('launcher-card').style.display = 'block';
+                document.getElementById('launch-site-name').textContent = nameParam || urlParam;
+                document.getElementById('launch-target-url').textContent = urlParam;
+            }
+        };
+
+        function launchActive() {
+            if (urlParam) {
+                var target = urlParam.replace(/^https?:\/\//i, '');
+                window.location.replace('surf://' + target);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>🌐 Add Website to Home Screen</h1>
+        <p>Turn any modern site into an iPad homescreen app powered by Surf</p>
+    </div>
+
+    <!-- Active Launcher View (when ?url= is provided) -->
+    <div class="card" id="launcher-card" style="display:none; text-align:center;">
+        <h2 id="launch-site-name" style="font-size:20px;margin-bottom:8px;">Open Website</h2>
+        <p style="color:#848e9c;font-size:13px;margin-bottom:20px;">Ready to open <b id="launch-target-url"></b> in Surf.</p>
+        <button class="action-btn" onclick="launchActive()">⚡ Open in Surf</button>
+        <div class="info-box" style="margin-top:16px;">
+            📲 <b>To save to your Homescreen:</b><br>
+            Tap the Safari <b>Share icon ↗</b> at the top of Safari, then choose <b>'Add to Home Screen'</b>!
+        </div>
+    </div>
+
+    <!-- Creator View -->
+    <div class="card" id="builder-card">
+        <div class="section-title">⚡ 1-Tap Popular Presets</div>
+        <div class="presets-grid">
+            <a href="youtube.html" class="preset-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/512px-YouTube_full-color_icon_%282017%29.svg.png" alt="YouTube">
+                <span>YouTube</span>
+            </a>
+            <a href="reddit.html" class="preset-btn">
+                <img src="https://www.redditstatic.com/shreddit/assets/favicon/192x192.png" alt="Reddit">
+                <span>Reddit</span>
+            </a>
+            <a href="discord.html" class="preset-btn">
+                <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
+                <span>Discord</span>
+            </a>
+            <a href="x.html" class="preset-btn">
+                <img src="https://abs.twimg.com/responsive-web/client-web/icon-default.ee534d6a.png" alt="X">
+                <span>X / Twitter</span>
+            </a>
+            <a href="twitch.html" class="preset-btn">
+                <img src="https://static.twitchcdn.net/assets/favicon-32-e29e246c124e438f130c.png" alt="Twitch">
+                <span>Twitch</span>
+            </a>
+            <a href="google.html" class="preset-btn">
+                <img src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="Google">
+                <span>Google</span>
+            </a>
+        </div>
+
+        <div class="section-title" style="margin-top:20px;">🛠️ Create Custom Shortcut</div>
+        <div class="input-group">
+            <label>Website URL:</label>
+            <input type="text" id="in-url" placeholder="e.g. youtube.com or aniwave.to">
+        </div>
+        <div class="input-group">
+            <label>Shortcut Name on Homescreen:</label>
+            <input type="text" id="in-name" placeholder="e.g. My Site">
+        </div>
+        <div class="input-group">
+            <label>Icon Image URL (Optional):</label>
+            <input type="text" id="in-icon" placeholder="Leave empty for default Surf icon">
+        </div>
+        <button class="action-btn" onclick="createCustom()">Generate Homescreen Shortcut</button>
+    </div>
+</body>
+</html>
