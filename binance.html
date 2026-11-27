@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Binance">
-    <title>Binance Pro - iPad</title>
+    <meta name="apple-mobile-web-app-title" content="Binance Desk">
+    <title>Binance Futures - Pro Trading Desk & PnL</title>
+    <link rel="apple-touch-icon" href="https://bin.bnbstatic.com/static/images/common/favicon.ico">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -15,600 +17,1343 @@
             -webkit-tap-highlight-color: transparent;
         }
         body {
-            background-color: #121418;
+            background-color: #0b0e14;
             color: #eaecef;
-            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 14px 14px 40px 14px;
             user-select: none;
             -webkit-user-select: none;
         }
-        /* Top Navigation */
-        .navbar {
-            background-color: #181a20;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 16px;
-            border-bottom: 1px solid #2b313a;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .logo-wrap {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .logo-icon {
-            width: 24px;
-            height: 24px;
-            background: #f0b90b;
-            border-radius: 4px;
-            display: inline-block;
-            position: relative;
-        }
-        .logo-text {
-            color: #f0b90b;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .search-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        .search-input {
-            background: #2b313a;
-            border: 1px solid #474d57;
-            border-radius: 16px;
-            padding: 6px 14px;
-            color: #fff;
-            font-size: 14px;
-            width: 140px;
-            outline: none;
-            text-transform: uppercase;
-        }
-        .search-input:focus {
-            border-color: #f0b90b;
-            width: 180px;
-        }
-        /* Watchlist ticker scroll */
-        .ticker-bar {
+
+        /* Top Header Navigation */
+        .top-nav {
+            width: 100%;
+            max-width: 900px;
             background: #181a20;
+            border: 1px solid #2b313a;
+            border-radius: 16px;
+            padding: 12px 18px;
+            margin-bottom: 14px;
             display: flex;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 8px 12px;
-            border-bottom: 1px solid #2b313a;
-            gap: 12px;
-            -webkit-overflow-scrolling: touch;
-        }
-        .ticker-pill {
-            background: #20252e;
-            padding: 6px 12px;
-            border-radius: 6px;
-            display: inline-flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            border: 1px solid transparent;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.4);
         }
-        .ticker-pill.active {
-            border-color: #f0b90b;
-            background: #262c38;
+        .brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .ticker-pill .sym {
-            font-size: 13px;
-            font-weight: 600;
+        .binance-logo-svg {
+            width: 28px;
+            height: 28px;
+            fill: #f0b90b;
         }
-        .ticker-pill .pr {
-            font-size: 13px;
-        }
-        /* Main Layout */
-        .main-container {
+        .brand-text-col {
             display: flex;
             flex-direction: column;
-            padding: 12px;
-            gap: 12px;
-            max-width: 1024px;
-            margin: 0 auto;
         }
-        @media (min-width: 768px) {
-            .main-container {
-                flex-direction: row;
-            }
-            .chart-section {
-                flex: 1;
-            }
-            .sidebar-section {
-                width: 320px;
-            }
-        }
-        /* Header Stats */
-        .pair-header {
-            background: #181a20;
-            padding: 14px 18px;
-            border-radius: 10px;
+        .brand-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.5px;
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+        .brand-badge {
+            background: rgba(240, 185, 11, 0.15);
+            color: #f0b90b;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(240, 185, 11, 0.3);
+            text-transform: uppercase;
+        }
+        .brand-sub {
+            font-size: 11px;
+            color: #848e9c;
+            font-weight: 600;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-pill {
+            background: #202633;
+            border: 1px solid #2b313a;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #848e9c;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #848e9c;
+        }
+        .status-dot.live {
+            background: #0ecb81;
+            box-shadow: 0 0 8px #0ecb81;
+        }
+        .status-dot.error {
+            background: #f6465d;
+            box-shadow: 0 0 8px #f6465d;
+        }
+        .btn-gear {
+            background: #202633;
+            border: 1px solid #363c48;
+            border-radius: 10px;
+            color: #f0b90b;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 7px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-gear:active {
+            transform: scale(0.95);
+            background: #2a3345;
+        }
+
+        /* Hero Wallet Balance Card */
+        .wallet-card {
+            width: 100%;
+            max-width: 900px;
+            background: linear-gradient(135deg, #181a20 0%, #15181f 100%);
+            border: 1px solid #2b313a;
+            border-radius: 18px;
+            padding: 20px 22px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .wallet-card::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(240, 185, 11, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .wallet-top-row {
+            display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            border: 1px solid #2b313a;
+            margin-bottom: 8px;
         }
-        .current-price-wrap {
+        .wallet-lbl {
+            font-size: 13px;
+            font-weight: 700;
+            color: #848e9c;
             display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .eye-toggle-btn {
+            cursor: pointer;
+            font-size: 14px;
+            color: #848e9c;
+            user-select: none;
+        }
+        .wallet-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-wallet-action {
+            background: #202633;
+            border: 1px solid #363c48;
+            color: #eaecef;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .balance-main-row {
+            display: flex;
+            flex-wrap: wrap;
             align-items: baseline;
             gap: 12px;
+            margin-bottom: 16px;
         }
-        .pair-title {
-            font-size: 22px;
+        .balance-amount {
+            font-size: 34px;
+            font-weight: 800;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+        .balance-unit {
+            font-size: 16px;
             font-weight: 700;
+            color: #f0b90b;
         }
-        .current-price {
-            font-size: 26px;
-            font-weight: 700;
-            transition: color 0.3s;
+        .unrealized-pnl-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
         }
-        .price-up { color: #0ecb81; }
-        .price-down { color: #f6465d; }
-        .stat-grid {
+        .pnl-pill-pos {
+            background: rgba(14, 203, 129, 0.15);
+            color: #0ecb81;
+            border: 1px solid rgba(14, 203, 129, 0.3);
+        }
+        .pnl-pill-neg {
+            background: rgba(246, 70, 93, 0.15);
+            color: #f6465d;
+            border: 1px solid rgba(246, 70, 93, 0.3);
+        }
+
+        /* 3-Column Wallet Sub-stats */
+        .wallet-grid-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            padding-top: 14px;
+            border-top: 1px solid #202633;
+        }
+        .sub-stat-box {
             display: flex;
-            gap: 16px;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sub-stat-lbl {
+            font-size: 11px;
+            font-weight: 600;
+            color: #848e9c;
+        }
+        .sub-stat-val {
+            font-size: 15px;
+            font-weight: 700;
+            color: #eaecef;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Open Positions Section */
+        .positions-section {
+            width: 100%;
+            max-width: 900px;
+            background: #181a20;
+            border: 1px solid #2b313a;
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .section-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #222731;
+        }
+        .section-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sec-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .count-badge {
+            background: #2b313a;
+            color: #f0b90b;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        .tap-hint-pill {
+            font-size: 11px;
+            color: #848e9c;
+            background: #20252e;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid #2b313a;
+        }
+
+        /* Trades Table View */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .trades-table {
+            width: 100%;
+            min-width: 720px;
+            border-collapse: collapse;
             font-size: 12px;
         }
-        .stat-col {
+        .trades-table th {
+            text-align: left;
+            color: #848e9c;
+            font-weight: 600;
+            font-size: 11px;
+            padding: 8px 10px;
+            border-bottom: 1px solid #2b313a;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .trades-table th.tar, .trades-table td.tar {
+            text-align: right;
+        }
+        .trade-row-item {
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid #1f232b;
+        }
+        .trade-row-item:hover, .trade-row-item:active {
+            background-color: #202530;
+        }
+        .trade-row-item td {
+            padding: 12px 10px;
+            vertical-align: middle;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Symbol Block */
+        .sym-block {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .accent-bar {
+            width: 3px;
+            height: 22px;
+            border-radius: 2px;
+            margin-right: 2px;
+        }
+        .accent-short { background-color: #f6465d; }
+        .accent-long { background-color: #0ecb81; }
+
+        .sym-name {
+            font-weight: 800;
+            color: #ffffff;
+            font-size: 13px;
+        }
+        .tag-pill {
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+        .tag-perp {
+            background: #2b313a;
+            color: #848e9c;
+        }
+        .tag-short {
+            background: rgba(246, 70, 93, 0.15);
+            color: #f6465d;
+        }
+        .tag-long {
+            background: rgba(14, 203, 129, 0.15);
+            color: #0ecb81;
+        }
+
+        .price-num {
+            font-weight: 700;
+            color: #eaecef;
+        }
+        .liq-orange {
+            color: #f0b90b;
+            font-weight: 700;
+        }
+        .pnl-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+        .pnl-green { color: #0ecb81; font-weight: 800; }
+        .pnl-red { color: #f6465d; font-weight: 800; }
+        .share-badge {
+            font-size: 10px;
+            color: #848e9c;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            margin-top: 2px;
+        }
+
+        /* ================= PNL CARD MODAL (MATCHING IMAGE 1) ================= */
+        .pnl-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+        .pnl-modal-backdrop.open {
+            display: flex;
+        }
+        .pnl-card-container {
+            width: 100%;
+            max-width: 380px;
+            background: #000000;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #1c2436;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+            padding: 24px 22px;
+            display: flex;
+            flex-direction: column;
+            color: #ffffff;
+        }
+        .pnl-bg-watermark {
+            position: absolute;
+            right: -40px;
+            top: 15%;
+            width: 320px;
+            height: 320px;
+            opacity: 0.08;
+            pointer-events: none;
+            fill: #ffffff;
+        }
+        .pnl-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 2;
+            margin-bottom: 24px;
+        }
+        .pnl-user-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pnl-avatar-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #11141b;
+            border: 1px solid #2b313a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .pnl-user-info {
             display: flex;
             flex-direction: column;
             gap: 2px;
         }
-        .stat-label {
+        .pnl-username {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .pnl-timestamp {
+            font-size: 13px;
             color: #848e9c;
+            font-weight: 500;
         }
-        .stat-val {
-            font-weight: 600;
-        }
-        /* Timeframe Tabs */
-        .tf-bar {
-            display: flex;
-            background: #181a20;
-            padding: 6px 12px;
-            border-radius: 8px 8px 0 0;
-            border: 1px solid #2b313a;
-            border-bottom: none;
-            gap: 8px;
-        }
-        .tf-btn {
-            background: transparent;
+        .pnl-close-btn {
+            background: rgba(255,255,255,0.08);
             border: none;
             color: #848e9c;
-            padding: 6px 12px;
-            font-size: 13px;
-            font-weight: 600;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 14px;
             cursor: pointer;
-            border-radius: 4px;
         }
-        .tf-btn.active {
-            color: #f0b90b;
-            background: #2b313a;
+        .pnl-hero-body {
+            z-index: 2;
+            margin-bottom: 28px;
         }
-        /* Canvas Chart */
-        .chart-card {
-            background: #181a20;
-            border: 1px solid #2b313a;
-            border-radius: 0 0 10px 10px;
-            position: relative;
-            padding: 10px 0;
+        .pnl-pair-name {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
         }
-        canvas {
-            display: block;
-            width: 100%;
-            height: 380px;
-        }
-        /* Orderbook / Trades Sidebar */
-        .orderbook-card {
-            background: #181a20;
-            border: 1px solid #2b313a;
-            border-radius: 10px;
-            padding: 14px;
-        }
-        .card-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #eaecef;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .orderbook-table {
-            width: 100%;
-            font-size: 12px;
-            border-collapse: collapse;
-        }
-        .orderbook-table th {
-            color: #848e9c;
-            text-align: right;
-            padding-bottom: 6px;
-            font-weight: normal;
-        }
-        .orderbook-table th:first-child { text-align: left; }
-        .orderbook-table td {
-            text-align: right;
-            padding: 3px 0;
-            font-family: monospace;
-        }
-        .orderbook-table td:first-child { text-align: left; }
-        .loading-cover {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(24, 26, 32, 0.7);
+        .pnl-side-leverage {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 6px;
+            margin-bottom: 18px;
+        }
+        .pnl-side-lbl {
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .side-red { color: #f6465d; }
+        .side-grn { color: #0ecb81; }
+        .pnl-pipe { color: #474d57; font-size: 12px; }
+        .pnl-lev-lbl { color: #848e9c; font-size: 13px; font-weight: 600; }
+        .pnl-huge-amount {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 4px;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -1px;
+        }
+        .pnl-huge-amount .unit-sm {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-left: 4px;
+        }
+        .pnl-huge-pct {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            font-variant-numeric: tabular-nums;
+        }
+        .pnl-grid-prices {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .pnl-price-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .pnl-price-lbl {
+            font-size: 13px;
+            color: #848e9c;
+            font-weight: 500;
+        }
+        .pnl-price-val {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+        }
+        .pnl-footer-brand {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 2;
+            padding-top: 14px;
+            border-top: 1px solid #141822;
+        }
+        .binance-futures-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .bf-logo-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .bf-svg {
+            width: 18px;
+            height: 18px;
+            fill: #f0b90b;
+        }
+        .bf-titles {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+        .bf-binance {
+            font-size: 12px;
+            font-weight: 900;
             color: #f0b90b;
+            letter-spacing: 0.5px;
+        }
+        .bf-futures {
+            font-size: 10px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+        .bf-ref-title {
+            font-size: 11px;
+            color: #848e9c;
+            margin-top: 8px;
+        }
+        .bf-ref-num {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+        .pnl-qr-frame {
+            width: 62px;
+            height: 62px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        /* Settings API Modal */
+        .api-modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+        .api-modal-backdrop.open { display: flex; }
+        .api-modal-box {
+            background: #181a20;
+            border: 1px solid #2b313a;
+            border-radius: 20px;
+            max-width: 440px;
+            width: 100%;
+            padding: 24px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.8);
+        }
+        .api-modal-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 800;
+            color: #f0b90b;
+            margin-bottom: 16px;
+        }
+        .api-field-wrap {
+            margin-bottom: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .api-field-wrap label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #848e9c;
+            text-transform: uppercase;
+        }
+        .api-input {
+            background: #0b0e14;
+            border: 1px solid #2b313a;
             border-radius: 10px;
-            visibility: hidden;
+            padding: 12px 14px;
+            color: #ffffff;
+            font-size: 13px;
+            outline: none;
+            font-family: monospace;
+        }
+        .api-input:focus {
+            border-color: #f0b90b;
+        }
+        .api-btns-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn-modal-action {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-modal-save {
+            background: #f0b90b;
+            color: #10141d;
+        }
+        .btn-modal-clear {
+            background: #2b313a;
+            color: #eaecef;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="logo-wrap">
-            <span class="logo-icon"></span>
-            <span class="logo-text">BINANCE</span>
+    <!-- Top Navigation Header -->
+    <div class="top-nav">
+        <div class="brand-wrap">
+            <svg viewBox="0 0 24 24" class="binance-logo-svg">
+                <path d="M12 0 L16 4 L12 8 L8 4 Z M4 8 L8 12 L4 16 L0 12 Z M20 8 L24 12 L20 16 L16 12 Z M12 16 L16 20 L12 24 L8 20 Z M12 9.5 L14.5 12 L12 14.5 L9.5 12 Z" />
+            </svg>
+            <div class="brand-text-col">
+                <span class="brand-title">BINANCE DESK <span class="brand-badge">Futures</span></span>
+                <span class="brand-sub" id="header-clock">--:--:-- UTC</span>
+            </div>
         </div>
-        <div class="search-box">
-            <input type="text" id="search-input" class="search-input" placeholder="Search (BTC)" onkeypress="if(event.keyCode==13) selectCustomPair()">
+        <div class="nav-actions">
+            <div class="status-pill" id="nav-status-pill">
+                <span class="status-dot" id="nav-status-dot"></span>
+                <span id="nav-status-txt">Checking API...</span>
+            </div>
+            <button class="btn-gear" onclick="openApiModal()">⚙️ Settings</button>
         </div>
     </div>
 
-    <!-- Ticker Bar -->
-    <div class="ticker-bar" id="ticker-bar">
-        <!-- Filled by JS -->
-    </div>
-
-    <!-- Main Body -->
-    <div class="main-container">
-        <!-- Chart Section -->
-        <div class="chart-section">
-            <div class="pair-header">
-                <div class="current-price-wrap">
-                    <span class="pair-title" id="pair-title">BTC/USDT</span>
-                    <span class="current-price" id="current-price">--</span>
-                </div>
-                <div class="stat-grid">
-                    <div class="stat-col">
-                        <span class="stat-label">24h Change</span>
-                        <span class="stat-val" id="stat-change">--</span>
-                    </div>
-                    <div class="stat-col">
-                        <span class="stat-label">24h High</span>
-                        <span class="stat-val" id="stat-high">--</span>
-                    </div>
-                    <div class="stat-col">
-                        <span class="stat-label">24h Low</span>
-                        <span class="stat-val" id="stat-low">--</span>
-                    </div>
-                </div>
+    <!-- Hero Wallet Balance Card -->
+    <div class="wallet-card">
+        <div class="wallet-top-row">
+            <div class="wallet-lbl">
+                <span>USDT Margin Wallet Balance</span>
+                <span class="eye-toggle-btn" onclick="toggleBalanceVisibility()" id="eye-icon" title="Toggle Privacy">👁️</span>
             </div>
-
-            <!-- Timeframe selector -->
-            <div class="tf-bar">
-                <button class="tf-btn" onclick="setTimeframe('1m', this)">1m</button>
-                <button class="tf-btn" onclick="setTimeframe('5m', this)">5m</button>
-                <button class="tf-btn" onclick="setTimeframe('15m', this)">15m</button>
-                <button class="tf-btn active" onclick="setTimeframe('1h', this)">1h</button>
-                <button class="tf-btn" onclick="setTimeframe('4h', this)">4h</button>
-                <button class="tf-btn" onclick="setTimeframe('1d', this)">1D</button>
-            </div>
-
-            <!-- Canvas Chart -->
-            <div class="chart-card">
-                <canvas id="chart-canvas"></canvas>
-                <div id="chart-loading" class="loading-cover">Loading Chart...</div>
+            <div class="wallet-actions">
+                <button class="btn-wallet-action" onclick="fetchFuturesData()">🔄 Refresh</button>
             </div>
         </div>
+        <div class="balance-main-row">
+            <div class="balance-amount" id="val-total-equity">0.00</div>
+            <span class="balance-unit">USDT</span>
+            <div class="unrealized-pnl-pill pnl-pill-pos" id="val-total-pnl-pill">
+                <span id="val-total-pnl">+$0.00</span>
+                <span id="val-total-roi">(+0.00%)</span>
+            </div>
+        </div>
+        <div class="wallet-grid-stats">
+            <div class="sub-stat-box">
+                <span class="sub-stat-lbl">Wallet Balance</span>
+                <span class="sub-stat-val" id="val-wallet-bal">0.00 USDT</span>
+            </div>
+            <div class="sub-stat-box">
+                <span class="sub-stat-lbl">Unrealized PNL</span>
+                <span class="sub-stat-val" id="val-unrealized-pnl">0.00 USDT</span>
+            </div>
+            <div class="sub-stat-box">
+                <span class="sub-stat-lbl">Available for Trading</span>
+                <span class="sub-stat-val" id="val-avail-bal">0.00 USDT</span>
+            </div>
+            <div class="sub-stat-box">
+                <span class="sub-stat-lbl">Margin Ratio</span>
+                <span class="sub-stat-val" id="val-margin-ratio">0.00%</span>
+            </div>
+        </div>
+    </div>
 
-        <!-- Sidebar (Orderbook) -->
-        <div class="sidebar-section">
-            <div class="orderbook-card">
-                <div class="card-title">
-                    <span>Order Book</span>
-                    <span style="font-size: 12px; color: #848e9c;">Live</span>
+    <!-- Open Positions Section -->
+    <div class="positions-section">
+        <div class="section-header-bar">
+            <div class="section-title-wrap">
+                <span class="sec-title">Open Positions</span>
+                <span class="count-badge" id="positions-count-badge">0</span>
+            </div>
+            <span class="tap-hint-pill">💡 Tap any trade to open PnL Card</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="trades-table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Size (USDT)</th>
+                        <th>Entry Price</th>
+                        <th>Break Even</th>
+                        <th>Mark Price</th>
+                        <th>Liq. Price</th>
+                        <th>Margin Ratio</th>
+                        <th>Margin</th>
+                        <th class="tar">PNL (ROI %)</th>
+                    </tr>
+                </thead>
+                <tbody id="trades-tbody">
+                    <tr>
+                        <td colspan="9" style="text-align:center;padding:32px 14px;color:#848e9c;">
+                            Loading live Binance Futures...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ================= PNL CARD MODAL (MATCHING IMAGE 1) ================= -->
+    <div class="pnl-modal-backdrop" id="modal-pnl-backdrop" onclick="if(event.target===this) closePnlModal()">
+        <div class="pnl-card-container">
+            <!-- Background Watermark -->
+            <svg class="pnl-bg-watermark" viewBox="0 0 100 100">
+                <path d="M50 0 L66 16 L50 32 L34 16 Z M18 32 L34 48 L18 64 L2 48 Z M82 32 L98 48 L82 64 L66 48 Z M50 68 L66 84 L50 100 L34 84 Z M50 38 L62 50 L50 62 L38 50 Z" />
+            </svg>
+
+            <!-- Header: Avatar with purple eyes, IceWizard101, Timestamp, Close -->
+            <div class="pnl-header-top">
+                <div class="pnl-user-group">
+                    <div class="pnl-avatar-box">
+                        <svg viewBox="0 0 36 36" style="width:100%;height:100%;">
+                            <circle cx="18" cy="18" r="17" fill="#120c1a" />
+                            <path d="M 7 18 C 7 11, 29 11, 29 18 C 29 25, 7 25, 7 18 Z" fill="#241433" />
+                            <ellipse cx="13" cy="18" rx="2.8" ry="1.4" fill="#c084fc" />
+                            <ellipse cx="23" cy="18" rx="2.8" ry="1.4" fill="#c084fc" />
+                            <circle cx="13" cy="18" r="0.9" fill="#fff" />
+                            <circle cx="23" cy="18" r="0.9" fill="#fff" />
+                        </svg>
+                    </div>
+                    <div class="pnl-user-info">
+                        <span class="pnl-username" id="card-username">IceWizard101</span>
+                        <span class="pnl-timestamp" id="card-timestamp">2026-11-27 17:30</span>
+                    </div>
                 </div>
-                <table class="orderbook-table">
-                    <thead>
-                        <tr>
-                            <th>Price</th>
-                            <th>Amount</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="asks-body"></tbody>
-                    <tr style="height: 10px;"></tr>
-                    <tbody id="bids-body"></tbody>
-                </table>
+                <button class="pnl-close-btn" onclick="closePnlModal()">✕</button>
+            </div>
+
+            <!-- Hero Body: Symbol, Side Badge, Giant PnL Amount & % -->
+            <div class="pnl-hero-body">
+                <div class="pnl-pair-name" id="card-pair-title">LINKUSDT Perpetual</div>
+                <div class="pnl-side-leverage">
+                    <span class="pnl-side-lbl side-red" id="card-side-tag">Short</span>
+                    <span class="pnl-pipe">|</span>
+                    <span class="pnl-lev-lbl" id="card-lev-tag">15x</span>
+                </div>
+
+                <div class="pnl-huge-amount pnl-green" id="card-pnl-val">
+                    0.97 <span class="unit-sm">USDT</span>
+                </div>
+                <div class="pnl-huge-pct pnl-green" id="card-roi-val">+14.71%</div>
+
+                <div class="pnl-grid-prices">
+                    <div class="pnl-price-item">
+                        <span class="pnl-price-lbl">Entry Price</span>
+                        <span class="pnl-price-val" id="card-entry-price">9.444</span>
+                    </div>
+                    <div class="pnl-price-item">
+                        <span class="pnl-price-lbl" id="card-exit-lbl">Exit Price</span>
+                        <span class="pnl-price-val" id="card-exit-price">9.342</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer: Binance Futures Logo, Referral Code, QR Code (Image 1) -->
+            <div class="pnl-footer-brand">
+                <div class="binance-futures-box">
+                    <div class="bf-logo-row">
+                        <svg viewBox="0 0 24 24" class="bf-svg">
+                            <path d="M12 0 L16 4 L12 8 L8 4 Z M4 8 L8 12 L4 16 L0 12 Z M20 8 L24 12 L20 16 L16 12 Z M12 16 L16 20 L12 24 L8 20 Z M12 9.5 L14.5 12 L12 14.5 L9.5 12 Z" />
+                        </svg>
+                        <div class="bf-titles">
+                            <span class="bf-binance">BINANCE</span>
+                            <span class="bf-futures">FUTURES</span>
+                        </div>
+                    </div>
+                    <div class="bf-ref-title">Referral code</div>
+                    <div class="bf-ref-num" id="card-ref-code">792542923</div>
+                </div>
+
+                <div class="pnl-qr-frame">
+                    <svg viewBox="0 0 33 33" style="width:100%;height:100%;fill:#000;">
+                        <rect x="0" y="0" width="7" height="7"/>
+                        <rect x="1" y="1" width="5" height="5" fill="white"/>
+                        <rect x="2" y="2" width="3" height="3"/>
+                        <rect x="26" y="0" width="7" height="7"/>
+                        <rect x="27" y="1" width="5" height="5" fill="white"/>
+                        <rect x="28" y="2" width="3" height="3"/>
+                        <rect x="0" y="26" width="7" height="7"/>
+                        <rect x="1" y="27" width="5" height="5" fill="white"/>
+                        <rect x="2" y="28" width="3" height="3"/>
+                        <rect x="10" y="2" width="2" height="2"/>
+                        <rect x="14" y="2" width="3" height="2"/>
+                        <rect x="20" y="2" width="2" height="2"/>
+                        <rect x="9" y="8" width="2" height="2"/>
+                        <rect x="13" y="9" width="3" height="2"/>
+                        <rect x="18" y="8" width="2" height="2"/>
+                        <rect x="22" y="9" width="2" height="2"/>
+                        <rect x="2" y="10" width="2" height="2"/>
+                        <rect x="10" y="14" width="4" height="4"/>
+                        <rect x="16" y="15" width="2" height="2"/>
+                        <rect x="20" y="14" width="3" height="3"/>
+                        <rect x="25" y="14" width="2" height="2"/>
+                        <rect x="9" y="20" width="2" height="3"/>
+                        <rect x="13" y="21" width="2" height="2"/>
+                        <rect x="17" y="20" width="3" height="2"/>
+                        <rect x="22" y="22" width="3" height="2"/>
+                        <rect x="10" y="26" width="3" height="2"/>
+                        <rect x="15" y="26" width="2" height="3"/>
+                        <rect x="20" y="27" width="2" height="2"/>
+                        <rect x="25" y="26" width="3" height="2"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= API SETUP MODAL ================= -->
+    <div class="api-modal-backdrop" id="modal-api-backdrop" onclick="if(event.target===this) closeApiModal()">
+        <div class="api-modal-box">
+            <div class="api-modal-title">
+                <span>🛡️ BINANCE API CONFIGURATION</span>
+                <span style="cursor:pointer;color:#848e9c;" onclick="closeApiModal()">✕</span>
+            </div>
+            <div class="api-field-wrap">
+                <label>Binance API Key (Read-Only):</label>
+                <input type="text" id="api-key-input" placeholder="Paste your Binance API Key" class="api-input">
+            </div>
+            <div class="api-field-wrap">
+                <label>Binance Secret Key:</label>
+                <input type="password" id="api-secret-input" placeholder="Paste your Binance Secret Key" class="api-input">
+            </div>
+            <div class="api-field-wrap">
+                <label>Username on PnL Card:</label>
+                <input type="text" id="api-username-input" value="IceWizard101" class="api-input">
+            </div>
+            <div class="api-field-wrap">
+                <label>Referral Code on PnL Card:</label>
+                <input type="text" id="api-ref-input" value="792542923" class="api-input">
+            </div>
+            <div class="api-btns-row">
+                <button class="btn-modal-action btn-modal-clear" onclick="clearApiKeys()">Clear Keys</button>
+                <button class="btn-modal-action btn-modal-save" onclick="saveApiKeysConfig()">Save &amp; Connect Live</button>
             </div>
         </div>
     </div>
 
     <script>
-        var currentSymbol = "BTCUSDT";
-        var currentInterval = "1h";
-        var watchlist = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT", "DOGEUSDT", "PEPEUSDT"];
-        var candleData = [];
+        var bApiKey = (localStorage.getItem('binance_apikey') || localStorage.getItem('binance_user_apikey') || '').replace(/[\r\n\s\t]/g, '');
+        var bSecretKey = (localStorage.getItem('binance_secret') || localStorage.getItem('binance_user_secret') || '').replace(/[\r\n\s\t]/g, '');
+        var bUsername = localStorage.getItem('pnl_username') || 'IceWizard101';
+        var bReferral = localStorage.getItem('pnl_referral') || '792542923';
+        var bTimeOffset = 0;
+        var hideBalance = false;
+        var liveTradesList = [];
 
-        var canvas = document.getElementById("chart-canvas");
-        var ctx = canvas.getContext("2d");
-
-        function init() {
-            renderWatchlist();
-            fetchTickerBar();
-            loadPairData(currentSymbol);
-            window.onresize = drawChart;
-            setInterval(fetchTickerBar, 10000);
-            setInterval(refreshActivePair, 5000);
-        }
-
-        function renderWatchlist() {
-            var bar = document.getElementById("ticker-bar");
-            var html = "";
-            for (var i = 0; i < watchlist.length; i++) {
-                var sym = watchlist[i];
-                var display = sym.replace("USDT", "");
-                var activeClass = sym === currentSymbol ? " active" : "";
-                html += '<div class="ticker-pill' + activeClass + '" id="pill-' + sym + '" onclick="selectPair(\'' + sym + '\')">' +
-                    '<span class="sym">' + display + '</span>' +
-                    '<span class="pr" id="pill-pr-' + sym + '">--</span>' +
-                    '</div>';
+        function updateClock() {
+            var now = new Date();
+            var h = now.getUTCHours();
+            var m = now.getUTCMinutes();
+            var s = now.getUTCSeconds();
+            var el = document.getElementById('header-clock');
+            if (el) {
+                el.textContent = (h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s) + ' UTC';
             }
-            bar.innerHTML = html;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function syncServerTime(cb) {
+            var startReq = Date.now();
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://fapi.binance.com/fapi/v1/time', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            var d = JSON.parse(xhr.responseText);
+                            var endReq = Date.now();
+                            var latency = Math.round((endReq - startReq) / 2);
+                            bTimeOffset = (d.serverTime + latency) - endReq;
+                        } catch(e) {}
+                    }
+                    if (cb) cb();
+                }
+            };
+            xhr.send();
         }
 
-        function fetchTickerBar() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://api.binance.com/api/v3/ticker/24hr", true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var list = JSON.parse(xhr.responseText);
-                    var map = {};
-                    for (var i = 0; i < list.length; i++) {
-                        map[list[i].symbol] = list[i];
-                    }
-                    for (var j = 0; j < watchlist.length; j++) {
-                        var s = watchlist[j];
-                        var item = map[s];
-                        if (item) {
-                            var el = document.getElementById("pill-pr-" + s);
-                            if (el) {
-                                var pr = parseFloat(item.lastPrice);
-                                var chg = parseFloat(item.priceChangePercent);
-                                el.innerHTML = (pr > 1 ? pr.toFixed(2) : pr.toFixed(6));
-                                el.className = "pr " + (chg >= 0 ? "price-up" : "price-down");
+        function hmacSha256(str, secret) {
+            if (typeof CryptoJS !== 'undefined') {
+                return CryptoJS.HmacSHA256(str, secret).toString(CryptoJS.enc.Hex);
+            }
+            return '';
+        }
+
+        function toggleBalanceVisibility() {
+            hideBalance = !hideBalance;
+            var eye = document.getElementById('eye-icon');
+            if (eye) eye.textContent = hideBalance ? '🙈' : '👁️';
+            fetchFuturesData();
+        }
+
+        function openApiModal() {
+            var kIn = document.getElementById('api-key-input');
+            var sIn = document.getElementById('api-secret-input');
+            var uIn = document.getElementById('api-username-input');
+            var rIn = document.getElementById('api-ref-input');
+            if (kIn) kIn.value = bApiKey;
+            if (sIn) sIn.value = bSecretKey;
+            if (uIn) uIn.value = bUsername;
+            if (rIn) rIn.value = bReferral;
+            var m = document.getElementById('modal-api-backdrop');
+            if (m) m.classList.add('open');
+        }
+
+        function closeApiModal() {
+            var m = document.getElementById('modal-api-backdrop');
+            if (m) m.classList.remove('open');
+        }
+
+        function clearApiKeys() {
+            localStorage.removeItem('binance_apikey');
+            localStorage.removeItem('binance_user_apikey');
+            localStorage.removeItem('binance_secret');
+            localStorage.removeItem('binance_user_secret');
+            bApiKey = '';
+            bSecretKey = '';
+            closeApiModal();
+            fetchFuturesData();
+        }
+
+        function saveApiKeysConfig() {
+            var kIn = document.getElementById('api-key-input');
+            var sIn = document.getElementById('api-secret-input');
+            var uIn = document.getElementById('api-username-input');
+            var rIn = document.getElementById('api-ref-input');
+            if (kIn) {
+                bApiKey = kIn.value.replace(/[\r\n\s\t]/g, '');
+                localStorage.setItem('binance_apikey', bApiKey);
+            }
+            if (sIn) {
+                bSecretKey = sIn.value.replace(/[\r\n\s\t]/g, '');
+                localStorage.setItem('binance_secret', bSecretKey);
+            }
+            if (uIn) {
+                bUsername = uIn.value.trim() || 'IceWizard101';
+                localStorage.setItem('pnl_username', bUsername);
+            }
+            if (rIn) {
+                bReferral = rIn.value.trim() || '792542923';
+                localStorage.setItem('pnl_referral', bReferral);
+            }
+            closeApiModal();
+            fetchFuturesData();
+        }
+
+        function setStatus(type, msg) {
+            var dot = document.getElementById('nav-status-dot');
+            var txt = document.getElementById('nav-status-txt');
+            if (dot) {
+                dot.className = 'status-dot ' + (type === 'live' ? 'live' : (type === 'error' ? 'error' : ''));
+            }
+            if (txt) {
+                txt.textContent = msg;
+            }
+        }
+
+        function fetchFuturesData() {
+            if (!bApiKey || !bSecretKey) {
+                setStatus('error', 'API Keys Required');
+                renderUnconfiguredState();
+                return;
+            }
+
+            setStatus('sync', 'Syncing...');
+
+            syncServerTime(function() {
+                var ts = Date.now() + bTimeOffset;
+                var query = 'timestamp=' + ts + '&recvWindow=60000';
+                var sig = hmacSha256(query, bSecretKey);
+                var url = 'https://fapi.binance.com/fapi/v2/account?' + query + '&signature=' + sig;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.setRequestHeader('X-MBX-APIKEY', bApiKey);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            try {
+                                var acc = JSON.parse(xhr.responseText);
+                                setStatus('live', 'Live Connected');
+                                renderAccountData(acc);
+                            } catch(e) {
+                                renderErrorState('JSON Parsing Error', e.message);
                             }
+                        } else {
+                            var errMsg = 'HTTP ' + xhr.status;
+                            try {
+                                var errJson = JSON.parse(xhr.responseText);
+                                if (errJson.msg) errMsg = errJson.msg + ' (Code: ' + errJson.code + ')';
+                            } catch(e) {
+                                errMsg = xhr.statusText || errMsg;
+                            }
+                            renderErrorState('Binance API Error (' + xhr.status + ')', errMsg);
                         }
                     }
+                };
+                xhr.send();
+            });
+        }
+
+        function renderAccountData(acc) {
+            // Wallet Values
+            var totalMarginBal = parseFloat(acc.totalMarginBalance || 0);
+            var walletBal = parseFloat(acc.totalWalletBalance || 0);
+            var unrealizedPnl = parseFloat(acc.totalUnrealizedProfit || 0);
+            var availBal = parseFloat(acc.availableBalance || 0);
+            var marginRatio = parseFloat(acc.totalMaintMargin || 0) / (totalMarginBal > 0 ? totalMarginBal : 1) * 100;
+
+            var eqEl = document.getElementById('val-total-equity');
+            var walEl = document.getElementById('val-wallet-bal');
+            var upnlEl = document.getElementById('val-unrealized-pnl');
+            var avlEl = document.getElementById('val-avail-bal');
+            var mrEl = document.getElementById('val-margin-ratio');
+            var pnlPill = document.getElementById('val-total-pnl-pill');
+            var pnlVal = document.getElementById('val-total-pnl');
+            var pnlRoi = document.getElementById('val-total-roi');
+
+            if (hideBalance) {
+                if (eqEl) eqEl.textContent = '******';
+                if (walEl) walEl.textContent = '****** USDT';
+                if (upnlEl) upnlEl.textContent = '****** USDT';
+                if (avlEl) avlEl.textContent = '****** USDT';
+                if (mrEl) mrEl.textContent = '******';
+                if (pnlVal) pnlVal.textContent = '******';
+                if (pnlRoi) pnlRoi.textContent = '';
+                return;
+            }
+
+            if (eqEl) eqEl.textContent = totalMarginBal.toFixed(2);
+            if (walEl) walEl.textContent = walletBal.toFixed(2) + ' USDT';
+            if (upnlEl) {
+                var isPos = unrealizedPnl >= 0;
+                upnlEl.textContent = (isPos ? '+' : '') + unrealizedPnl.toFixed(2) + ' USDT';
+                upnlEl.className = 'sub-stat-val ' + (isPos ? 'pnl-green' : 'pnl-red');
+            }
+            if (avlEl) avlEl.textContent = availBal.toFixed(2) + ' USDT';
+            if (mrEl) mrEl.textContent = marginRatio.toFixed(2) + '%';
+
+            if (pnlPill) {
+                var isPos = unrealizedPnl >= 0;
+                var roi = walletBal > 0 ? (unrealizedPnl / walletBal) * 100 : 0;
+                pnlPill.className = 'unrealized-pnl-pill ' + (isPos ? 'pnl-pill-pos' : 'pnl-pill-neg');
+                if (pnlVal) pnlVal.textContent = (isPos ? '+' : '') + '$' + unrealizedPnl.toFixed(2) + ' USDT';
+                if (pnlRoi) pnlRoi.textContent = '(' + (isPos ? '+' : '') + roi.toFixed(2) + '%)';
+            }
+
+            // Positions
+            var rawPositions = acc.positions || [];
+            var active = [];
+            for (var i = 0; i < rawPositions.length; i++) {
+                var p = rawPositions[i];
+                var amt = parseFloat(p.positionAmt);
+                if (amt !== 0) {
+                    var isShort = amt < 0;
+                    var mark = parseFloat(p.markPrice);
+                    var entry = parseFloat(p.entryPrice);
+                    var sizeUsdt = Math.abs(amt * mark);
+                    var lev = parseInt(p.leverage) || 1;
+                    var margin = parseFloat(p.initialMargin) || (sizeUsdt / lev);
+                    var pnl = parseFloat(p.unrealizedProfit);
+                    var pnlPct = margin > 0 ? (pnl / margin) * 100 : 0;
+
+                    active.push({
+                        symbol: p.symbol,
+                        side: isShort ? 'Short' : 'Long',
+                        leverage: lev,
+                        size: sizeUsdt.toFixed(2),
+                        entryPrice: entry.toFixed(3),
+                        bePrice: entry.toFixed(3),
+                        markPrice: mark.toFixed(3),
+                        liqPrice: parseFloat(p.liquidationPrice || 0).toFixed(3),
+                        marginRatio: (p.marginRatio ? parseFloat(p.marginRatio).toFixed(2) + '%' : '4.99%'),
+                        margin: margin.toFixed(2) + ' USDT (' + (p.marginType || 'Cross') + ')',
+                        pnl: pnl.toFixed(2),
+                        pnlPct: pnlPct.toFixed(2)
+                    });
                 }
+            }
+
+            liveTradesList = active;
+            renderPositionsTable(active);
+        }
+
+        function renderPositionsTable(trades) {
+            var tbody = document.getElementById('trades-tbody');
+            var badge = document.getElementById('positions-count-badge');
+            if (badge) badge.textContent = trades.length;
+            if (!tbody) return;
+
+            if (trades.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:36px 14px;color:#848e9c;">' +
+                    '<div style="font-size:18px;margin-bottom:6px;color:#0ecb81;font-weight:700;">✅ Binance Futures Connected</div>' +
+                    '<div style="font-size:12px;color:#5e6673;margin-bottom:14px;">You currently have 0 open positions.</div>' +
+                    '<button class="btn-wallet-action" onclick="openSamplePnlCard()" style="display:inline-flex;padding:7px 16px;font-size:12px;background:#f0b90b;color:#000;border:none;font-weight:800;">🎴 Preview Sample PnL Card</button>' +
+                    '</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            for (var i = 0; i < trades.length; i++) {
+                (function(t) {
+                    var isShort = t.side === 'Short';
+                    var isPos = parseFloat(t.pnl) >= 0;
+                    var barCls = isShort ? 'accent-short' : 'accent-long';
+                    var tagCls = isShort ? 'tag-short' : 'tag-long';
+                    var pnlCls = isPos ? 'pnl-green' : 'pnl-red';
+                    var sign = isPos ? '+' : '';
+
+                    var tr = document.createElement('tr');
+                    tr.className = 'trade-row-item';
+                    tr.innerHTML = 
+                        '<td style="padding-left:12px;">' +
+                            '<div class="sym-block">' +
+                                '<div class="accent-bar ' + barCls + '"></div>' +
+                                '<div>' +
+                                    '<span class="sym-name">' + t.symbol + '</span> ' +
+                                    '<span class="tag-pill tag-perp">Perp</span> ' +
+                                    '<span class="tag-pill ' + tagCls + '">' + t.leverage + 'x</span>' +
+                                '</div>' +
+                            '</div>' +
+                        '</td>' +
+                        '<td style="color:#0ecb81;font-weight:700;">' + t.size + ' USDT</td>' +
+                        '<td class="price-num">' + t.entryPrice + '</td>' +
+                        '<td class="price-num">' + t.bePrice + '</td>' +
+                        '<td class="price-num">' + t.markPrice + '</td>' +
+                        '<td class="liq-orange">' + t.liqPrice + '</td>' +
+                        '<td style="color:#848e9c;">' + t.marginRatio + '</td>' +
+                        '<td style="color:#eaecef;">' + t.margin + '</td>' +
+                        '<td class="tar" style="padding-right:12px;">' +
+                            '<div class="pnl-cell">' +
+                                '<span class="' + pnlCls + '">' + sign + t.pnl + ' USDT</span>' +
+                                '<span class="' + pnlCls + '" style="font-size:11px;">' + sign + t.pnlPct + '%</span>' +
+                                '<span class="share-badge">PnL Card ↗</span>' +
+                            '</div>' +
+                        '</td>';
+
+                    tr.addEventListener('click', function() {
+                        openPnlModal(t);
+                    });
+
+                    tbody.appendChild(tr);
+                })(trades[i]);
+            }
+        }
+
+        function renderUnconfiguredState() {
+            var tbody = document.getElementById('trades-tbody');
+            if (tbody) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:36px 14px;color:#848e9c;">' +
+                    '<div style="font-size:20px;margin-bottom:8px;font-weight:700;">🔒 Binance API Not Configured</div>' +
+                    '<div style="font-size:12px;color:#848e9c;margin-bottom:16px;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.6;">' +
+                    'Connect your read-only Binance API Key to display live USDT wallet balance, open trades, and generate 1-tap PnL cards.' +
+                    '</div>' +
+                    '<button class="btn-wallet-action" onclick="openApiModal()" style="display:inline-flex;padding:8px 20px;font-size:13px;background:#f0b90b;color:#10141d;border:none;font-weight:800;">⚙️ Connect API Keys</button>' +
+                    '</td></tr>';
+            }
+        }
+
+        function renderErrorState(title, message) {
+            setStatus('error', 'API Error');
+            var tbody = document.getElementById('trades-tbody');
+            if (tbody) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:26px 14px;color:#f6465d;">' +
+                    '<div style="font-size:16px;font-weight:800;margin-bottom:6px;">⚠️ ' + title + '</div>' +
+                    '<div style="font-size:12px;color:#eaecef;background:#241217;border:1px solid #4a1c24;padding:8px 12px;border-radius:8px;max-width:520px;margin:0 auto 12px auto;font-family:monospace;">' + message + '</div>' +
+                    '<div style="font-size:11px;color:#848e9c;max-width:480px;margin:0 auto 12px auto;line-height:1.5;">' +
+                    '<b>How to fix on Binance:</b><br>' +
+                    '1. In <b>API Management</b>, ensure <b>"Enable Reading"</b> AND <b>"Enable Futures"</b> are checked.<br>' +
+                    '2. If you set IP access restrictions, ensure your IP is allowed or set to Unrestricted.<br>' +
+                    '3. Re-paste your API Key and Secret Key carefully.' +
+                    '</div>' +
+                    '<button class="btn-wallet-action" onclick="openApiModal()" style="display:inline-flex;padding:6px 16px;font-size:11px;">⚙️ Edit API Keys</button>' +
+                    '</td></tr>';
+            }
+        }
+
+        function openSamplePnlCard() {
+            var trade = {
+                symbol: 'LINKUSDT',
+                side: 'Short',
+                leverage: 15,
+                pnl: '0.97',
+                pnlPct: '14.71',
+                entryPrice: '9.444',
+                markPrice: '9.342'
             };
-            xhr.send();
+            openPnlModal(trade);
         }
 
-        function selectPair(symbol) {
-            currentSymbol = symbol;
-            renderWatchlist();
-            loadPairData(currentSymbol);
-        }
+        function openPnlModal(t) {
+            var modal = document.getElementById('modal-pnl-backdrop');
+            if (!modal) return;
 
-        function selectCustomPair() {
-            var inp = document.getElementById("search-input");
-            var val = inp.value.trim().toUpperCase();
-            if (!val) return;
-            if (val.indexOf("USDT") === -1) val += "USDT";
-            if (watchlist.indexOf(val) === -1) {
-                watchlist.unshift(val);
+            var uEl = document.getElementById('card-username');
+            var dEl = document.getElementById('card-timestamp');
+            var pEl = document.getElementById('card-pair-title');
+            var sEl = document.getElementById('card-side-tag');
+            var lEl = document.getElementById('card-lev-tag');
+            var pnlEl = document.getElementById('card-pnl-val');
+            var roiEl = document.getElementById('card-roi-val');
+            var enEl = document.getElementById('card-entry-price');
+            var exEl = document.getElementById('card-exit-price');
+            var refEl = document.getElementById('card-ref-code');
+
+            var now = new Date();
+            var y = now.getFullYear();
+            var m = now.getMonth() + 1;
+            var d = now.getDate();
+            var hr = now.getHours();
+            var mn = now.getMinutes();
+            var dateStr = y + '-' + (m < 10 ? '0' + m : m) + '-' + (d < 10 ? '0' + d : d) + ' ' + (hr < 10 ? '0' + hr : hr) + ':' + (mn < 10 ? '0' + mn : mn);
+
+            if (uEl) uEl.textContent = bUsername;
+            if (dEl) dEl.textContent = dateStr;
+            if (pEl) pEl.textContent = (t.symbol || 'LINKUSDT') + ' Perpetual';
+            if (refEl) refEl.textContent = bReferral;
+
+            var isShort = (t.side === 'Short');
+            if (sEl) {
+                sEl.textContent = t.side || 'Short';
+                sEl.className = isShort ? 'pnl-side-lbl side-red' : 'pnl-side-lbl side-grn';
             }
-            selectPair(val);
-            inp.value = "";
-        }
+            if (lEl) lEl.textContent = (t.leverage || '15') + 'x';
 
-        function setTimeframe(tf, btn) {
-            currentInterval = tf;
-            var btns = document.querySelectorAll(".tf-btn");
-            for (var i = 0; i < btns.length; i++) btns[i].className = "tf-btn";
-            btn.className = "tf-btn active";
-            loadPairData(currentSymbol);
-        }
+            var isPos = parseFloat(t.pnl) >= 0;
+            var sign = isPos ? '+' : '';
+            var pnlColor = isPos ? 'pnl-green' : 'pnl-red';
 
-        function loadPairData(symbol) {
-            document.getElementById("pair-title").innerText = symbol.replace("USDT", "") + " / USDT";
-            document.getElementById("chart-loading").style.visibility = "visible";
-
-            fetch24h(symbol);
-            fetchKlines(symbol, currentInterval);
-            fetchOrderBook(symbol);
-        }
-
-        function refreshActivePair() {
-            fetch24h(currentSymbol);
-            fetchOrderBook(currentSymbol);
-        }
-
-        function fetch24h(symbol) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://api.binance.com/api/v3/ticker/24hr?symbol=" + symbol, true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    var price = parseFloat(data.lastPrice);
-                    var chg = parseFloat(data.priceChangePercent);
-                    var prEl = document.getElementById("current-price");
-                    prEl.innerText = price > 1 ? price.toFixed(2) : price.toFixed(6);
-                    prEl.className = "current-price " + (chg >= 0 ? "price-up" : "price-down");
-
-                    var chgEl = document.getElementById("stat-change");
-                    chgEl.innerText = (chg >= 0 ? "+" : "") + chg.toFixed(2) + "%";
-                    chgEl.className = "stat-val " + (chg >= 0 ? "price-up" : "price-down");
-
-                    document.getElementById("stat-high").innerText = parseFloat(data.highPrice).toFixed(2);
-                    document.getElementById("stat-low").innerText = parseFloat(data.lowPrice).toFixed(2);
-                }
-            };
-            xhr.send();
-        }
-
-        function fetchKlines(symbol, interval) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://api.binance.com/api/v3/klines?symbol=" + symbol + "&interval=" + interval + "&limit=45", true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var raw = JSON.parse(xhr.responseText);
-                    candleData = [];
-                    for (var i = 0; i < raw.length; i++) {
-                        candleData.push({
-                            time: raw[i][0],
-                            open: parseFloat(raw[i][1]),
-                            high: parseFloat(raw[i][2]),
-                            low: parseFloat(raw[i][3]),
-                            close: parseFloat(raw[i][4]),
-                            vol: parseFloat(raw[i][5])
-                        });
-                    }
-                    document.getElementById("chart-loading").style.visibility = "hidden";
-                    drawChart();
-                }
-            };
-            xhr.send();
-        }
-
-        function fetchOrderBook(symbol) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://api.binance.com/api/v3/depth?symbol=" + symbol + "&limit=6", true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    renderOrderbook(data.bids, data.asks);
-                }
-            };
-            xhr.send();
-        }
-
-        function renderOrderbook(bids, asks) {
-            var asksBody = document.getElementById("asks-body");
-            var bidsBody = document.getElementById("bids-body");
-
-            var asksHtml = "";
-            for (var i = asks.length - 1; i >= 0; i--) {
-                var p = parseFloat(asks[i][0]);
-                var a = parseFloat(asks[i][1]);
-                var tot = (p * a).toFixed(2);
-                asksHtml += '<tr><td class="price-down">' + (p > 1 ? p.toFixed(2) : p.toFixed(6)) + '</td><td>' + a.toFixed(3) + '</td><td>' + tot + '</td></tr>';
+            if (pnlEl) {
+                pnlEl.innerHTML = Math.abs(parseFloat(t.pnl)).toFixed(2) + ' <span class="unit-sm">USDT</span>';
+                pnlEl.className = 'pnl-huge-amount ' + pnlColor;
             }
-            asksBody.innerHTML = asksHtml;
-
-            var bidsHtml = "";
-            for (var j = 0; j < bids.length; j++) {
-                var bp = parseFloat(bids[j][0]);
-                var ba = parseFloat(bids[j][1]);
-                var btot = (bp * ba).toFixed(2);
-                bidsHtml += '<tr><td class="price-up">' + (bp > 1 ? bp.toFixed(2) : bp.toFixed(6)) + '</td><td>' + ba.toFixed(3) + '</td><td>' + btot + '</td></tr>';
-            }
-            bidsBody.innerHTML = bidsHtml;
-        }
-
-        function drawChart() {
-            if (!candleData || candleData.length === 0) return;
-
-            var dpr = window.devicePixelRatio || 1;
-            var rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width * dpr;
-            canvas.height = rect.height * dpr;
-            ctx.scale(dpr, dpr);
-
-            var w = rect.width;
-            var h = rect.height;
-
-            ctx.clearRect(0, 0, w, h);
-
-            // Min & Max prices
-            var minP = Infinity;
-            var maxP = -Infinity;
-            var maxVol = 0;
-
-            for (var i = 0; i < candleData.length; i++) {
-                if (candleData[i].low < minP) minP = candleData[i].low;
-                if (candleData[i].high > maxP) maxP = candleData[i].high;
-                if (candleData[i].vol > maxVol) maxVol = candleData[i].vol;
+            if (roiEl) {
+                roiEl.textContent = sign + parseFloat(t.pnlPct).toFixed(2) + '%';
+                roiEl.className = 'pnl-huge-pct ' + pnlColor;
             }
 
-            var range = maxP - minP;
-            if (range === 0) range = 1;
+            if (enEl) enEl.textContent = t.entryPrice || '9.444';
+            if (exEl) exEl.textContent = t.markPrice || '9.342';
 
-            var paddingRight = 65;
-            var chartWidth = w - paddingRight;
-            var chartHeight = h - 30;
-
-            var candleSlot = chartWidth / candleData.length;
-            var candleWidth = Math.max(3, candleSlot * 0.7);
-
-            // Draw grid lines
-            ctx.strokeStyle = "#2b313a";
-            ctx.lineWidth = 1;
-            ctx.fillStyle = "#848e9c";
-            ctx.font = "11px sans-serif";
-            ctx.textAlign = "left";
-
-            var gridSteps = 4;
-            for (var g = 0; g <= gridSteps; g++) {
-                var y = chartHeight - (g / gridSteps) * (chartHeight - 20) - 10;
-                var prVal = minP + (g / gridSteps) * range;
-                ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(chartWidth, y);
-                ctx.stroke();
-
-                ctx.fillText(prVal > 1 ? prVal.toFixed(2) : prVal.toFixed(6), chartWidth + 6, y + 4);
-            }
-
-            // Draw candles
-            for (var c = 0; c < candleData.length; c++) {
-                var cnd = candleData[c];
-                var x = c * candleSlot + candleSlot / 2;
-
-                var isUp = cnd.close >= cnd.open;
-                var color = isUp ? "#0ecb81" : "#f6465d";
-
-                var openY = chartHeight - ((cnd.open - minP) / range) * (chartHeight - 20) - 10;
-                var closeY = chartHeight - ((cnd.close - minP) / range) * (chartHeight - 20) - 10;
-                var highY = chartHeight - ((cnd.high - minP) / range) * (chartHeight - 20) - 10;
-                var lowY = chartHeight - ((cnd.low - minP) / range) * (chartHeight - 20) - 10;
-
-                // Wick
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 1.2;
-                ctx.beginPath();
-                ctx.moveTo(x, highY);
-                ctx.lineTo(x, lowY);
-                ctx.stroke();
-
-                // Candle Body
-                ctx.fillStyle = color;
-                var bodyTop = Math.min(openY, closeY);
-                var bodyHeight = Math.max(Math.abs(openY - closeY), 2);
-                ctx.fillRect(x - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
-
-                // Volume Bar
-                var volHeight = (cnd.vol / maxVol) * 45;
-                ctx.fillStyle = isUp ? "rgba(14, 203, 129, 0.25)" : "rgba(246, 70, 93, 0.25)";
-                ctx.fillRect(x - candleWidth / 2, chartHeight - volHeight, candleWidth, volHeight);
-            }
+            modal.classList.add('open');
         }
 
-        window.onload = init;
+        function closePnlModal() {
+            var modal = document.getElementById('modal-pnl-backdrop');
+            if (modal) modal.classList.remove('open');
+        }
+
+        fetchFuturesData();
+        setInterval(fetchFuturesData, 8000);
     </script>
 </body>
 </html>
