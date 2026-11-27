@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="rolex-case">
+        <div class="rolex-bezel">
+            <div class="bezel-mark mark-12">▲</div>
+            <div class="bezel-mark mark-10">10</div>
+            <div class="bezel-mark mark-20">20</div>
+            <div class="bezel-mark mark-30">30</div>
+            <div class="bezel-mark mark-40">40</div>
+            <div class="bezel-mark mark-50">50</div>
+
+            <div class="rolex-dial">
+                <div class="rolex-crown-brand">
+                    <div class="rolex-crown">👑</div>
+                    <div class="rolex-text">ROLEX</div>
+                    <div class="rolex-sub">OYSTER PERPETUAL</div>
+                </div>
+
+                <div class="rolex-date-box">
+                    <span id="rolex-date-num" class="rolex-date-num">27</span>
+                </div>
+
+                <svg class="rolex-svg" viewBox="0 0 240 240">
+                    <polygon points="120,24 112,42 128,42" fill="#fffef0" stroke="#d4af37" stroke-width="1.5" />
+                    <rect x="114" y="196" width="12" height="18" rx="2" fill="#fffef0" stroke="#d4af37" stroke-width="1.5" />
+                    <rect x="24" y="114" width="18" height="12" rx="2" fill="#fffef0" stroke="#d4af37" stroke-width="1.5" />
+                    <g fill="#fffef0" stroke="#d4af37" stroke-width="1.5">
+                        <circle cx="166" cy="40" r="7" />
+                        <circle cx="199" cy="73" r="7" />
+                        <circle cx="199" cy="167" r="7" />
+                        <circle cx="166" cy="200" r="7" />
+                        <circle cx="74" cy="200" r="7" />
+                        <circle cx="41" cy="167" r="7" />
+                        <circle cx="41" cy="73" r="7" />
+                        <circle cx="74" cy="40" r="7" />
+                    </g>
+
+                    <!-- Hour Hand -->
+                    <g id="rolex-hour" class="hand-shadow">
+                        <line x1="120" y1="120" x2="120" y2="62" stroke="#d4af37" stroke-width="4.5" stroke-linecap="round" />
+                        <circle cx="120" cy="78" r="9" fill="#fffef0" stroke="#d4af37" stroke-width="2" />
+                        <line x1="120" y1="69" x2="120" y2="87" stroke="#d4af37" stroke-width="1.2" />
+                        <line x1="112" y1="83" x2="128" y2="73" stroke="#d4af37" stroke-width="1.2" />
+                        <line x1="112" y1="73" x2="128" y2="83" stroke="#d4af37" stroke-width="1.2" />
+                        <polygon points="120,54 116,62 124,62" fill="#d4af37" />
+                    </g>
+
+                    <!-- Minute Hand -->
+                    <g id="rolex-minute" class="hand-shadow">
+                        <line x1="120" y1="120" x2="120" y2="34" stroke="#d4af37" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="120" y1="108" x2="120" y2="40" stroke="#fffef0" stroke-width="2" />
+                        <polygon points="120,27 117,34 123,34" fill="#d4af37" />
+                    </g>
+
+                    <!-- Second Hand -->
+                    <g id="rolex-second">
+                        <line x1="120" y1="145" x2="120" y2="24" stroke="#d4af37" stroke-width="1.2" />
+                        <circle cx="120" cy="140" r="3" fill="#d4af37" />
+                        <circle cx="120" cy="46" r="4.5" fill="#fffef0" stroke="#d4af37" stroke-width="1.2" />
+                    </g>
+
+                    <circle cx="120" cy="120" r="4.5" fill="#d4af37" />
+                    <circle cx="120" cy="120" r="1.5" fill="#111" />
+                </svg>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

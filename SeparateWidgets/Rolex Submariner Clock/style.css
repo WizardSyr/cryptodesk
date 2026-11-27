@@ -1,0 +1,147 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    background: transparent;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 280px;
+    height: 280px;
+    overflow: hidden;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+.rolex-case {
+    position: relative;
+    width: 270px;
+    height: 270px;
+    border-radius: 50%;
+    background: #1c2028;
+    background: -webkit-linear-gradient(top, #2e3440, #15181e 60%, #0a0c10);
+    background: linear-gradient(to bottom, #2e3440, #15181e 60%, #0a0c10);
+    padding: 7px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.85);
+    border: 1px solid #3d4452;
+    cursor: pointer;
+}
+
+.rolex-bezel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #0a3824;
+    padding: 10px;
+    border: 2px solid #165b3d;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
+}
+
+.bezel-mark {
+    position: absolute;
+    color: #fce8a6;
+    font-size: 8px;
+    font-weight: 800;
+}
+.mark-12 { top: 2px; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%); }
+.mark-10 { right: 8px; top: 25%; }
+.mark-20 { right: 8px; bottom: 25%; }
+.mark-30 { bottom: 2px; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%); }
+.mark-40 { left: 8px; bottom: 25%; }
+.mark-50 { left: 8px; top: 25%; }
+
+.rolex-dial {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #08291a;
+    background: -webkit-radial-gradient(circle at 45% 45%, #0f4d32 0%, #08291a 65%, #02100a 100%);
+    background: radial-gradient(circle at 45% 45%, #0f4d32 0%, #08291a 65%, #02100a 100%);
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.95);
+    border: 1px solid rgba(43, 107, 78, 0.4);
+    overflow: hidden;
+}
+
+.rolex-crown-brand {
+    position: absolute;
+    top: 42px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    text-align: center;
+    pointer-events: none;
+}
+.rolex-crown {
+    color: #d4af37;
+    font-size: 11px;
+    line-height: 1;
+}
+.rolex-text {
+    font-size: 7.5px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    color: #fff;
+    margin-top: 1px;
+}
+.rolex-sub {
+    font-size: 5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #cfd8dc;
+}
+
+.rolex-date-box {
+    position: absolute;
+    right: 17px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 25px;
+    height: 20px;
+    background: #fff;
+    border: 1px solid #777;
+    border-radius: 2px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+.rolex-date-num {
+    font-size: 11px;
+    font-weight: 900;
+    font-family: monospace;
+    color: #111;
+}
+
+.rolex-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hand-shadow {
+    -webkit-filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.65));
+    filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.65));
+}
