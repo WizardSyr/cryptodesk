@@ -1746,25 +1746,32 @@
         }
 
 
-        /* ================= BINANCE FUTURES TRADES ENGINE ================= */
-        var bApiKey = localStorage.getItem('binance_apikey') || localStorage.getItem('binance_user_apikey') || '';
-        var bSecretKey = localStorage.getItem('binance_secret') || localStorage.getItem('binance_user_secret') || '';
+        /* ================= BINANCE FUTURES TRADES ENGINE (100% REAL LIVE - NO DEMO) ================= */
+        var bApiKey = (localStorage.getItem('binance_apikey') || localStorage.getItem('binance_user_apikey') || '').replace(/[
+\s	]/g, '');
+        var bSecretKey = (localStorage.getItem('binance_secret') || localStorage.getItem('binance_user_secret') || '').replace(/[
+\s	]/g, '');
         var bUsername = localStorage.getItem('pnl_username') || 'IceWizard101';
         var bReferral = localStorage.getItem('pnl_referral') || '792542923';
         var bTimeOffset = 0;
         var liveTradesList = [];
 
         function syncServerTime(cb) {
+            var startReq = Date.now();
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'https://fapi.binance.com/fapi/v1/time', true);
             xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    try {
-                        var d = JSON.parse(xhr.responseText);
-                        bTimeOffset = d.serverTime - Date.now();
-                    } catch(e) {}
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            var d = JSON.parse(xhr.responseText);
+                            var endReq = Date.now();
+                            var latency = Math.round((endReq - startReq) / 2);
+                            bTimeOffset = (d.serverTime + latency) - endReq;
+                        } catch(e) {}
+                    }
+                    if (cb) cb();
                 }
-                if (xhr.readyState === 4 && cb) cb();
             };
             xhr.send();
         }
@@ -1800,8 +1807,10 @@
             var uIn = document.getElementById('api-username-input');
             var rIn = document.getElementById('api-ref-input');
 
-            bApiKey = (kIn.value || '').trim();
-            bSecretKey = (sIn.value || '').trim();
+            bApiKey = (kIn.value || '').replace(/[
+\s	]/g, '');
+            bSecretKey = (sIn.value || '').replace(/[
+\s	]/g, '');
             bUsername = (uIn.value || '').trim() || 'IceWizard101';
             bReferral = (rIn.value || '').trim() || '792542923';
 
@@ -1814,27 +1823,43 @@
             fetchFuturesPositions();
         }
 
-        function useDemoTradesMode() {
+        function clearApiKeys() {
             bApiKey = '';
             bSecretKey = '';
             localStorage.removeItem('binance_apikey');
             localStorage.removeItem('binance_secret');
             closeApiModal();
-            renderDemoPositions();
+            fetchFuturesPositions();
         }
 
         function fetchFuturesPositions() {
+            var tbody = document.getElementById('trades-tbody');
+            var statusTxt = document.getElementById('sync-status-txt');
+            var totalPnlPill = document.getElementById('header-total-pnl');
+
             if (!bApiKey || !bSecretKey) {
-                renderDemoPositions();
+                if (statusTxt) statusTxt.textContent = 'API Not Connected';
+                if (totalPnlPill) {
+                    totalPnlPill.textContent = '$0.00 USDT';
+                    totalPnlPill.className = 'pnl-pill-total';
+                }
+                if (tbody) {
+                    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:32px 14px;color:#848e9c;">' +
+                        '<div style="font-size:20px;margin-bottom:6px;">🔒 Binance API Not Configured</div>' +
+                        '<div style="font-size:12px;color:#5e6673;margin-bottom:14px;max-width:440px;margin-left:auto;margin-right:auto;">' +
+                        'To view your live positions and generate PnL cards, enter your Binance API Key and Secret Key (Read-Only).' +
+                        '</div>' +
+                        '<button class="btn-api-gear" onclick="openApiModal()" style="display:inline-flex;padding:7px 18px;font-size:12px;background:#f0b90b;color:#10141d;border:none;">⚙️ Connect API Keys</button>' +
+                        '</td></tr>';
+                }
                 return;
             }
 
-            var statusTxt = document.getElementById('sync-status-txt');
-            if (statusTxt) statusTxt.textContent = 'Syncing...';
+            if (statusTxt) statusTxt.innerHTML = '<span style="color:#f0b90b;">⚡ Syncing Binance Futures...</span>';
 
             syncServerTime(function() {
                 var ts = Date.now() + bTimeOffset;
-                var query = 'recvWindow=60000&timestamp=' + ts;
+                var query = 'timestamp=' + ts + '&recvWindow=60000';
                 var sig = hmacSha256(query, bSecretKey);
                 var url = 'https://fapi.binance.com/fapi/v2/positionRisk?' + query + '&signature=' + sig;
 
@@ -1861,7 +1886,7 @@
                                         var margin = sizeUsdt / lev;
                                         var pnl = parseFloat(p.unRealizedProfit);
                                         var pnlPct = margin > 0 ? (pnl / margin) * 100 : 0;
-                                        var bePrice = entry; // Break even estimate
+                                        var bePrice = entry;
 
                                         totalPnl += pnl;
 
@@ -1874,8 +1899,8 @@
                                             bePrice: bePrice.toFixed(3),
                                             markPrice: mark.toFixed(3),
                                             liqPrice: parseFloat(p.liquidationPrice).toFixed(3),
-                                            marginRatio: '4.99%',
-                                            margin: margin.toFixed(2) + ' USDT (Cross)',
+                                            marginRatio: (p.marginRatio ? parseFloat(p.marginRatio).toFixed(2) + '%' : '4.99%'),
+                                            margin: margin.toFixed(2) + ' USDT (' + (p.marginType || 'Cross') + ')',
                                             pnl: pnl.toFixed(2),
                                             pnlPct: pnlPct.toFixed(2)
                                         });
@@ -1883,14 +1908,20 @@
                                 }
 
                                 liveTradesList = active;
-                                renderTradesTable(active, totalPnl);
-                                if (statusTxt) statusTxt.textContent = 'Live Connected';
+                                renderLiveTradesTable(active, totalPnl);
+                                if (statusTxt) statusTxt.innerHTML = '<span style="color:#0ecb81;">● Live Connected</span>';
                             } catch(e) {
-                                renderDemoPositions();
+                                renderErrorState('JSON Parsing Error', e.message);
                             }
                         } else {
-                            if (statusTxt) statusTxt.textContent = 'Demo (Check Keys)';
-                            renderDemoPositions();
+                            var errMsg = 'HTTP ' + xhr.status;
+                            try {
+                                var errJson = JSON.parse(xhr.responseText);
+                                if (errJson.msg) errMsg = errJson.msg + ' (Code: ' + errJson.code + ')';
+                            } catch(e) {
+                                errMsg = xhr.statusText || errMsg;
+                            }
+                            renderErrorState('Binance API Error (' + xhr.status + ')', errMsg);
                         }
                     }
                 };
@@ -1898,7 +1929,7 @@
             });
         }
 
-        function renderTradesTable(trades, totalPnl) {
+        function renderLiveTradesTable(trades, totalPnl) {
             var tbody = document.getElementById('trades-tbody');
             var totalPnlPill = document.getElementById('header-total-pnl');
             if (!tbody) return;
@@ -1910,7 +1941,11 @@
             }
 
             if (trades.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:24px;color:#5e6673;font-family:monospace;">No Active Open Positions on Binance Futures</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:32px 14px;color:#848e9c;">' +
+                    '<div style="font-size:18px;margin-bottom:6px;color:#0ecb81;">✅ Binance Futures Connected</div>' +
+                    '<div style="font-size:12px;color:#5e6673;margin-bottom:14px;">You currently have 0 active open positions on Binance Futures.</div>' +
+                    '<button class="btn-api-gear" onclick="openCustomTradePrompt()" style="display:inline-flex;padding:6px 14px;font-size:11px;">🎴 Preview / Create PnL Card</button>' +
+                    '</td></tr>';
                 return;
             }
 
@@ -1957,25 +1992,37 @@
             }
         }
 
-        function renderDemoPositions() {
-            var demo = [{
+        function renderErrorState(title, message) {
+            var tbody = document.getElementById('trades-tbody');
+            var statusTxt = document.getElementById('sync-status-txt');
+            if (statusTxt) statusTxt.innerHTML = '<span style="color:#f6465d;">⚠️ ' + title + '</span>';
+
+            if (tbody) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:26px 14px;color:#f6465d;">' +
+                    '<div style="font-size:16px;font-weight:800;margin-bottom:6px;">⚠️ ' + title + '</div>' +
+                    '<div style="font-size:12px;color:#eaecef;background:#241217;border:1px solid #4a1c24;padding:8px 12px;border-radius:8px;max-width:520px;margin:0 auto 12px auto;font-family:monospace;">' + message + '</div>' +
+                    '<div style="font-size:11px;color:#848e9c;max-width:480px;margin:0 auto 12px auto;line-height:1.5;">' +
+                    '<b>How to fix on Binance:</b><br>' +
+                    '1. In <b>API Management</b>, ensure <b>"Enable Reading"</b> AND <b>"Enable Futures"</b> are checked.<br>' +
+                    '2. If you set IP access restrictions, ensure your IP is allowed or set to Unrestricted.<br>' +
+                    '3. Re-paste your API Key and Secret Key carefully.' +
+                    '</div>' +
+                    '<button class="btn-api-gear" onclick="openApiModal()" style="display:inline-flex;padding:6px 16px;font-size:11px;">⚙️ Edit API Keys</button>' +
+                    '</td></tr>';
+            }
+        }
+
+        function openCustomTradePrompt() {
+            var trade = {
                 symbol: 'LINKUSDT',
                 side: 'Short',
                 leverage: 15,
-                size: '101.20',
-                entryPrice: '9.156',
-                bePrice: '9.160',
-                markPrice: '9.274',
-                liqPrice: '8.387',
-                marginRatio: '4.99%',
-                margin: '6.74 USDT (Cross)',
-                pnl: '1.29',
-                pnlPct: '19.48'
-            }];
-            liveTradesList = demo;
-            renderTradesTable(demo, 1.29);
-            var statusTxt = document.getElementById('sync-status-txt');
-            if (statusTxt) statusTxt.textContent = 'Demo Mode (Click ⚙️ to enter keys)';
+                pnl: '0.97',
+                pnlPct: '14.71',
+                entryPrice: '9.444',
+                markPrice: '9.342'
+            };
+            openPnlModal(trade);
         }
 
         function openPnlModal(t) {
@@ -2003,15 +2050,15 @@
 
             if (uEl) uEl.textContent = bUsername;
             if (dEl) dEl.textContent = dateStr;
-            if (pEl) pEl.textContent = t.symbol + ' Perpetual';
+            if (pEl) pEl.textContent = (t.symbol || 'LINKUSDT') + ' Perpetual';
             if (refEl) refEl.textContent = bReferral;
 
-            var isShort = t.side === 'Short';
+            var isShort = (t.side === 'Short');
             if (sEl) {
-                sEl.textContent = t.side;
+                sEl.textContent = t.side || 'Short';
                 sEl.className = isShort ? 'pnl-side-lbl side-red' : 'pnl-side-lbl side-grn';
             }
-            if (lEl) lEl.textContent = t.leverage + 'x';
+            if (lEl) lEl.textContent = (t.leverage || '15') + 'x';
 
             var isPos = parseFloat(t.pnl) >= 0;
             var sign = isPos ? '+' : '';
@@ -2026,8 +2073,8 @@
                 roiEl.className = 'pnl-huge-pct ' + pnlColor;
             }
 
-            if (enEl) enEl.textContent = t.entryPrice;
-            if (exEl) exEl.textContent = t.markPrice;
+            if (enEl) enEl.textContent = t.entryPrice || '9.444';
+            if (exEl) exEl.textContent = t.markPrice || '9.342';
 
             modal.classList.add('open');
         }
@@ -2037,10 +2084,8 @@
             if (modal) modal.classList.remove('open');
         }
 
-        // Initialize Trades Engine
         fetchFuturesPositions();
         setInterval(fetchFuturesPositions, 8000);
-
         window.onload = init;
     </script>
 
@@ -2176,7 +2221,7 @@
                 <input type="text" id="api-ref-input" value="792542923" class="api-input">
             </div>
             <div class="api-btns-row">
-                <button class="btn-modal-action btn-modal-demo" onclick="useDemoTradesMode()">Use Demo Trade</button>
+                <button class="btn-modal-action btn-modal-demo" onclick="clearApiKeys()">Clear Keys</button>
                 <button class="btn-modal-action btn-modal-save" onclick="saveApiKeysConfig()">Save &amp; Connect Live</button>
             </div>
         </div>
