@@ -496,7 +496,540 @@
             background: #f0b90b;
             color: #000;
         }
+
+        /* ================= OPEN TRADES & PNL CARD (IMAGE 1 & 2 REPLICA) ================= */
+        .trades-card {
+            background-color: #10141d;
+            border: 1px solid #1e2636;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 740px;
+            padding: 18px 22px;
+            margin-bottom: 14px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+        .trades-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #18202e;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .trades-title-block {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .trades-badge {
+            background: #f0b90b;
+            color: #121214;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 3px 7px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+        .trades-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.2px;
+        }
+        .sync-badge-live {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #0ecb81;
+            margin-left: 4px;
+        }
+        .sync-dot-live {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #0ecb81;
+            box-shadow: 0 0 8px #0ecb81;
+        }
+        .trades-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .pnl-pill-total {
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: rgba(14, 203, 129, 0.15);
+            color: #0ecb81;
+            border: 1px solid rgba(14, 203, 129, 0.35);
+            font-family: monospace;
+        }
+        .pnl-pill-total.neg {
+            background: rgba(246, 70, 93, 0.15);
+            color: #f6465d;
+            border-color: rgba(246, 70, 93, 0.35);
+        }
+        .btn-api-gear {
+            background: #151a26;
+            border: 1px solid #242e42;
+            color: #eaecef;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-api-gear:hover {
+            background: #f0b90b;
+            color: #000;
+            border-color: #f0b90b;
+        }
+
+        /* Open Trades Table (Exact Match to Image 2) */
+        .trades-table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .trades-table {
+            width: 100%;
+            min-width: 720px;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .trades-table th {
+            color: #5e6673;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: left;
+            padding: 8px 6px;
+            border-bottom: 1px solid #18202e;
+            white-space: nowrap;
+        }
+        .trades-table td {
+            padding: 12px 6px;
+            vertical-align: middle;
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
+        .trade-row-item {
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: background 0.15s;
+            position: relative;
+        }
+        .trade-row-item:hover, .trade-row-item:active {
+            background: #182130;
+        }
+        .accent-bar-indicator {
+            width: 3px;
+            height: 28px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .bar-short { background: #f6465d; }
+        .bar-long { background: #0ecb81; }
+
+        .sym-block {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .sym-name-text {
+            font-size: 13px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .perp-tag {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            margin-left: 4px;
+        }
+        .lev-tag {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 1px 5px;
+            border-radius: 4px;
+            margin-left: 4px;
+        }
+        .lev-short { background: rgba(246, 70, 93, 0.2); color: #f6465d; border: 1px solid rgba(246, 70, 93, 0.4); }
+        .lev-long { background: rgba(14, 203, 129, 0.2); color: #0ecb81; border: 1px solid rgba(14, 203, 129, 0.4); }
+
+        .price-text-num {
+            font-size: 12px;
+            font-weight: 700;
+            color: #eaecef;
+            font-family: monospace;
+        }
+        .liq-orange {
+            color: #f59e0b;
+            font-weight: 800;
+            font-family: monospace;
+        }
+        .margin-sub {
+            color: #848e9c;
+            font-size: 10px;
+            margin-left: 2px;
+        }
+        .pnl-cell-wrap {
+            text-align: right;
+            font-family: monospace;
+        }
+        .pnl-val-large {
+            font-size: 13px;
+            font-weight: 800;
+            display: block;
+        }
+        .pnl-green { color: #00c087; }
+        .pnl-red { color: #f6465d; }
+        .pnl-roi-sub {
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .share-icon-btn {
+            display: inline-block;
+            margin-left: 6px;
+            font-size: 13px;
+            color: #848e9c;
+            vertical-align: middle;
+        }
+        .tap-card-tip {
+            font-size: 9px;
+            color: #f0b90b;
+            margin-top: 6px;
+            text-align: right;
+            font-family: monospace;
+            font-weight: 700;
+        }
+
+        /* ================= PNL LIGHTBOX MODAL (MATCHING IMAGE 1) ================= */
+        .pnl-modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .pnl-modal-backdrop.open {
+            display: flex;
+        }
+        .pnl-card-container {
+            width: 100%;
+            max-width: 360px;
+            background: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 26px;
+            padding: 24px 22px;
+            position: relative;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 480px;
+            animation: pnlPopAnim 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes pnlPopAnim {
+            0% { transform: scale(0.92) translateY(16px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .pnl-bg-watermark {
+            position: absolute;
+            right: -25px;
+            top: 15px;
+            width: 200px;
+            height: 200px;
+            fill: #f0b90b;
+            opacity: 0.06;
+            pointer-events: none;
+        }
+        .pnl-header-top {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .pnl-user-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pnl-avatar-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #120c1a;
+            border: 1.5px solid rgba(168, 85, 247, 0.8);
+            overflow: hidden;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+        }
+        .pnl-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .pnl-username {
+            font-size: 15px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 0.3px;
+        }
+        .pnl-timestamp {
+            font-size: 10px;
+            color: #848e9c;
+            font-family: monospace;
+            margin-top: 1px;
+        }
+        .pnl-close-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        .pnl-close-btn:hover { background: rgba(255, 255, 255, 0.25); color: #fff; }
+
+        .pnl-hero-body {
+            position: relative;
+            z-index: 2;
+            margin: auto 0;
+            padding: 16px 0;
+        }
+        .pnl-pair-name {
+            font-size: 22px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+        .pnl-side-leverage {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 2px;
+        }
+        .pnl-side-lbl {
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .side-red { color: #f6465d; }
+        .side-grn { color: #0ecb81; }
+        .pnl-pipe { color: #475569; font-size: 11px; }
+        .pnl-lev-lbl { color: #848e9c; font-size: 12px; font-weight: 700; }
+
+        .pnl-huge-amount {
+            font-size: 44px;
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            margin-top: 14px;
+        }
+        .pnl-huge-amount .unit-sm {
+            font-size: 18px;
+            font-weight: 800;
+            margin-left: 2px;
+        }
+        .pnl-huge-pct {
+            font-size: 24px;
+            font-weight: 900;
+            margin-top: 4px;
+            letter-spacing: -0.3px;
+        }
+
+        .pnl-grid-prices {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .pnl-price-item {
+            flex: 1;
+        }
+        .pnl-price-lbl {
+            font-size: 10px;
+            color: #848e9c;
+            font-weight: 600;
+            display: block;
+        }
+        .pnl-price-val {
+            font-size: 14px;
+            font-weight: 900;
+            font-family: monospace;
+            color: #ffffff;
+            margin-top: 2px;
+            display: block;
+        }
+
+        .pnl-footer-brand {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .binance-futures-box {
+            display: flex;
+            flex-direction: column;
+        }
+        .bf-logo-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .bf-svg {
+            width: 18px;
+            height: 18px;
+            fill: #f0b90b;
+        }
+        .bf-titles {
+            line-height: 1.1;
+        }
+        .bf-binance {
+            font-size: 9px;
+            font-weight: 900;
+            color: #f0b90b;
+            letter-spacing: 0.6px;
+            display: block;
+        }
+        .bf-futures {
+            font-size: 11px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 1.2px;
+            display: block;
+        }
+        .bf-ref-title {
+            font-size: 9px;
+            color: #848e9c;
+            margin-top: 6px;
+        }
+        .bf-ref-num {
+            font-size: 12px;
+            font-weight: 900;
+            color: #ffffff;
+            font-family: monospace;
+            margin-top: 1px;
+        }
+        .pnl-qr-frame {
+            width: 52px;
+            height: 52px;
+            background: #ffffff;
+            padding: 3px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        /* ================= API CONFIG MODAL ================= */
+        .api-modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .api-modal-backdrop.open {
+            display: flex;
+        }
+        .api-modal-box {
+            width: 100%;
+            max-width: 440px;
+            background: #10141d;
+            border: 1px solid #1e2636;
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+        }
+        .api-modal-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #f0b90b;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #18202e;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+        }
+        .api-field-wrap {
+            margin-bottom: 10px;
+        }
+        .api-field-wrap label {
+            font-size: 10px;
+            color: #848e9c;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 3px;
+        }
+        .api-input {
+            width: 100%;
+            background: #151a26;
+            border: 1px solid #242e42;
+            border-radius: 8px;
+            padding: 7px 10px;
+            color: #fff;
+            font-size: 11px;
+            font-family: monospace;
+            outline: none;
+        }
+        .api-input:focus {
+            border-color: #f0b90b;
+        }
+        .api-btns-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px solid #18202e;
+        }
+        .btn-modal-action {
+            flex: 1;
+            padding: 9px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .btn-modal-save { background: #f0b90b; color: #10141d; }
+        .btn-modal-demo { background: #151a26; color: #94a3b8; border: 1px solid #242e42; }
+
     </style>
+    <script src="crypto-js.min.js"></script>
 </head>
 <body>
 
@@ -547,6 +1080,49 @@
         <div class="header-actions">
             <button class="action-btn" id="edit-toggle-btn" onclick="toggleEditMode()">✏️ Drag &amp; Remove</button>
             <button class="action-btn" onclick="resetToDefault()">↺ Default</button>
+        </div>
+    </div>
+
+
+    <!-- ================= OPEN TRADES SECTION (BINANCE FUTURES) ================= -->
+    <div class="trades-card" id="open-trades-card">
+        <div class="trades-header-row">
+            <div class="trades-title-block">
+                <span class="trades-badge">FUTURES</span>
+                <span class="trades-title">Live Open Trades</span>
+                <span class="sync-badge-live" id="trades-sync-status">
+                    <span class="sync-dot-live"></span> <span id="sync-status-txt">Live</span>
+                </span>
+            </div>
+            <div class="trades-actions">
+                <span class="pnl-pill-total" id="header-total-pnl">+$1.29 USDT (+19.48%)</span>
+                <button class="btn-api-gear" onclick="openApiModal()">⚙️ API Setup</button>
+            </div>
+        </div>
+
+        <div class="trades-table-wrap">
+            <table class="trades-table">
+                <thead>
+                    <tr>
+                        <th style="padding-left:12px;">Symbol</th>
+                        <th>Size</th>
+                        <th>Entry Price</th>
+                        <th>Break Even</th>
+                        <th>Mark Price</th>
+                        <th>Liq. Price</th>
+                        <th>Margin Ratio</th>
+                        <th>Margin</th>
+                        <th style="text-align:right;padding-right:12px;">PNL (ROI %)</th>
+                    </tr>
+                </thead>
+                <tbody id="trades-tbody">
+                    <!-- Dynamic Rows matching Image 2 injected here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tap-card-tip">
+            💡 Tap any trade row to open your PnL Card &amp; QR Code
         </div>
     </div>
 
@@ -1169,7 +1745,442 @@
             document.removeEventListener("mouseup", onMouseUp);
         }
 
+
+        /* ================= BINANCE FUTURES TRADES ENGINE ================= */
+        var bApiKey = localStorage.getItem('binance_apikey') || localStorage.getItem('binance_user_apikey') || '';
+        var bSecretKey = localStorage.getItem('binance_secret') || localStorage.getItem('binance_user_secret') || '';
+        var bUsername = localStorage.getItem('pnl_username') || 'IceWizard101';
+        var bReferral = localStorage.getItem('pnl_referral') || '792542923';
+        var bTimeOffset = 0;
+        var liveTradesList = [];
+
+        function syncServerTime(cb) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://fapi.binance.com/fapi/v1/time', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    try {
+                        var d = JSON.parse(xhr.responseText);
+                        bTimeOffset = d.serverTime - Date.now();
+                    } catch(e) {}
+                }
+                if (xhr.readyState === 4 && cb) cb();
+            };
+            xhr.send();
+        }
+
+        function hmacSha256(str, secret) {
+            if (typeof CryptoJS !== 'undefined') {
+                return CryptoJS.HmacSHA256(str, secret).toString(CryptoJS.enc.Hex);
+            }
+            return '';
+        }
+
+        function openApiModal() {
+            var kIn = document.getElementById('api-key-input');
+            var sIn = document.getElementById('api-secret-input');
+            var uIn = document.getElementById('api-username-input');
+            var rIn = document.getElementById('api-ref-input');
+            if (kIn) kIn.value = bApiKey;
+            if (sIn) sIn.value = bSecretKey;
+            if (uIn) uIn.value = bUsername;
+            if (rIn) rIn.value = bReferral;
+            var modal = document.getElementById('modal-api-backdrop');
+            if (modal) modal.classList.add('open');
+        }
+
+        function closeApiModal() {
+            var modal = document.getElementById('modal-api-backdrop');
+            if (modal) modal.classList.remove('open');
+        }
+
+        function saveApiKeysConfig() {
+            var kIn = document.getElementById('api-key-input');
+            var sIn = document.getElementById('api-secret-input');
+            var uIn = document.getElementById('api-username-input');
+            var rIn = document.getElementById('api-ref-input');
+
+            bApiKey = (kIn.value || '').trim();
+            bSecretKey = (sIn.value || '').trim();
+            bUsername = (uIn.value || '').trim() || 'IceWizard101';
+            bReferral = (rIn.value || '').trim() || '792542923';
+
+            localStorage.setItem('binance_apikey', bApiKey);
+            localStorage.setItem('binance_secret', bSecretKey);
+            localStorage.setItem('pnl_username', bUsername);
+            localStorage.setItem('pnl_referral', bReferral);
+
+            closeApiModal();
+            fetchFuturesPositions();
+        }
+
+        function useDemoTradesMode() {
+            bApiKey = '';
+            bSecretKey = '';
+            localStorage.removeItem('binance_apikey');
+            localStorage.removeItem('binance_secret');
+            closeApiModal();
+            renderDemoPositions();
+        }
+
+        function fetchFuturesPositions() {
+            if (!bApiKey || !bSecretKey) {
+                renderDemoPositions();
+                return;
+            }
+
+            var statusTxt = document.getElementById('sync-status-txt');
+            if (statusTxt) statusTxt.textContent = 'Syncing...';
+
+            syncServerTime(function() {
+                var ts = Date.now() + bTimeOffset;
+                var query = 'recvWindow=60000&timestamp=' + ts;
+                var sig = hmacSha256(query, bSecretKey);
+                var url = 'https://fapi.binance.com/fapi/v2/positionRisk?' + query + '&signature=' + sig;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.setRequestHeader('X-MBX-APIKEY', bApiKey);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            try {
+                                var positions = JSON.parse(xhr.responseText);
+                                var active = [];
+                                var totalPnl = 0;
+
+                                for (var i = 0; i < positions.length; i++) {
+                                    var p = positions[i];
+                                    var amt = parseFloat(p.positionAmt);
+                                    if (amt !== 0) {
+                                        var isShort = amt < 0;
+                                        var mark = parseFloat(p.markPrice);
+                                        var entry = parseFloat(p.entryPrice);
+                                        var sizeUsdt = Math.abs(amt * mark);
+                                        var lev = parseInt(p.leverage) || 1;
+                                        var margin = sizeUsdt / lev;
+                                        var pnl = parseFloat(p.unRealizedProfit);
+                                        var pnlPct = margin > 0 ? (pnl / margin) * 100 : 0;
+                                        var bePrice = entry; // Break even estimate
+
+                                        totalPnl += pnl;
+
+                                        active.push({
+                                            symbol: p.symbol,
+                                            side: isShort ? 'Short' : 'Long',
+                                            leverage: lev,
+                                            size: sizeUsdt.toFixed(2),
+                                            entryPrice: entry.toFixed(3),
+                                            bePrice: bePrice.toFixed(3),
+                                            markPrice: mark.toFixed(3),
+                                            liqPrice: parseFloat(p.liquidationPrice).toFixed(3),
+                                            marginRatio: '4.99%',
+                                            margin: margin.toFixed(2) + ' USDT (Cross)',
+                                            pnl: pnl.toFixed(2),
+                                            pnlPct: pnlPct.toFixed(2)
+                                        });
+                                    }
+                                }
+
+                                liveTradesList = active;
+                                renderTradesTable(active, totalPnl);
+                                if (statusTxt) statusTxt.textContent = 'Live Connected';
+                            } catch(e) {
+                                renderDemoPositions();
+                            }
+                        } else {
+                            if (statusTxt) statusTxt.textContent = 'Demo (Check Keys)';
+                            renderDemoPositions();
+                        }
+                    }
+                };
+                xhr.send();
+            });
+        }
+
+        function renderTradesTable(trades, totalPnl) {
+            var tbody = document.getElementById('trades-tbody');
+            var totalPnlPill = document.getElementById('header-total-pnl');
+            if (!tbody) return;
+
+            var isTotPos = totalPnl >= 0;
+            if (totalPnlPill) {
+                totalPnlPill.textContent = (isTotPos ? '+' : '') + '$' + totalPnl.toFixed(2) + ' USDT';
+                totalPnlPill.className = isTotPos ? 'pnl-pill-total' : 'pnl-pill-total neg';
+            }
+
+            if (trades.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:24px;color:#5e6673;font-family:monospace;">No Active Open Positions on Binance Futures</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            for (var i = 0; i < trades.length; i++) {
+                (function(t) {
+                    var isShort = t.side === 'Short';
+                    var isPos = parseFloat(t.pnl) >= 0;
+                    var barCls = isShort ? 'bar-short' : 'bar-long';
+                    var levCls = isShort ? 'lev-short' : 'lev-long';
+                    var pnlCls = isPos ? 'pnl-green' : 'pnl-red';
+                    var sign = isPos ? '+' : '';
+
+                    var tr = document.createElement('tr');
+                    tr.className = 'trade-row-item';
+                    tr.innerHTML = 
+                        '<td style="padding-left:12px;">' +
+                            '<span class="accent-bar-indicator ' + barCls + '"></span>' +
+                            '<div class="sym-block">' +
+                                '<span class="sym-name-text">' + t.symbol + '</span>' +
+                                '<span class="perp-tag">Perp</span>' +
+                                '<span class="lev-tag ' + levCls + '">' + t.leverage + 'x</span>' +
+                            '</div>' +
+                        '</td>' +
+                        '<td style="color:#00c087;font-weight:700;">' + t.size + ' USDT</td>' +
+                        '<td class="price-text-num">' + t.entryPrice + '</td>' +
+                        '<td class="price-text-num">' + t.bePrice + '</td>' +
+                        '<td class="price-text-num">' + t.markPrice + '</td>' +
+                        '<td class="liq-orange">' + t.liqPrice + '</td>' +
+                        '<td style="color:#848e9c;">' + (t.marginRatio || '4.99%') + '</td>' +
+                        '<td style="color:#eaecef;">' + t.margin + '</td>' +
+                        '<td class="pnl-cell-wrap ' + pnlCls + '" style="padding-right:12px;">' +
+                            '<span class="pnl-val-large">' + sign + t.pnl + ' USDT</span>' +
+                            '<span class="pnl-roi-sub">' + sign + t.pnlPct + '%</span>' +
+                            '<span class="share-icon-btn" title="Open PnL Card">↗</span>' +
+                        '</td>';
+
+                    tr.addEventListener('click', function() {
+                        openPnlModal(t);
+                    });
+
+                    tbody.appendChild(tr);
+                })(trades[i]);
+            }
+        }
+
+        function renderDemoPositions() {
+            var demo = [{
+                symbol: 'LINKUSDT',
+                side: 'Short',
+                leverage: 15,
+                size: '101.20',
+                entryPrice: '9.156',
+                bePrice: '9.160',
+                markPrice: '9.274',
+                liqPrice: '8.387',
+                marginRatio: '4.99%',
+                margin: '6.74 USDT (Cross)',
+                pnl: '1.29',
+                pnlPct: '19.48'
+            }];
+            liveTradesList = demo;
+            renderTradesTable(demo, 1.29);
+            var statusTxt = document.getElementById('sync-status-txt');
+            if (statusTxt) statusTxt.textContent = 'Demo Mode (Click ⚙️ to enter keys)';
+        }
+
+        function openPnlModal(t) {
+            var modal = document.getElementById('modal-pnl-backdrop');
+            if (!modal) return;
+
+            var uEl = document.getElementById('card-username');
+            var dEl = document.getElementById('card-timestamp');
+            var pEl = document.getElementById('card-pair-title');
+            var sEl = document.getElementById('card-side-tag');
+            var lEl = document.getElementById('card-lev-tag');
+            var pnlEl = document.getElementById('card-pnl-val');
+            var roiEl = document.getElementById('card-roi-val');
+            var enEl = document.getElementById('card-entry-price');
+            var exEl = document.getElementById('card-exit-price');
+            var refEl = document.getElementById('card-ref-code');
+
+            var now = new Date();
+            var y = now.getFullYear();
+            var m = now.getMonth() + 1;
+            var d = now.getDate();
+            var hr = now.getHours();
+            var mn = now.getMinutes();
+            var dateStr = y + '-' + (m < 10 ? '0' + m : m) + '-' + (d < 10 ? '0' + d : d) + ' ' + (hr < 10 ? '0' + hr : hr) + ':' + (mn < 10 ? '0' + mn : mn);
+
+            if (uEl) uEl.textContent = bUsername;
+            if (dEl) dEl.textContent = dateStr;
+            if (pEl) pEl.textContent = t.symbol + ' Perpetual';
+            if (refEl) refEl.textContent = bReferral;
+
+            var isShort = t.side === 'Short';
+            if (sEl) {
+                sEl.textContent = t.side;
+                sEl.className = isShort ? 'pnl-side-lbl side-red' : 'pnl-side-lbl side-grn';
+            }
+            if (lEl) lEl.textContent = t.leverage + 'x';
+
+            var isPos = parseFloat(t.pnl) >= 0;
+            var sign = isPos ? '+' : '';
+            var pnlColor = isPos ? 'pnl-green' : 'pnl-red';
+
+            if (pnlEl) {
+                pnlEl.innerHTML = Math.abs(parseFloat(t.pnl)).toFixed(2) + ' <span class="unit-sm">USDT</span>';
+                pnlEl.className = 'pnl-huge-amount ' + pnlColor;
+            }
+            if (roiEl) {
+                roiEl.textContent = sign + parseFloat(t.pnlPct).toFixed(2) + '%';
+                roiEl.className = 'pnl-huge-pct ' + pnlColor;
+            }
+
+            if (enEl) enEl.textContent = t.entryPrice;
+            if (exEl) exEl.textContent = t.markPrice;
+
+            modal.classList.add('open');
+        }
+
+        function closePnlModal() {
+            var modal = document.getElementById('modal-pnl-backdrop');
+            if (modal) modal.classList.remove('open');
+        }
+
+        // Initialize Trades Engine
+        fetchFuturesPositions();
+        setInterval(fetchFuturesPositions, 8000);
+
         window.onload = init;
     </script>
+
+    <!-- ================= PNL CARD MODAL (MATCHING IMAGE 1) ================= -->
+    <div class="pnl-modal-backdrop" id="modal-pnl-backdrop" onclick="if(event.target===this) closePnlModal()">
+        <div class="pnl-card-container">
+            <!-- Background Watermark -->
+            <svg class="pnl-bg-watermark" viewBox="0 0 100 100">
+                <path d="M50 0 L66 16 L50 32 L34 16 Z M18 32 L34 48 L18 64 L2 48 Z M82 32 L98 48 L82 64 L66 48 Z M50 68 L66 84 L50 100 L34 84 Z M50 38 L62 50 L50 62 L38 50 Z" />
+            </svg>
+
+            <!-- Header: Avatar with purple eyes, IceWizard101, Timestamp, Close -->
+            <div class="pnl-header-top">
+                <div class="pnl-user-group">
+                    <div class="pnl-avatar-box">
+                        <svg viewBox="0 0 36 36" style="width:100%;height:100%;">
+                            <circle cx="18" cy="18" r="17" fill="#120c1a" />
+                            <path d="M 7 18 C 7 11, 29 11, 29 18 C 29 25, 7 25, 7 18 Z" fill="#241433" />
+                            <ellipse cx="13" cy="18" rx="2.8" ry="1.4" fill="#c084fc" />
+                            <ellipse cx="23" cy="18" rx="2.8" ry="1.4" fill="#c084fc" />
+                            <circle cx="13" cy="18" r="0.9" fill="#fff" />
+                            <circle cx="23" cy="18" r="0.9" fill="#fff" />
+                        </svg>
+                    </div>
+                    <div class="pnl-user-info">
+                        <span class="pnl-username" id="card-username">IceWizard101</span>
+                        <span class="pnl-timestamp" id="card-timestamp">2026-11-27 17:30</span>
+                    </div>
+                </div>
+                <button class="pnl-close-btn" onclick="closePnlModal()">✕</button>
+            </div>
+
+            <!-- Hero Body: Symbol, Side Badge, Giant PnL Amount & % -->
+            <div class="pnl-hero-body">
+                <div class="pnl-pair-name" id="card-pair-title">LINKUSDT Perpetual</div>
+                <div class="pnl-side-leverage">
+                    <span class="pnl-side-lbl side-red" id="card-side-tag">Short</span>
+                    <span class="pnl-pipe">|</span>
+                    <span class="pnl-lev-lbl" id="card-lev-tag">15x</span>
+                </div>
+
+                <div class="pnl-huge-amount pnl-green" id="card-pnl-val">
+                    0.97 <span class="unit-sm">USDT</span>
+                </div>
+                <div class="pnl-huge-pct pnl-green" id="card-roi-val">+14.71%</div>
+
+                <div class="pnl-grid-prices">
+                    <div class="pnl-price-item">
+                        <span class="pnl-price-lbl">Entry Price</span>
+                        <span class="pnl-price-val" id="card-entry-price">9.444</span>
+                    </div>
+                    <div class="pnl-price-item">
+                        <span class="pnl-price-lbl" id="card-exit-lbl">Exit Price</span>
+                        <span class="pnl-price-val" id="card-exit-price">9.342</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer: Binance Futures Logo, Referral Code, QR Code (Image 1) -->
+            <div class="pnl-footer-brand">
+                <div class="binance-futures-box">
+                    <div class="bf-logo-row">
+                        <svg viewBox="0 0 24 24" class="bf-svg">
+                            <path d="M12 0 L16 4 L12 8 L8 4 Z M4 8 L8 12 L4 16 L0 12 Z M20 8 L24 12 L20 16 L16 12 Z M12 16 L16 20 L12 24 L8 20 Z M12 9.5 L14.5 12 L12 14.5 L9.5 12 Z" />
+                        </svg>
+                        <div class="bf-titles">
+                            <span class="bf-binance">BINANCE</span>
+                            <span class="bf-futures">FUTURES</span>
+                        </div>
+                    </div>
+                    <div class="bf-ref-title">Referral code</div>
+                    <div class="bf-ref-num" id="card-ref-code">792542923</div>
+                </div>
+
+                <div class="pnl-qr-frame">
+                    <svg viewBox="0 0 33 33" style="width:100%;height:100%;fill:#000;">
+                        <rect x="0" y="0" width="7" height="7"/>
+                        <rect x="1" y="1" width="5" height="5" fill="white"/>
+                        <rect x="2" y="2" width="3" height="3"/>
+                        <rect x="26" y="0" width="7" height="7"/>
+                        <rect x="27" y="1" width="5" height="5" fill="white"/>
+                        <rect x="28" y="2" width="3" height="3"/>
+                        <rect x="0" y="26" width="7" height="7"/>
+                        <rect x="1" y="27" width="5" height="5" fill="white"/>
+                        <rect x="2" y="28" width="3" height="3"/>
+                        <rect x="10" y="2" width="2" height="2"/>
+                        <rect x="14" y="2" width="3" height="2"/>
+                        <rect x="20" y="2" width="2" height="2"/>
+                        <rect x="9" y="8" width="2" height="2"/>
+                        <rect x="13" y="9" width="3" height="2"/>
+                        <rect x="18" y="8" width="2" height="2"/>
+                        <rect x="22" y="9" width="2" height="2"/>
+                        <rect x="2" y="10" width="2" height="2"/>
+                        <rect x="10" y="14" width="4" height="4"/>
+                        <rect x="16" y="15" width="2" height="2"/>
+                        <rect x="20" y="14" width="3" height="3"/>
+                        <rect x="25" y="14" width="2" height="2"/>
+                        <rect x="9" y="20" width="2" height="3"/>
+                        <rect x="13" y="21" width="2" height="2"/>
+                        <rect x="17" y="20" width="3" height="2"/>
+                        <rect x="22" y="22" width="3" height="2"/>
+                        <rect x="10" y="26" width="3" height="2"/>
+                        <rect x="15" y="26" width="2" height="3"/>
+                        <rect x="20" y="27" width="2" height="2"/>
+                        <rect x="25" y="26" width="3" height="2"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= API SETUP MODAL ================= -->
+    <div class="api-modal-backdrop" id="modal-api-backdrop" onclick="if(event.target===this) closeApiModal()">
+        <div class="api-modal-box">
+            <div class="api-modal-title">
+                <span>🛡️ BINANCE API CONFIG</span>
+                <span style="cursor:pointer;color:#848e9c;" onclick="closeApiModal()">✕</span>
+            </div>
+            <div class="api-field-wrap">
+                <label>Binance API Key (Read-Only):</label>
+                <input type="text" id="api-key-input" placeholder="Paste your Binance API Key" class="api-input">
+            </div>
+            <div class="api-field-wrap">
+                <label>Binance Secret Key:</label>
+                <input type="password" id="api-secret-input" placeholder="Paste your Binance Secret Key" class="api-input">
+            </div>
+            <div class="api-field-wrap">
+                <label>Username on PnL Card:</label>
+                <input type="text" id="api-username-input" value="IceWizard101" class="api-input">
+            </div>
+            <div class="api-field-wrap">
+                <label>Referral Code:</label>
+                <input type="text" id="api-ref-input" value="792542923" class="api-input">
+            </div>
+            <div class="api-btns-row">
+                <button class="btn-modal-action btn-modal-demo" onclick="useDemoTradesMode()">Use Demo Trade</button>
+                <button class="btn-modal-action btn-modal-save" onclick="saveApiKeysConfig()">Save &amp; Connect Live</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
