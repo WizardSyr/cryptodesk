@@ -1,0 +1,55 @@
+#EXTM3U x-tvg-url="https://iptv-org.github.io/epg/guides/us.xml"
+#EXTINF:-1 tvg-name="Pluto TV Horror (US)" tvg-logo="https://images.pluto.tv/channels/569546031a619b8f07ce6e25/colorLogoPNG.png" group-title="Horror 24/7",Pluto TV Horror (US)
+https://jmp2.uk/plu-569546031a619b8f07ce6e25.m3u8
+#EXTINF:-1 tvg-name="Pluto TV Horror (CA)" tvg-logo="https://images.pluto.tv/channels/569546031a619b8f07ce6e25/colorLogoPNG.png" group-title="Horror 24/7",Pluto TV Horror (CA)
+https://jmp2.uk/plu-62ea3f8a38acc80007072d26.m3u8
+#EXTINF:-1 tvg-name="Scares by Shudder HD" tvg-logo="https://images.pluto.tv/channels/5d2d55694bde8944519965d0/colorLogoPNG.png" group-title="Shudder & Premium Horror",Scares by Shudder HD
+https://aka-live1050.delivery.roku.com/bf4fff9b-e81f-4dcb-ba83-207a974b8686/stream.m3u8
+#EXTINF:-1 tvg-name="Pluto TV Zombies 24/7" tvg-logo="https://images.pluto.tv/channels/65786888b228b7000843ad9a/colorLogoPNG.png" group-title="Slashers & Zombies",Pluto TV Zombies 24/7
+https://jmp2.uk/plu-65786888b228b7000843ad9a.m3u8
+#EXTINF:-1 tvg-name="Pluto TV Terror (Spanish)" tvg-logo="https://images.pluto.tv/channels/5c6dc88fcd232425a6e0f06e/colorLogoPNG.png" group-title="Terror en Español",Pluto TV Terror (Spanish)
+https://jmp2.uk/plu-5c6dc88fcd232425a6e0f06e.m3u8
+#EXTINF:-1 tvg-name="Pluto TV Terror Trash" tvg-logo="https://images.pluto.tv/channels/66aa67493a4ad2000806d91b/colorLogoPNG.png" group-title="Cult & B-Horror",Pluto TV Terror Trash
+https://jmp2.uk/plu-66aa67493a4ad2000806d91b.m3u8
+#EXTINF:-1 tvg-name="Pluto TV Fantasy & Horror" tvg-logo="https://images.pluto.tv/channels/685041d936c9361b1921c26c/colorLogoPNG.png" group-title="Sci-Fi & Supernatural",Pluto TV Fantasy & Horror
+https://jmp2.uk/plu-685041d936c9361b1921c26c.m3u8
+#EXTINF:-1 tvg-name="Cine Terror HD" tvg-logo="https://images.pluto.tv/channels/5d8d180092e97a5e107638d3/colorLogoPNG.png" group-title="Terror en Español",Cine Terror HD
+https://jmp2.uk/plu-5d8d180092e97a5e107638d3.m3u8
+#EXTINF:-1 tvg-name="Cine Terror LatAm" tvg-logo="https://images.pluto.tv/channels/5dcddf1ed95e740009fef7ab/colorLogoPNG.png" group-title="Terror en Español",Cine Terror LatAm
+https://jmp2.uk/plu-5dcddf1ed95e740009fef7ab.m3u8
+#EXTINF:-1 tvg-name="Cine Terror Brasil" tvg-logo="https://images.pluto.tv/channels/5f12111c9e6c2c00078ef3bb/colorLogoPNG.png" group-title="Terror en Español",Cine Terror Brasil
+https://jmp2.uk/plu-5f12111c9e6c2c00078ef3bb.m3u8
+#EXTINF:-1 tvg-name="Watch it Scream! 720p" tvg-logo="https://i.imgur.com/LOY0rtp.png" group-title="Horror 24/7",Watch it Scream! 720p
+https://stream-us-east-1.getpublica.com/playlist.m3u8?network_id=457
+#EXTINF:-1 tvg-name="ScreamIN 1080p" tvg-logo="https://i.imgur.com/LOY0rtp.png" group-title="Horror 24/7",ScreamIN 1080p
+https://rakutenaa-zylo-screamin-rakuten-p11ej.amagi.tv/playlist.m3u8
+#EXTINF:-1 tvg-name="OuterSphere Sci-Fi & Horror HD" tvg-logo="https://i.imgur.com/TgO3Lzi.png" group-title="Sci-Fi & Supernatural",OuterSphere Sci-Fi & Horror HD
+https://d3o593mz1glx8d.cloudfront.net/OuterSphere_US.m3u8
+#EXTINF:-1 tvg-name="AMC Thrillers HD" tvg-logo="https://i.imgur.com/aObcudw.png" group-title="Thrillers & Suspense",AMC Thrillers HD
+https://amc-rushbyamc-1-us.vizio.wurl.tv/playlist.m3u8
+#EXTINF:-1 tvg-name="Pluto TV Thrillers" tvg-logo="https://images.pluto.tv/channels/5b4e69e08291147bd04a9fd7/colorLogoPNG.png" group-title="Thrillers & Suspense",Pluto TV Thrillers
+https://jmp2.uk/plu-5b4e69e08291147bd04a9fd7.m3u8
+#EXTINF:-1 tvg-name="Pluto TV Film Thriller (IT)" tvg-logo="https://images.pluto.tv/channels/608aa5e995132a00075f7005/colorLogoPNG.png" group-title="Thrillers & Suspense",Pluto TV Film Thriller (IT)
+https://jmp2.uk/plu-608aa5e995132a00075f7005.m3u8
+#EXTINF:-1 tvg-name="Cine Thrillers by Pluto TV" tvg-logo="https://images.pluto.tv/channels/60c3472a51a2050008dad272/colorLogoPNG.png" group-title="Thrillers & Suspense",Cine Thrillers by Pluto TV
+https://jmp2.uk/plu-60c3472a51a2050008dad272.m3u8
+#EXTINF:-1 tvg-name="Movies Thriller HD" tvg-logo="https://i.imgur.com/TgO3Lzi.png" group-title="Thrillers & Suspense",Movies Thriller HD
+https://shd-amg-fast.edgenextcdn.net/tx012/playlist.m3u8
+#EXTINF:-1 tvg-name="Pluto TV Crime Movies" tvg-logo="https://images.pluto.tv/channels/5d2d55694bde8944519965d0/colorLogoPNG.png" group-title="Crime & Mystery",Pluto TV Crime Movies
+https://jmp2.uk/plu-5d2d55694bde8944519965d0.m3u8
+#EXTINF:-1 tvg-name="Pluto TV Crime Drama" tvg-logo="https://images.pluto.tv/channels/59b722526996084038c01e1b/colorLogoPNG.png" group-title="Crime & Mystery",Pluto TV Crime Drama
+https://jmp2.uk/plu-59b722526996084038c01e1b.m3u8
+#EXTINF:-1 tvg-name="American Crime Channel HD" tvg-logo="https://i.imgur.com/LOY0rtp.png" group-title="Crime & Mystery",American Crime Channel HD
+https://d39g1vxj2ef6in.cloudfront.net/v1/master/3fec3e5cac3902f5a2e55a80572d41ab3a0d5c89/AmericanCrimeChannel/main.m3u8
+#EXTINF:-1 tvg-name="FILMBOX+ Love & Crime Adria" tvg-logo="https://i.imgur.com/TgO3Lzi.png" group-title="Crime & Mystery",FILMBOX+ Love & Crime Adria
+https://dash2.antik.sk/live/test_filmbox_love_crime_adria/playlist.m3u8
+#EXTINF:-1 tvg-name="FILMBOX+ Love & Crime Bulgaria" tvg-logo="https://i.imgur.com/TgO3Lzi.png" group-title="Crime & Mystery",FILMBOX+ Love & Crime Bulgaria
+https://dash2.antik.sk/live/test_filmbox_love_crime_bulgaria/playlist.m3u8
+#EXTINF:-1 tvg-name="FILMBOX+ Love & Crime Magyar" tvg-logo="https://i.imgur.com/TgO3Lzi.png" group-title="Crime & Mystery",FILMBOX+ Love & Crime Magyar
+https://dash2.antik.sk/live/test_filmbox_love_crime_magyar/playlist.m3u8
+#EXTINF:-1 tvg-name="FILMBOX+ Love & Crime Romania" tvg-logo="https://i.imgur.com/TgO3Lzi.png" group-title="Crime & Mystery",FILMBOX+ Love & Crime Romania
+https://dash2.antik.sk/live/test_filmbox_love_crime_romania/playlist.m3u8
+#EXTINF:-1 tvg-name="Filmes Suspense" tvg-logo="https://i.imgur.com/aObcudw.png" group-title="Thrillers & Suspense",Filmes Suspense
+https://linear-411.frequency.stream/mt/studio/411/hls/master/playlist.m3u8
+#EXTINF:-1 tvg-name="AXN Crime" tvg-logo="https://i.imgur.com/TgO3Lzi.png" group-title="Crime & Mystery",AXN Crime
+http://185.9.2.18/chid_139/index.m3u8
