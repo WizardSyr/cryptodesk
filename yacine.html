@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Yacine TV Live Matches (iPad Edition)</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body {
+            background-color: #0d1117;
+            color: #f0f6fc;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+            padding: 20px 14px 60px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ff3b30;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .header p {
+            font-size: 13px;
+            color: #8b949e;
+            line-height: 1.5;
+        }
+        .tip-banner {
+            width: 100%;
+            max-width: 620px;
+            background: rgba(35, 134, 54, 0.15);
+            border: 1px solid rgba(46, 160, 67, 0.4);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #7ee787;
+            line-height: 1.5;
+        }
+        .matches-grid {
+            width: 100%;
+            max-width: 620px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .match-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .match-card.is-live {
+            border-color: #ff3b30;
+            box-shadow: 0 0 14px rgba(255, 59, 48, 0.25);
+        }
+        .card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding-bottom: 8px;
+        }
+        .league-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: #f0b90b;
+        }
+        .badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .badge.live { background: #ff3b30; color: #fff; animation: pulse 1.5s infinite; }
+        .badge.fin { background: #30363d; color: #8b949e; }
+        .badge.up { background: #238636; color: #fff; }
+        
+        .teams-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+        }
+        .team {
+            flex: 1;
+            text-align: center;
+        }
+        .team-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .score-box {
+            min-width: 80px;
+            text-align: center;
+            background: #0d1117;
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1px solid #21262d;
+        }
+        .score {
+            font-size: 18px;
+            font-weight: 800;
+            color: #38bdf8;
+            font-variant-numeric: tabular-nums;
+        }
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .btn {
+            flex: 1;
+            padding: 10px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.15s;
+            display: inline-block;
+        }
+        .btn-surf {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #ffffff;
+            border: 1px solid #38bdf8;
+        }
+        .btn-web {
+            background: #21262d;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>⚽ ياسين تيفي بث مباشر</h1>
+        <p>مباريات اليوم المنقولة على ياسين تيفي — مجهزة خصيصاً لجهاز الآيباد بدون تهنيج وبدون إعلانات مزعجة.</p>
+    </div>
+
+    <div class="tip-banner">
+        💡 <b>نصيحة للمشاهدة على آيباد 2:</b> اضغط على الزر الأزرق <b>"تشغيل عبر Surf"</b> لتشغيل البث مباشرة وبأعلى جودة مع حجب جميع النوافذ والإعلانات المنبثقة تلقائياً!
+    </div>
+
+    <div class="matches-grid">
+        
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 دوري أبطال إفريقيا</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">الترجي</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">3 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">ويليتي</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1303&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1303&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 دوري أبطال إفريقيا</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">الزمالك</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">1 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">النادي الإفريقي</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1304&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1304&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 دوري أبطال إفريقيا</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">بيراميدز</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">2 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">المغرب الفاسي</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1305&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1305&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الإيطالي</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">تورينو</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">1 - 2</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">لاتسيو</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1315&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1315&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الإنجليزي الممتاز</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">إيبسويتش تاون</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">1 - 2</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">أستون فيلا</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1309&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1309&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الإسباني</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">إلتشي</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">1 - 3</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">أتلتيكو مدريد</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1311&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1311&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الألماني</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">شتوتغارت</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">1 - 1</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">آينتراخت فرانكفورت</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1318&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1318&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 دوري روشن السعودي</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">الأهلي السعودي</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">1 - 1</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">التعاون</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1324&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1324&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الهولندي</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">آيندهوفن</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">2 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">غو أهيد إيغلز</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1322&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1322&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الفورمولا 1</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">جائزة قطر الكبرى</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">التأهيل 1</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1297&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1297&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الفورمولا 1</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">جائزة قطر الكبرى</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">التأهيل 2</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1298&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1298&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الفورمولا 1</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">جائزة قطر الكبرى</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">التأهيل 3</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1299&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1299&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 دوري أبطال إفريقيا</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">نهضة بركان</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">كولومب</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1306&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1306&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 كأس الكونفيدرالية الإفريقية</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">الرجاء</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">كارا</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1329&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1329&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 كأس الكونفيدرالية الإفريقية</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">الجيش الملكي</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">دوربان سيتي</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1330&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1330&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الألماني الدرجة الثانية</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">أوسنابروك</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">هانوفر</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1328&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1328&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الإيطالي</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">إنتر ميلان</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">جنوى</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1316&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1316&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الفرنسي</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">باريس سان جيرمان</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">لوريان</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1319&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1319&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card ">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الفرنسي</span>
+                <span class="badge up">19:45</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">نيس</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">19:45</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">تروا</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1336&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1336&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card ">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الفرنسي</span>
+                <span class="badge up">19:45</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">لو هافر</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">19:45</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">ستراسبورغ</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1337&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1337&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card ">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الفرنسي</span>
+                <span class="badge up">19:45</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">لو مان</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">19:45</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">ليل</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1338&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1338&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 الدوري الإسباني</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">ريال مدريد</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">ألافيس</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1310&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1310&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+
+        <div class="match-card is-live">
+            <div class="card-head">
+                <span class="league-name">🏆 كوبا ليبرتادوريس</span>
+                <span class="badge live">● مباشر الآن</span>
+            </div>
+            <div class="teams-row">
+                <div class="team">
+                    <span class="team-name">بالميراس</span>
+                </div>
+                <div class="score-box">
+                    <span class="score">0 - 0</span>
+                </div>
+                <div class="team">
+                    <span class="team-name">إستوديانتس</span>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a href="surf://https://robotiva.online/kora.html?m=1335&ref=yacinews.com" class="btn btn-surf">🚀 تشغيل عبر Surf (بدون إعلانات)</a>
+                <a href="https://robotiva.online/kora.html?m=1335&ref=yacinews.com" target="_blank" class="btn btn-web">🌐 فتح في المتصفح</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
